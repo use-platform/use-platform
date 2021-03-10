@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  linters:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+
+    - name: install root-deps
+      run: npm ci --ignore-scripts
+
+    - name: commitlint
+      run: node ./tools/commitlint.js
+
+    - name: eslint
+      run: npm run lint:js
+
+  units:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 12
+
+    - name: install root-deps
+      run: npm ci
+
+    - name: unit
+      run: npm run unit

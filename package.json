@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/bem/web-platform#readme",
   "scripts": {
+    "lint:js": "eslint --ext .ts,.tsx,.js .",
     "unit": "jest --passWithNoTests"
   },
   "devDependencies": {
