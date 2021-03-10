@@ -16,11 +16,13 @@
   "homepage": "https://github.com/bem/web-platform#readme",
   "scripts": {
     "lint:js": "eslint --ext .ts,.tsx,.js .",
-    "unit": "jest --passWithNoTests"
+    "unit": "jest"
   },
   "devDependencies": {
     "@commitlint/cli": "12.0.1",
     "@commitlint/config-conventional": "12.0.1",
+    "@testing-library/react-hooks": "5.1.0",
+    "@types/jest": "26.0.20",
     "@types/react": "17.0.3",
     "@types/react-dom": "17.0.2",
     "@typescript-eslint/eslint-plugin": "4.17.0",
