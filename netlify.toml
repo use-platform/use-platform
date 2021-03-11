@@ -1,0 +1,9 @@
+[build]
+  base = "/"
+  command = "npm run storybook:build"
+
+[context.production]
+  publish = "storybook-static"
+
+[context.deploy-preview]
+  publish = "storybook-static"
