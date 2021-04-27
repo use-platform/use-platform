@@ -75,16 +75,6 @@ module.exports = {
     'no-undef': 2,
     'no-unexpected-multiline': 2,
     'no-unreachable': 2,
-    'no-unused-vars': [
-      2,
-      {
-        args: 'after-used',
-        argsIgnorePattern: '^_',
-        ignoreRestSiblings: true,
-        vars: 'all',
-        varsIgnorePattern: '^_',
-      },
-    ],
     strict: 2,
     'max-params': [2, 5],
     'max-depth': [1, 4],
