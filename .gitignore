@@ -128,5 +128,6 @@ $RECYCLE.BIN/
 ### Project ###
 # Build artifacts
 storybook-static
+dist
 
 # End of https://www.gitignore.io/api/node,osx,windows,linux

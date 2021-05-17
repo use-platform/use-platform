@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/bem/web-platform#readme",
   "scripts": {
+    "build": "pack build",
     "lint:js": "eslint --ext .ts,.tsx,.js .",
     "prepare": "husky install",
     "start": "start-storybook -p 8100",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.13.10",
+    "@bem-react/pack": "1.4.1",
     "@commitlint/cli": "12.0.1",
     "@commitlint/config-conventional": "12.0.1",
     "@storybook/react": "6.1.21",
