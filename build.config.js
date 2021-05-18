@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+
 const { useCleanUpPlugin } = require('@bem-react/pack/lib/plugins/CleanUpPlugin')
 const { useCopyAssetsPlugin } = require('@bem-react/pack/lib/plugins/CopyAssetsPlugin')
 const { useTypeScriptPlugin } = require('@bem-react/pack/lib/plugins/TypescriptPlugin')

@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
   env: {
     browser: true,
     es6: true,
@@ -46,14 +46,6 @@ module.exports = {
       },
     ],
     'wrap-iife': [2, 'inside'],
-    'no-use-before-define': [
-      2,
-      {
-        functions: true,
-        classes: true,
-        variables: true,
-      },
-    ],
     'no-caller': 2,
     'no-cond-assign': [2, 'except-parens'],
     'no-constant-condition': 2,
@@ -240,8 +232,8 @@ module.exports = {
     'react/jsx-equals-spacing': 2,
     'react/jsx-first-prop-new-line': [2, 'multiline'],
     'react/jsx-handler-names': 0,
-    'react/jsx-indent': [2, 4],
-    'react/jsx-indent-props': [2, 4],
+    'react/jsx-indent': [2, 2],
+    'react/jsx-indent-props': [2, 2],
     'react/jsx-key': 2,
     'react/jsx-no-bind': 1,
     'react/jsx-no-duplicate-props': 2,
@@ -259,6 +251,9 @@ module.exports = {
     'react/self-closing-comp': 2,
     'react/style-prop-object': 2,
     'react/void-dom-elements-no-children': 2,
+
+    'react-hooks/rules-of-hooks': 2,
+    'react-hooks/exhaustive-deps': 1,
   },
   overrides: [
     {
