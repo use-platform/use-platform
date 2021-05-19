@@ -3,10 +3,21 @@ type State = 'default' | 'disabled' | 'restoring'
 let state: State = 'default'
 let prevSelect = ''
 
+function getUserSelect() {
+  return (
+    document.documentElement.style.userSelect || document.documentElement.style.webkitUserSelect
+  )
+}
+
+function setUserSelect(value: string) {
+  document.documentElement.style.userSelect = value
+  document.documentElement.style.webkitUserSelect = value
+}
+
 export function disableTextSelection() {
   if (state === 'default') {
-    prevSelect = document.documentElement.style.userSelect
-    document.documentElement.style.userSelect = 'none'
+    prevSelect = getUserSelect()
+    setUserSelect('none')
   }
 
   state = 'disabled'
@@ -26,8 +37,8 @@ export function restoreTextSelection() {
     // for the whole page in the middle of the animation and cause jank.
     requestAnimationFrame(() => {
       if (state === 'restoring') {
-        if (document.documentElement.style.userSelect === 'none') {
-          document.documentElement.style.userSelect = prevSelect
+        if (getUserSelect() === 'none') {
+          setUserSelect(prevSelect)
         }
 
         prevSelect = ''
