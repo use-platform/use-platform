@@ -1,57 +1,57 @@
 import { useCallback, useEffect, useRef } from 'react'
 
 /* eslint-disable no-undef */
-interface UseGlobalListenersResult {
-  addGlobalListener<K extends keyof DocumentEventMap>(
+interface UseListenersResult {
+  addListener<K extends keyof DocumentEventMap>(
     el: EventTarget,
     type: K,
     listener: (this: Document, ev: DocumentEventMap[K]) => any,
     options?: boolean | AddEventListenerOptions,
   ): void
-  addGlobalListener(
+  addListener(
     el: EventTarget,
     type: string,
     listener: EventListenerOrEventListenerObject,
     options?: boolean | AddEventListenerOptions,
   ): void
-  removeGlobalListener<K extends keyof DocumentEventMap>(
+  removeListener<K extends keyof DocumentEventMap>(
     el: EventTarget,
     type: K,
     listener: (this: Document, ev: DocumentEventMap[K]) => any,
     options?: boolean | EventListenerOptions,
   ): void
-  removeGlobalListener(
+  removeListener(
     el: EventTarget,
     type: string,
     listener: EventListenerOrEventListenerObject,
     options?: boolean | EventListenerOptions,
   ): void
-  removeAllGlobalListeners(): void
+  removeAllListeners(): void
 }
 /* eslint-enable no-undef */
 
-export function useGlobalListeners(): UseGlobalListenersResult {
+export function useListeners(): UseListenersResult {
   const globalListeners = useRef(new Map())
 
-  const addGlobalListener = useCallback((eventTarget, type, listener, options) => {
+  const addListener = useCallback((eventTarget, type, listener, options) => {
     globalListeners.current.set(listener, { type, eventTarget, options })
     eventTarget.addEventListener(type, listener, options)
   }, [])
 
-  const removeGlobalListener = useCallback((eventTarget, type, listener, options) => {
+  const removeListener = useCallback((eventTarget, type, listener, options) => {
     eventTarget.removeEventListener(type, listener, options)
     globalListeners.current.delete(listener)
   }, [])
 
-  const removeAllGlobalListeners = useCallback(() => {
+  const removeAllListeners = useCallback(() => {
     globalListeners.current.forEach((value, key) => {
-      removeGlobalListener(value.eventTarget, value.type, key, value.options)
+      removeListener(value.eventTarget, value.type, key, value.options)
     })
-  }, [removeGlobalListener])
+  }, [removeListener])
 
   useEffect(() => {
-    return removeAllGlobalListeners
-  }, [removeAllGlobalListeners])
+    return removeAllListeners
+  }, [removeAllListeners])
 
-  return { addGlobalListener, removeGlobalListener, removeAllGlobalListeners }
+  return { addListener, removeListener, removeAllListeners }
 }
