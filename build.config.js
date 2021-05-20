@@ -14,7 +14,7 @@ module.exports = {
     useCleanUpPlugin(['./dist']),
 
     useTypeScriptPlugin({
-      configPath: './tsconfig.json',
+      configPath: './tsconfig.prod.json',
       onCreateSideEffects: () => false,
     }),
 
