@@ -18,7 +18,7 @@
     "build": "pack build",
     "lint:js": "eslint --ext .ts,.tsx,.js .",
     "prepare": "husky install",
-    "start": "start-storybook -p 8100",
+    "start": "start-storybook -p 8100 --ci",
     "storybook:build": "build-storybook",
     "unit": "jest"
   },
