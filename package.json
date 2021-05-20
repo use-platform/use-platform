@@ -27,7 +27,8 @@
     "@bem-react/pack": "1.4.1",
     "@commitlint/cli": "12.0.1",
     "@commitlint/config-conventional": "12.0.1",
-    "@storybook/react": "6.1.21",
+    "@storybook/addon-essentials": "6.2.9",
+    "@storybook/react": "6.2.9",
     "@testing-library/jest-dom": "5.12.0",
     "@testing-library/react": "11.2.7",
     "@testing-library/react-hooks": "5.1.0",
@@ -49,6 +50,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "ts-jest": "26.5.6",
+    "tslib": "2.2.0",
     "typescript": "4.2.4"
   },
   "optionalDependencies": {
