@@ -51,7 +51,6 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
   const pressProps = useMemo(() => {
     const cache = cacheRef.current
-    const { disabled, onPress, onPressEnd, onPressStart, onPressUp } = propsRef.current
     const props: HTMLAttributes<HTMLElement> = {
       onKeyDown: (event) => {
         if (isValidKeyboardEvent(event.nativeEvent)) {
@@ -74,6 +73,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     }
 
     const triggerPressStart = (event: BasePressEvent) => {
+      const { disabled, onPressStart } = propsRef.current
+
       if (disabled || cache.pressStarted) {
         return
       }
@@ -85,6 +86,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     }
 
     const triggerPressUp = (event: BasePressEvent) => {
+      const { disabled, onPressUp } = propsRef.current
+
       if (disabled) {
         return
       }
@@ -93,6 +96,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     }
 
     const triggerPressEnd = (event: BasePressEvent, triggerOnPress = true) => {
+      const { onPress, onPressEnd } = propsRef.current
+
       if (!cache.pressStarted) {
         return
       }
@@ -161,6 +166,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       }
 
       props.onPointerDown = (event) => {
+        const { disabled } = propsRef.current
+
         // Handle only left clicks.
         if (event.button !== 0) {
           return
@@ -221,6 +228,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       }
 
       props.onTouchStart = (event) => {
+        const { disabled } = propsRef.current
+
         event.preventDefault()
         event.stopPropagation()
 
