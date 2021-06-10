@@ -1,4 +1,4 @@
-import { HTMLAttributes, useMemo, useState } from 'react'
+import { HTMLAttributes, useMemo, useRef, useState } from 'react'
 
 export interface UseHoverProps {
   disabled?: boolean
@@ -10,26 +10,30 @@ export interface UseHoverResult {
 }
 
 export function useHover(props: UseHoverProps): UseHoverResult {
-  const { disabled } = props
   const [isHovered, setHovered] = useState(false)
+  const propsRef = useRef<UseHoverProps>({})
+  // Use ref as cache for reuse props inside memo hook.
+  propsRef.current = { disabled: props.disabled }
 
   const hoverProps = useMemo(() => {
     const props: HTMLAttributes<HTMLElement> = {}
 
-    if (disabled) {
-      return props
+    props.onPointerEnter = () => {
+      const { disabled } = propsRef.current
+
+      if (disabled) {
+        return
+      }
+
+      setHovered(true)
     }
 
-    if (typeof PointerEvent !== 'undefined') {
-      props.onPointerEnter = () => setHovered(true)
-      props.onPointerLeave = () => setHovered(false)
-    } else {
-      props.onMouseEnter = () => setHovered(true)
-      props.onMouseLeave = () => setHovered(false)
+    props.onPointerLeave = () => {
+      setHovered(false)
     }
 
     return props
-  }, [disabled])
+  }, [])
 
   return {
     isHovered,

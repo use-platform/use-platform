@@ -1,5 +1,6 @@
 import { RefObject, ElementType, HTMLAttributes, AllHTMLAttributes } from 'react'
 
+import { isFirefox } from '../../libs/platform'
 import { mergeProps } from '../../libs/merge-props'
 import { useHover } from '../../shared/useHover'
 import { usePress } from '../../shared/usePress'
@@ -33,7 +34,12 @@ export function useButton<T extends HTMLElement = HTMLElement>(
   let additionalProps: AllHTMLAttributes<T>
 
   if (elementType === 'button') {
-    additionalProps = { type, disabled }
+    additionalProps = {
+      type,
+      disabled,
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=654072
+      autoComplete: isFirefox() ? 'off' : undefined, // TODO: Проверить, актуален ли фикс сегодня.
+    }
   } else {
     additionalProps = {
       role: 'button',
