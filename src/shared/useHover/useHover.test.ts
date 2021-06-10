@@ -1,6 +1,6 @@
 import { createElement, FC } from 'react'
 
-import { createClientRender, screen, userEvent, installPointerEvent } from '../../libs/testing'
+import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
 import { useHover } from './useHover'
 
 const Fixture: FC<{ disabled: true }> = (props) => {
@@ -17,31 +17,6 @@ const Fixture: FC<{ disabled: true }> = (props) => {
 describe('useHover', () => {
   const render = createClientRender()
 
-  describe('mouse events', () => {
-    test('should set isHovered after mouse enter and leave', () => {
-      render(createElement(Fixture))
-
-      const node = screen.getByTestId('hoverable')
-
-      expect(node).toHaveAttribute('data-hovered', 'false')
-      userEvent.hover(node)
-      expect(node).toHaveAttribute('data-hovered', 'true')
-      userEvent.unhover(node)
-      expect(node).toHaveAttribute('data-hovered', 'false')
-    })
-
-    test('should not set isHovered when disabled', () => {
-      const { setProps } = render(createElement(Fixture))
-
-      const node = screen.getByTestId('hoverable')
-
-      setProps({ disabled: true })
-
-      userEvent.hover(node)
-      expect(node).toHaveAttribute('data-hovered', 'false')
-    })
-  })
-
   describe('pointer events', () => {
     installPointerEvent()
 
@@ -51,9 +26,9 @@ describe('useHover', () => {
       const node = screen.getByTestId('hoverable')
 
       expect(node).toHaveAttribute('data-hovered', 'false')
-      userEvent.hover(node)
+      fireEvent.hover(node)
       expect(node).toHaveAttribute('data-hovered', 'true')
-      userEvent.unhover(node)
+      fireEvent.unhover(node)
       expect(node).toHaveAttribute('data-hovered', 'false')
     })
 
@@ -64,7 +39,7 @@ describe('useHover', () => {
 
       setProps({ disabled: true })
 
-      userEvent.hover(node)
+      fireEvent.hover(node)
       expect(node).toHaveAttribute('data-hovered', 'false')
     })
   })
