@@ -3,6 +3,7 @@
 const { useCleanUpPlugin } = require('@bem-react/pack/lib/plugins/CleanUpPlugin')
 const { useCopyAssetsPlugin } = require('@bem-react/pack/lib/plugins/CopyAssetsPlugin')
 const { useTypeScriptPlugin } = require('@bem-react/pack/lib/plugins/TypescriptPlugin')
+const { usePackageJsonPlugin } = require('@bem-react/pack/lib/plugins/PackageJsonPlugin')
 
 /**
  * @type {import('@bem-react/pack/lib/interfaces').Config}
@@ -18,6 +19,10 @@ module.exports = {
       onCreateSideEffects: () => false,
     }),
 
+    usePackageJsonPlugin({
+      scripts: {},
+    }),
+
     useCopyAssetsPlugin([
       {
         context: './src',
@@ -25,7 +30,7 @@ module.exports = {
         output: ['./dist', './dist/esm'],
       },
       {
-        src: ['./package.json', './readme.md'],
+        src: ['./readme.md'],
       },
     ]),
   ],
