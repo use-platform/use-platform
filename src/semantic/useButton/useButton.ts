@@ -38,7 +38,7 @@ export function useButton<T extends HTMLElement = HTMLElement>(
       type,
       disabled,
       // https://bugzilla.mozilla.org/show_bug.cgi?id=654072
-      autoComplete: isFirefox() ? 'off' : undefined, // TODO: Проверить, актуален ли фикс сегодня.
+      autoComplete: isFirefox() ? 'off' : undefined,
     }
   } else {
     additionalProps = {

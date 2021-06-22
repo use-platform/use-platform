@@ -3,7 +3,7 @@ import { HTMLAttributes, useState, useMemo, useRef, useEffect } from 'react'
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import { useListeners } from '../../libs/useListeners'
 import type { PressSource, PressEventHandler } from '../types'
-import { isValidKeyboardEvent } from './utils/keyboard-event'
+import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
 import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
 import { BasePressEvent, createPressEvent } from './utils/createPressEvent'
@@ -54,7 +54,13 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     const props: HTMLAttributes<HTMLElement> = {
       onKeyDown: (event) => {
         if (isValidKeyboardEvent(event.nativeEvent)) {
-          event.preventDefault()
+          // Use preventDefault for all elements except checkbox and radiobox inputs,
+          // because input should trigger onChange after keydown.
+          if (!isCheckableInput(event.target as HTMLElement)) {
+            // Use preventDefault for stop document scroll for interactive elements.
+            event.preventDefault()
+          }
+
           event.stopPropagation()
 
           if (!cache.pressed && !event.repeat) {
