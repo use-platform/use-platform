@@ -6,12 +6,12 @@ import type {
   InputBaseProps,
   KeyboardEventProps,
   ValidationProps,
-  ValueProps,
+  InputValueProps,
 } from '../../shared/types'
 
 export interface TextFieldBaseProps
   extends InputBaseProps,
-    ValueProps<string | number>,
+    InputValueProps<string | number>,
     DOMProps,
     FocusableDOMProps,
     KeyboardEventProps,

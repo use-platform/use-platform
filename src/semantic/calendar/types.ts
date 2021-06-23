@@ -1,12 +1,53 @@
-import { RangeValue, ValueProps2 } from '../../shared/types'
-
-export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6
+import { RangeValue, ValueProps } from '../../shared/types'
 
 export type CalendarView = 'day' | 'month' | 'year'
 
-export type CalendarViewsGrid = [rows: number, columns: number]
+export enum CalendarViewKind {
+  day = 0,
+  month = 1,
+  year = 2,
+}
 
-export interface CalendarBaseProps extends ValueProps2<Date | Date[] | RangeValue<Date>> {
+export interface CalendarViewData {
+  viewDate: Date
+  viewRange: RangeValue<Date>
+  data: Date[][]
+}
+
+export enum CalendarNavigationAction {
+  PrevCell,
+  NextCell,
+  UpperCell,
+  LowerCell,
+  FirstCell,
+  LastCell,
+  StartCell,
+  EndCell,
+  PrevView,
+  NextView,
+  PrevExtraView,
+  NextExtraView,
+}
+
+export interface RangeCalendarCellState {
+  isRangePreview: boolean
+  isRangePreviewStart: boolean
+  isRangePreviewEnd: boolean
+  isRangeSelected: boolean
+  isSelectionStart: boolean
+  isSelectionEnd: boolean
+}
+
+export interface CalendarCellState extends Partial<RangeCalendarCellState> {
+  isToday: boolean
+  isWeekend: boolean
+  isSelected: boolean
+  isDisabled: boolean
+  isFocused: boolean
+  isSameView: boolean
+}
+
+export interface BaseCalendarProps {
   /**
    * The date that will be displayed on mount.
    */
@@ -34,11 +75,11 @@ export interface CalendarBaseProps extends ValueProps2<Date | Date[] | RangeValu
   maxCalendarView?: CalendarView
 
   /**
-   * The calendar views grid size.
+   * Number of calendars.
    *
-   * @default [1, 1]
+   * @default 1
    */
-  viewsGrid?: CalendarViewsGrid
+  viewsCount?: number
 
   /**
    * Whether the input can be selected but not changed by the user.
@@ -70,46 +111,22 @@ export interface CalendarBaseProps extends ValueProps2<Date | Date[] | RangeValu
   max?: Date
 }
 
-export enum CalendarMoveAction {
-  PrevCell,
-  NextCell,
-  UpperCell,
-  LowerCell,
-  FirstCell,
-  LastCell,
-  StartCell,
-  EndCell,
-  PrevView,
-  NextView,
-  PrevExtraView,
-  NextExtraView,
-}
+export type SingleCalendarProps = ValueProps<Date> & BaseCalendarProps
 
-export interface CalendarCellState {
-  isToday: boolean
-  isSelected: boolean
-  isDisabled: boolean
-  isFocused: boolean
-  isSameView: boolean
-  isRangePreview: boolean
-  isRangePreviewStart: boolean
-  isRangePrevieEnd: boolean
-  // TODO: May be isInRange
-  isRangeSelected: boolean
-  isSelectionStart: boolean
-  isSelectionEnd: boolean
-}
+export type MultipleCalendarProps = ValueProps<Date[]> & BaseCalendarProps
 
-export interface CalendarState {
-  /**
-   * The current selected value.
-   */
-  value?: Date
+export type RangeCalendarProps = ValueProps<RangeValue<Date>> & BaseCalendarProps
 
+export interface BaseCalendarState {
   /**
    * The current active calendar view.
    */
   activeView: CalendarView
+
+  /**
+   * Base date for navigation in calendar.
+   */
+  baseDate: Date
 
   /**
    * The current focused date.
@@ -119,7 +136,12 @@ export interface CalendarState {
   /**
    * This flag indicates whether the calendar is in focus.
    */
-  calendarFocused: boolean
+  isCalendarFocused: boolean
+
+  /**
+   * Views data list.
+   */
+  views: CalendarViewData[]
 
   /**
    * Move focus to the date.
@@ -144,10 +166,62 @@ export interface CalendarState {
   /**
    * Change the current calendar view.
    */
-  setActiveView: (view: CalendarView) => void
+  setView: (view: CalendarView) => void
 
-  // TODO: wip
-  getData: (viewDate: Date) => Date[][]
-  highlightDate: (date: Date) => void
-  moveDate: (date: Date, action: CalendarMoveAction) => Date
+  /**
+   * Move date by action for navigation.
+   */
+  moveDate: (date: Date, action: CalendarNavigationAction) => Date
+
+  /**
+   * Check the move for a specific date.
+   */
+  canNavigateTo: (date: Date) => boolean
+
+  /**
+   * Navigate to specific date.
+   */
+  navigateTo: (date: Date) => void
+
+  moveView: (view: CalendarView, offset: number) => CalendarView
 }
+
+export interface SingleCalendarState extends BaseCalendarState {
+  /**
+   * Selection mode.
+   */
+  mode: 'single'
+
+  /**
+   * The current selected value.
+   */
+  value?: Date
+}
+
+export interface MultipleCalendarState extends BaseCalendarState {
+  /**
+   * Selection mode.
+   */
+  mode: 'multiple'
+
+  /**
+   * The current selected values.
+   */
+  value?: Date[]
+}
+
+export interface RangeCalendarState extends BaseCalendarState {
+  /**
+   * Selection mode.
+   */
+  mode: 'range'
+
+  /**
+   * The current selected range value.
+   */
+  value?: RangeValue<Date>
+
+  highlightDate: (date: Date) => void
+}
+
+export type CalendarState = SingleCalendarState | MultipleCalendarState | RangeCalendarState

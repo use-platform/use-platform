@@ -13,7 +13,7 @@ export interface InputBaseProps {
   readOnly?: boolean
 }
 
-export interface ValueProps<T> {
+export interface InputValueProps<T> {
   defaultValue?: T
   onChange?: ChangeEventHandler<HTMLInputElement>
   value?: T

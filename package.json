@@ -22,6 +22,9 @@
     "storybook:build": "build-storybook",
     "unit": "jest"
   },
+  "dependencies": {
+    "date-fns": "^2.22.1"
+  },
   "devDependencies": {
     "@babel/core": "7.13.10",
     "@bem-react/pack": "1.5.0",

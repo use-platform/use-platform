@@ -1,8 +1,8 @@
 import { RefObject, useLayoutEffect } from 'react'
 
-import type { ValueProps } from '../../shared/types/input'
+import type { InputValueProps } from '../../shared/types/input'
 
-export interface UseAutoResizeProps extends ValueProps<string | number> {
+export interface UseAutoResizeProps extends InputValueProps<string | number> {
   /**
    * Enable auto resize.
    */

@@ -1,11 +1,19 @@
 import { HTMLAttributes, RefObject, useEffect } from 'react'
 
-import { SharedCalendarCellProps } from '../../shared/types'
 import { usePress } from '../../interactions/press'
 import { CalendarState, CalendarCellState } from './types'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UseCalendarCellProps extends SharedCalendarCellProps {}
+export interface UseCalendarCellProps {
+  /**
+   * The cell value.
+   */
+  value: Date
+
+  /**
+   * The value of the current view.
+   */
+  viewDate: Date
+}
 
 export interface UseCalendarCellResult {
   cellState: CalendarCellState
@@ -19,15 +27,15 @@ export function useCalendarCell(
   ref: RefObject<HTMLElement>,
 ): UseCalendarCellResult {
   const { value, viewDate } = props
-  const { calendarFocused, activeView, getCellState, highlightDate, focusDate, selectDate } = state
+  const { isCalendarFocused, activeView, getCellState, focusDate, selectDate } = state
   const cellState = getCellState(value, viewDate)
   const { isSelected, isDisabled, isFocused, isSameView, isToday } = cellState
-  const shouldBeFocused = calendarFocused && isFocused
+  const shouldBeFocused = isCalendarFocused && isFocused
+  const highlightDate = state.mode === 'range' ? state.highlightDate : null
 
   const { pressProps } = usePress({
     disabled: isDisabled,
     onPress: () => {
-      focusDate(value)
       selectDate(value)
     },
   })
@@ -39,7 +47,7 @@ export function useCalendarCell(
   }, [shouldBeFocused, ref])
 
   const onMouseEnter = () => {
-    highlightDate(value)
+    highlightDate?.(value)
   }
 
   const onFocus = () => {
@@ -65,6 +73,9 @@ export function useCalendarCell(
   if (!isDisabled) {
     buttonProps.tabIndex = isSameView && isFocused ? 0 : -1
     buttonProps.onFocus = onFocus
+  }
+
+  if (state.mode === 'range' && !isDisabled) {
     buttonProps.onMouseEnter = onMouseEnter
   }
 
