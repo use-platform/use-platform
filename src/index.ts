@@ -1,5 +1,6 @@
 export * from './libs/fork-ref'
 export * from './libs/merge-props'
+export * from './libs/i18n'
 
 export * from './interactions/focusable'
 export * from './interactions/hover'
