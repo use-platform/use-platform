@@ -7,6 +7,7 @@ import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
 import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
 import { BasePressEvent, createPressEvent } from './utils/createPressEvent'
+import { isTargetContainsPoint } from './utils/detect-overlap'
 
 export interface UsePressProps {
   disabled?: boolean
@@ -139,10 +140,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
     if (typeof PointerEvent !== 'undefined') {
       const onPointerMove = (event: PointerEvent) => {
-        // Calculate pointer target because event.target returns for ios always first target.
-        const target = document.elementFromPoint(event.clientX, event.clientY)
-
-        if (cache.currentPointerTarget?.contains(target)) {
+        if (isTargetContainsPoint(cache.currentPointerTarget, event)) {
           triggerPressStart(createPressEvent(event, event.pointerType as PressSource))
         } else {
           triggerPressEnd(createPressEvent(event, event.pointerType as PressSource), false)
@@ -154,9 +152,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         if (event.pointerId === cache.currentPointerId) {
           detach()
 
-          const target = document.elementFromPoint(event.clientX, event.clientY)
-
-          if (cache.currentPointerTarget?.contains(target)) {
+          if (isTargetContainsPoint(cache.currentPointerTarget, event)) {
             triggerPressUp(createPressEvent(event, event.pointerType as PressSource))
             triggerPressEnd(createPressEvent(event, event.pointerType as PressSource))
           }
@@ -198,10 +194,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         const touch = getTouchById(event, cache.currentPointerId)
 
         if (touch) {
-          // Calculate pointer target because event.target returns for ios always first target.
-          const target = document.elementFromPoint(touch.clientX, touch.clientY)
-
-          if (cache.currentPointerTarget?.contains(target)) {
+          if (isTargetContainsPoint(cache.currentPointerTarget, touch)) {
             triggerPressStart(createPressEvent(event, 'touch'))
           } else {
             triggerPressEnd(createPressEvent(event, 'touch'), false)
@@ -216,9 +209,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         if (touch?.identifier === cache.currentPointerId) {
           detach()
 
-          const target = document.elementFromPoint(touch.clientX, touch.clientY)
-
-          if (cache.currentPointerTarget?.contains(target)) {
+          if (isTargetContainsPoint(cache.currentPointerTarget, touch)) {
             triggerPressUp(createPressEvent(event, 'touch'))
             triggerPressEnd(createPressEvent(event, 'touch'))
           }
