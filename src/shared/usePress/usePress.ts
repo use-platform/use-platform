@@ -6,7 +6,7 @@ import type { PressSource, PressEventHandler } from '../types'
 import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
 import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
-import { BasePressEvent, createPressEvent } from './utils/createPressEvent'
+import { BasePressEvent, createPressEvent } from './utils/create-press-event'
 import { isTargetContainsPoint } from './utils/detect-overlap'
 
 export interface UsePressProps {
