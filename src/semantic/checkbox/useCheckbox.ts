@@ -10,9 +10,9 @@ export interface UseCheckboxResult {
   inputProps: InputHTMLAttributes<HTMLInputElement>
 }
 
-export function useCheckbox<T extends HTMLInputElement = HTMLInputElement>(
+export function useCheckbox(
   props: CommonCheckboxProps,
-  ref: RefObject<T>,
+  ref: RefObject<HTMLInputElement>,
 ): UseCheckboxResult {
   const { indeterminate = false, ...restProps } = props
   const toggle = useToggle(restProps, ref)
