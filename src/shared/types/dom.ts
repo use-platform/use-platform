@@ -1,5 +1,11 @@
-export interface FocusableProps {
+export interface DOMProps {
+  id?: string
+  className?: string
+}
+
+export interface FocusableDOMProps {
   autoFocus?: boolean
+  tabIndex?: number
 }
 
 export interface AriaLabelingProps {

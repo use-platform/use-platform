@@ -10,7 +10,7 @@ export type RangeValue<T> = {
   end: T
 }
 
-export interface ValueProps<T> {
+export interface ValueProps2<T> {
   /**
    * The current value.
    */
