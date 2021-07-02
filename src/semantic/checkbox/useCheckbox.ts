@@ -1,10 +1,7 @@
 import { HTMLAttributes, InputHTMLAttributes, RefObject, useEffect } from 'react'
 
-import { SharedCheckboxProps } from '../../shared/types'
 import { useToggle } from '../toggle'
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UseCheckboxProps extends SharedCheckboxProps {}
+import { CommonCheckboxProps } from './types'
 
 export interface UseCheckboxResult {
   pressed: boolean
@@ -14,7 +11,7 @@ export interface UseCheckboxResult {
 }
 
 export function useCheckbox<T extends HTMLInputElement = HTMLInputElement>(
-  props: UseCheckboxProps,
+  props: CommonCheckboxProps,
   ref: RefObject<T>,
 ): UseCheckboxResult {
   const { indeterminate = false, ...restProps } = props
