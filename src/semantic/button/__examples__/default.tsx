@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react'
-import { useButton } from '@yandex/web-platform/semantic/useButton'
+import { useButton } from '@yandex/web-platform'
 
 export const Default = (args: any) => {
   return <Button {...args} />

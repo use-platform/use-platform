@@ -1,7 +1,7 @@
 import { HTMLAttributes, RefObject, useEffect } from 'react'
 
 import { focusElement } from '../../libs/dom-utils'
-import type { FocusableDOMProps } from '../types'
+import type { FocusableDOMProps } from '../../shared/types'
 
 export interface UseFocusableProps extends FocusableDOMProps {
   disabled?: boolean

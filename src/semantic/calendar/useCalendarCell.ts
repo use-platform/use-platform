@@ -1,7 +1,7 @@
 import { HTMLAttributes, RefObject, useEffect } from 'react'
 
 import { SharedCalendarCellProps } from '../../shared/types'
-import { usePress } from '../../shared/usePress'
+import { usePress } from '../../interactions/press'
 import { CalendarState, CalendarCellState } from './types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

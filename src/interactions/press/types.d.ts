@@ -1,4 +1,4 @@
-import type { PressEventProps } from '../types'
+import type { PressEventProps } from '../../shared/types'
 
 export interface PressProps extends PressEventProps {
   disabled?: boolean

@@ -1,6 +1,6 @@
 import { ElementType, InputHTMLAttributes, RefObject, TextareaHTMLAttributes } from 'react'
 
-import { useFocusable } from '../../shared/useFocusable'
+import { useFocusable } from '../../interactions/focusable'
 import type { CommonTextFieldProps } from './types'
 
 export interface UseTextFieldResult {

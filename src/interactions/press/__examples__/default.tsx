@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react'
 import { Story } from '@storybook/react'
-import { useHover } from '@yandex/web-platform/shared/useHover'
+import { usePress } from '@yandex/web-platform'
 
 const style: CSSProperties = {
   width: '100px',
@@ -15,13 +15,20 @@ const style: CSSProperties = {
 }
 
 export const Default: Story = (props) => {
-  const { isHovered, hoverProps } = useHover(props)
+  const { pressed, pressProps } = usePress(props)
 
   return (
-    <div {...hoverProps} style={style}>
-      {isHovered ? 'hovered' : 'idle'}
+    <div {...pressProps} tabIndex={0} style={style}>
+      {pressed ? 'pressed' : 'idle'}
     </div>
   )
+}
+
+Default.argTypes = {
+  onPress: { action: 'press' },
+  onPressStart: { action: 'press start' },
+  onPressEnd: { action: 'press end' },
+  onPressUp: { action: 'press up' },
 }
 
 Default.args = {
