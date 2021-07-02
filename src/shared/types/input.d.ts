@@ -9,6 +9,7 @@ export interface ValidationProps {
 
 export interface InputBaseProps {
   disabled?: boolean
+  name?: string
   readOnly?: boolean
 }
 

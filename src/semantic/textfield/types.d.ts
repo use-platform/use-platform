@@ -19,7 +19,6 @@ export interface TextFieldBaseProps
   autoComplete?: string
   maxLength?: number
   minLength?: number
-  name?: string
   pattern?: string
   placeholder?: string
   type?: 'text' | 'search' | 'url' | 'tel' | 'email' | 'password' | string

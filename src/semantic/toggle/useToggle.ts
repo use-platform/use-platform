@@ -5,10 +5,7 @@ import { isFirefox } from '../../libs/platform'
 import { useFocusable } from '../../shared/useFocusable'
 import { useHover } from '../../shared/useHover'
 import { usePress } from '../../shared/usePress'
-import type { SharedToggleProps } from '../../shared/types'
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface UseToggleProps extends SharedToggleProps {}
+import type { CommonToggleProps } from './types'
 
 interface UseToggleResult {
   pressed: boolean
@@ -19,7 +16,7 @@ interface UseToggleResult {
 
 // TODO: Add validation for exists aria-label or aria-labelledby.
 export function useToggle<T extends HTMLInputElement = HTMLInputElement>(
-  props: UseToggleProps,
+  props: CommonToggleProps,
   ref: RefObject<T>,
 ): UseToggleResult {
   const { name, value, disabled, required, onChange, readOnly, state, ...restProps } = props
@@ -32,8 +29,6 @@ export function useToggle<T extends HTMLInputElement = HTMLInputElement>(
     hovered,
     rootProps: mergeProps(pressProps, hoverProps),
     inputProps: mergeProps(restProps, focusableProps, {
-      'aria-controls': props['aria-controls'],
-      'aria-errormessage': props['aria-errormessage'],
       'aria-invalid': state === 'invalid' || undefined,
       // Use "aria-readonly" because "readOnly" available only for text fields,
       // see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly.
