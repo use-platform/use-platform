@@ -22,12 +22,12 @@ Default.args = {
 
 const Button: FC<any> = (props) => {
   const ref = useRef(null)
-  const { ElementType, pressed, buttonProps } = useButton(props, ref)
+  const { ElementType, isPressed, buttonProps } = useButton(props, ref)
   const { isHovered, hoverProps } = useHover(props)
 
   return (
     <ElementType {...buttonProps} {...hoverProps} ref={ref}>
-      {pressed ? 'pressed' : 'idle'} {isHovered ? 'hovered' : 'idle'}
+      {isPressed ? 'pressed' : 'idle'} {isHovered ? 'hovered' : 'idle'}
     </ElementType>
   )
 }

@@ -7,7 +7,7 @@ import { usePress } from '../../interactions/press'
 import type { CommonToggleProps } from './types'
 
 interface UseToggleResult {
-  pressed: boolean
+  isPressed: boolean
   rootProps: HTMLAttributes<HTMLElement>
   inputProps: InputHTMLAttributes<HTMLInputElement>
 }
@@ -19,10 +19,10 @@ export function useToggle(
 ): UseToggleResult {
   const { name, value, disabled, required, onChange, readOnly, state, ...restProps } = props
   const { focusableProps } = useFocusable(props, ref)
-  const { pressed, pressProps } = usePress(props)
+  const { isPressed, pressProps } = usePress(props)
 
   return {
-    pressed,
+    isPressed,
     rootProps: pressProps,
     inputProps: mergeProps(restProps, focusableProps, {
       'aria-invalid': state === 'invalid' || undefined,

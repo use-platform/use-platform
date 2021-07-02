@@ -15,11 +15,11 @@ const style: CSSProperties = {
 }
 
 export const Default: Story = (props) => {
-  const { pressed, pressProps } = usePress(props)
+  const { isPressed, pressProps } = usePress(props)
 
   return (
     <div {...pressProps} tabIndex={0} style={style}>
-      {pressed ? 'pressed' : 'idle'}
+      {isPressed ? 'pressed' : 'idle'}
     </div>
   )
 }

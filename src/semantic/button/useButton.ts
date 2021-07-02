@@ -10,7 +10,7 @@ import type { SharedButtonProps } from '../../shared/types'
 export interface UseButtonProps extends SharedButtonProps {}
 
 export interface UseButtonResult<T> {
-  pressed: boolean
+  isPressed: boolean
   buttonProps: HTMLAttributes<T>
   ElementType: ElementType
 }
@@ -53,11 +53,11 @@ export function useButton<T extends HTMLElement = HTMLElement>(
   }
 
   const { focusableProps } = useFocusable(props, ref)
-  const { pressed, pressProps } = usePress(props)
+  const { isPressed, pressProps } = usePress(props)
 
   return {
-    ElementType: elementType,
-    pressed,
     buttonProps: mergeProps(restProps, additionalProps, focusableProps, pressProps),
+    ElementType: elementType,
+    isPressed,
   }
 }
