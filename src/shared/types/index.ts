@@ -7,5 +7,6 @@ export * from './button'
 export * from './calendar'
 export * from './toggle'
 export * from './checkbox'
+export * from './input.d'
 // Events
 export * from './events'

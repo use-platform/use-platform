@@ -1,4 +1,4 @@
-import { RangeValue, ValueProps } from '../../shared/types'
+import { RangeValue, ValueProps2 } from '../../shared/types'
 
 export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -6,7 +6,7 @@ export type CalendarView = 'day' | 'month' | 'year'
 
 export type CalendarViewsGrid = [rows: number, columns: number]
 
-export interface CalendarBaseProps extends ValueProps<Date | Date[] | RangeValue<Date>> {
+export interface CalendarBaseProps extends ValueProps2<Date | Date[] | RangeValue<Date>> {
   /**
    * The date that will be displayed on mount.
    */
