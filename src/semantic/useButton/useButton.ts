@@ -28,17 +28,18 @@ export function useButton<T extends HTMLElement = HTMLElement>(
     target,
     rel,
     type = 'button',
+    tabIndex,
     ...restProps
   } = props
 
   let additionalProps: AllHTMLAttributes<T>
 
   if (elementType === 'button') {
-    additionalProps = {
-      type,
-      disabled,
+    additionalProps = { type, disabled }
+
+    if (isFirefox()) {
       // https://bugzilla.mozilla.org/show_bug.cgi?id=654072
-      autoComplete: isFirefox() ? 'off' : undefined,
+      additionalProps.autoComplete = 'off'
     }
   } else {
     additionalProps = {
