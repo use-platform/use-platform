@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
 import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
-import { useButton } from '../useButton'
+import { useButton } from '../button'
 import { useClearButton } from './useClearButton'
 
 const TextField: FC<any> = (props) => {

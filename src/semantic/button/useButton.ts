@@ -2,9 +2,9 @@ import { RefObject, ElementType, HTMLAttributes, AllHTMLAttributes } from 'react
 
 import { isFirefox } from '../../libs/platform'
 import { mergeProps } from '../../libs/merge-props'
-import { useHover } from '../../shared/useHover'
-import { usePress } from '../../shared/usePress'
-import { useFocusable } from '../../shared/useFocusable'
+import { useHover } from '../../interactions/hover'
+import { usePress } from '../../interactions/press'
+import { useFocusable } from '../../interactions/focusable'
 import type { SharedButtonProps } from '../../shared/types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

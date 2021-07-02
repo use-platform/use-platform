@@ -1,7 +1,7 @@
 import { RefObject } from 'react'
 
 import { focusWithoutScrolling } from '../../libs/dom-utils'
-import type { ButtonBaseProps } from '../useButton'
+import type { ButtonBaseProps } from '../button'
 import type { CommonTextFieldProps } from './types'
 
 export interface UseClearButtonResult {

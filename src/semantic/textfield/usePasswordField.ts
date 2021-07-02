@@ -1,7 +1,7 @@
 import { RefObject, useState } from 'react'
 
 import { focusWithoutScrolling, setCursorToEnd } from '../../libs/dom-utils'
-import type { ButtonBaseProps } from '../useButton'
+import type { ButtonBaseProps } from '../button'
 import type { TextFieldBaseProps } from './types'
 
 export interface UsePasswordFieldResult {

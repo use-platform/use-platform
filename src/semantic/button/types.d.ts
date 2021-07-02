@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-import type { PressProps } from '../../shared/usePress'
+import type { PressProps } from '../../interactions/press'
 import type { FocusableDOMProps } from '../../shared/types'
 
 export interface ButtonBaseProps extends PressProps, FocusableDOMProps {

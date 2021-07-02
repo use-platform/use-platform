@@ -2,7 +2,7 @@ import { HTMLAttributes, useState, useMemo, useRef, useEffect } from 'react'
 
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import { useListeners } from '../../libs/useListeners'
-import type { PressSource } from '../types'
+import type { PressSource } from '../../shared/types'
 import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
 import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 import { disableTextSelection, restoreTextSelection } from './utils/text-selection'

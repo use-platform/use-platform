@@ -1,4 +1,4 @@
-import type { PressSource } from '../../types'
+import type { PressSource } from '../../../shared/types'
 
 export interface BasePressEvent {
   source: PressSource
