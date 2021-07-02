@@ -1,5 +1,5 @@
 import { FC, useRef } from 'react'
-import { useButton } from '@yandex/web-platform'
+import { useButton, useHover } from '@yandex/web-platform'
 
 export const Default = (args: any) => {
   return <Button {...args} />
@@ -20,13 +20,14 @@ Default.args = {
   disabled: false,
 }
 
-const Button: FC = (props) => {
+const Button: FC<any> = (props) => {
   const ref = useRef(null)
-  const { ElementType, hovered, pressed, buttonProps } = useButton(props, ref)
+  const { ElementType, pressed, buttonProps } = useButton(props, ref)
+  const { isHovered, hoverProps } = useHover(props)
 
   return (
-    <ElementType {...buttonProps} ref={ref}>
-      {pressed ? 'pressed' : 'idle'} {hovered ? 'hovered' : 'idle'}
+    <ElementType {...buttonProps} {...hoverProps} ref={ref}>
+      {pressed ? 'pressed' : 'idle'} {isHovered ? 'hovered' : 'idle'}
     </ElementType>
   )
 }

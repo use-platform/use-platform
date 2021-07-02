@@ -3,13 +3,11 @@ import { HTMLAttributes, InputHTMLAttributes, RefObject } from 'react'
 import { mergeProps } from '../../libs/merge-props'
 import { isFirefox } from '../../libs/platform'
 import { useFocusable } from '../../interactions/focusable'
-import { useHover } from '../../interactions/hover'
 import { usePress } from '../../interactions/press'
 import type { CommonToggleProps } from './types'
 
 interface UseToggleResult {
   pressed: boolean
-  hovered: boolean
   rootProps: HTMLAttributes<HTMLElement>
   inputProps: InputHTMLAttributes<HTMLInputElement>
 }
@@ -22,12 +20,10 @@ export function useToggle(
   const { name, value, disabled, required, onChange, readOnly, state, ...restProps } = props
   const { focusableProps } = useFocusable(props, ref)
   const { pressed, pressProps } = usePress(props)
-  const { isHovered: hovered, hoverProps } = useHover(props)
 
   return {
     pressed,
-    hovered,
-    rootProps: mergeProps(pressProps, hoverProps),
+    rootProps: pressProps,
     inputProps: mergeProps(restProps, focusableProps, {
       'aria-invalid': state === 'invalid' || undefined,
       // Use "aria-readonly" because "readOnly" available only for text fields,

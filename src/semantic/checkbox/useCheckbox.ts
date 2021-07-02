@@ -5,7 +5,6 @@ import { CommonCheckboxProps } from './types'
 
 export interface UseCheckboxResult {
   pressed: boolean
-  hovered: boolean
   rootProps: HTMLAttributes<HTMLElement>
   inputProps: InputHTMLAttributes<HTMLInputElement>
 }

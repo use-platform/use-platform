@@ -2,7 +2,6 @@ import { RefObject, ElementType, HTMLAttributes, AllHTMLAttributes } from 'react
 
 import { isFirefox } from '../../libs/platform'
 import { mergeProps } from '../../libs/merge-props'
-import { useHover } from '../../interactions/hover'
 import { usePress } from '../../interactions/press'
 import { useFocusable } from '../../interactions/focusable'
 import type { SharedButtonProps } from '../../shared/types'
@@ -11,7 +10,6 @@ import type { SharedButtonProps } from '../../shared/types'
 export interface UseButtonProps extends SharedButtonProps {}
 
 export interface UseButtonResult<T> {
-  hovered: boolean
   pressed: boolean
   buttonProps: HTMLAttributes<T>
   ElementType: ElementType
@@ -56,14 +54,10 @@ export function useButton<T extends HTMLElement = HTMLElement>(
 
   const { focusableProps } = useFocusable(props, ref)
   const { pressed, pressProps } = usePress(props)
-  const { isHovered: hovered, hoverProps } = useHover(props)
-
-  const buttonProps = mergeProps(restProps, additionalProps, focusableProps, pressProps, hoverProps)
 
   return {
     ElementType: elementType,
     pressed,
-    hovered,
-    buttonProps,
+    buttonProps: mergeProps(restProps, additionalProps, focusableProps, pressProps),
   }
 }

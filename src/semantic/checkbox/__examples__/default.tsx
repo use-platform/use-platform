@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
-import { SharedCheckboxProps, useCheckbox } from '@yandex/web-platform'
+import { SharedCheckboxProps, useCheckbox, useHover } from '@yandex/web-platform'
 
 export const Default = (args: any) => {
   const [checked, setChecked] = useState(false)
@@ -22,12 +22,13 @@ Default.args = {
 
 const Checkbox: FC<SharedCheckboxProps> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { pressed, hovered, rootProps, inputProps } = useCheckbox(props, inputRef)
+  const { pressed, rootProps, inputProps } = useCheckbox(props, inputRef)
+  const { isHovered, hoverProps } = useHover(props)
 
   return (
-    <label {...rootProps} style={{ opacity: pressed || props.disabled ? 0.5 : 1 }}>
+    <label {...rootProps} {...hoverProps} style={{ opacity: pressed || props.disabled ? 0.5 : 1 }}>
       <input ref={inputRef} {...inputProps} />
-      <span style={{ color: hovered ? 'green' : 'black' }}>Label</span>
+      <span style={{ color: isHovered ? 'green' : 'black' }}>Label</span>
     </label>
   )
 }
