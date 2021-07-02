@@ -1,13 +1,13 @@
 import { HTMLAttributes, RefObject, useEffect } from 'react'
 
 import { focusElement } from '../../libs/dom-utils'
-import type { FocusableProps } from '../types'
+import type { FocusableDOMProps } from '../types'
 
-interface UseFocusableProps extends FocusableProps {
+export interface UseFocusableProps extends FocusableDOMProps {
   disabled?: boolean
 }
 
-interface UseFocusableResult<T> {
+export interface UseFocusableResult<T> {
   focusableProps: HTMLAttributes<T>
 }
 
@@ -15,7 +15,7 @@ export function useFocusable<T extends HTMLElement = HTMLElement>(
   props: UseFocusableProps,
   ref: RefObject<T>,
 ): UseFocusableResult<T> {
-  const { autoFocus, disabled } = props
+  const { autoFocus, disabled, tabIndex } = props
 
   useEffect(() => {
     if (autoFocus) {
@@ -25,7 +25,7 @@ export function useFocusable<T extends HTMLElement = HTMLElement>(
 
   return {
     focusableProps: {
-      tabIndex: disabled ? -1 : undefined,
+      tabIndex: disabled ? -1 : tabIndex,
     },
   }
 }
