@@ -4,7 +4,7 @@ import { useToggle } from '../toggle'
 import { CommonCheckboxProps } from './types'
 
 export interface UseCheckboxResult {
-  pressed: boolean
+  isPressed: boolean
   rootProps: HTMLAttributes<HTMLElement>
   inputProps: InputHTMLAttributes<HTMLInputElement>
 }

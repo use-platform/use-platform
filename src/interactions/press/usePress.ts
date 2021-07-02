@@ -11,14 +11,14 @@ import { isTargetContainsPoint } from './utils/detect-overlap'
 import { PressProps } from './types'
 
 export interface UsePressResult<T> {
-  pressed: boolean
+  isPressed: boolean
   pressProps: HTMLAttributes<T>
 }
 
 type PressCache = {
   currentPointerId: number | null
   currentPointerTarget: HTMLElement | null
-  pressed: boolean
+  isPressed: boolean
   pressStarted: boolean
 }
 
@@ -27,11 +27,11 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 ): UsePressResult<T> {
   const { preventFocusOnPress } = props
   const { addListener, removeAllListeners } = useListeners()
-  const [pressed, setPressed] = useState(false)
+  const [isPressed, setPressed] = useState(false)
   const cacheRef = useRef<PressCache>({
     currentPointerId: null,
     currentPointerTarget: null,
-    pressed: false,
+    isPressed: false,
     pressStarted: false,
   })
   const propsRef = useRef<PressProps>({})
@@ -58,7 +58,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
           event.stopPropagation()
 
-          if (!cache.pressed && !event.repeat) {
+          if (!cache.isPressed && !event.repeat) {
             triggerPressStart(createPressEvent(event, 'keyboard'))
           }
         }
@@ -116,15 +116,15 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     const attach = (target: HTMLElement, id: number) => {
       cache.currentPointerTarget = target
       cache.currentPointerId = id
-      cache.pressed = true
+      cache.isPressed = true
 
       disableTextSelection()
       setPressed(true)
     }
 
     const detach = () => {
-      if (cache.pressed) {
-        cache.pressed = false
+      if (cache.isPressed) {
+        cache.isPressed = false
 
         restoreTextSelection()
         setPressed(false)
@@ -155,7 +155,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
       // Cancel event can be fired while scroll.
       const onPointerCancel = (event: PointerEvent) => {
-        if (cache.pressed) {
+        if (cache.isPressed) {
           triggerPressEnd(createPressEvent(event, event.pointerType as PressSource), false)
         }
         detach()
@@ -172,7 +172,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         event.preventDefault()
         event.stopPropagation()
 
-        if (!cache.pressed && !disabled) {
+        if (!cache.isPressed && !disabled) {
           if (!preventFocusOnPress) {
             focusWithoutScrolling(event.currentTarget)
           }
@@ -214,7 +214,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
       // Cancel event can be fired while scroll.
       const onTouchCancel = (event: TouchEvent) => {
-        if (cache.pressed) {
+        if (cache.isPressed) {
           triggerPressEnd(createPressEvent(event, 'touch'), false)
         }
         detach()
@@ -228,7 +228,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
         const touch = getTouchFromEvent(event.nativeEvent)
 
-        if (touch && !cache.pressed && !disabled) {
+        if (touch && !cache.isPressed && !disabled) {
           if (!preventFocusOnPress) {
             focusWithoutScrolling(event.currentTarget)
           }
@@ -251,7 +251,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
   }, [])
 
   return {
-    pressed,
+    isPressed,
     pressProps,
   }
 }
