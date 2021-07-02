@@ -2,20 +2,13 @@ import { HTMLAttributes, useState, useMemo, useRef, useEffect } from 'react'
 
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import { useListeners } from '../../libs/useListeners'
-import type { PressSource, PressEventHandler } from '../types'
+import type { PressSource } from '../types'
 import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
 import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
 import { BasePressEvent, createPressEvent } from './utils/create-press-event'
 import { isTargetContainsPoint } from './utils/detect-overlap'
-
-export interface UsePressProps {
-  disabled?: boolean
-  onPressStart?: PressEventHandler<HTMLElement>
-  onPressUp?: PressEventHandler<HTMLElement>
-  onPressEnd?: PressEventHandler<HTMLElement>
-  onPress?: PressEventHandler<HTMLElement>
-}
+import { PressProps } from './types'
 
 export interface UsePressResult<T> {
   pressed: boolean
@@ -30,8 +23,9 @@ type PressCache = {
 }
 
 export function usePress<T extends HTMLElement = HTMLElement>(
-  props: UsePressProps,
+  props: PressProps,
 ): UsePressResult<T> {
+  const { preventFocusOnPress } = props
   const { addListener, removeAllListeners } = useListeners()
   const [pressed, setPressed] = useState(false)
   const cacheRef = useRef<PressCache>({
@@ -40,7 +34,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     pressed: false,
     pressStarted: false,
   })
-  const propsRef = useRef<UsePressProps>({})
+  const propsRef = useRef<PressProps>({})
   // Use ref as cache for reuse props inside memo hook.
   propsRef.current = {
     disabled: props.disabled,
@@ -88,7 +82,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
       setPressed(true)
       cache.pressStarted = true
-      event.source
+      // event.source
       onPressStart?.({ ...event, type: 'pressstart' })
     }
 
@@ -179,7 +173,9 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         event.stopPropagation()
 
         if (!cache.pressed && !disabled) {
-          focusWithoutScrolling(event.currentTarget)
+          if (!preventFocusOnPress) {
+            focusWithoutScrolling(event.currentTarget)
+          }
 
           attach(event.currentTarget, event.pointerId)
           triggerPressStart(createPressEvent(event, event.pointerType as PressSource))
@@ -233,7 +229,9 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         const touch = getTouchFromEvent(event.nativeEvent)
 
         if (touch && !cache.pressed && !disabled) {
-          focusWithoutScrolling(event.currentTarget)
+          if (!preventFocusOnPress) {
+            focusWithoutScrolling(event.currentTarget)
+          }
 
           attach(event.currentTarget, touch.identifier)
           triggerPressStart(createPressEvent(event, 'touch'))
@@ -246,7 +244,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     }
 
     return props
-  }, [addListener, removeAllListeners])
+  }, [addListener, preventFocusOnPress, removeAllListeners])
 
   useEffect(() => {
     return restoreTextSelection
