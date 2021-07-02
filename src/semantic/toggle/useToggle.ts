@@ -15,9 +15,9 @@ interface UseToggleResult {
 }
 
 // TODO: Add validation for exists aria-label or aria-labelledby.
-export function useToggle<T extends HTMLInputElement = HTMLInputElement>(
+export function useToggle(
   props: CommonToggleProps,
-  ref: RefObject<T>,
+  ref: RefObject<HTMLInputElement>,
 ): UseToggleResult {
   const { name, value, disabled, required, onChange, readOnly, state, ...restProps } = props
   const { focusableProps } = useFocusable(props, ref)
