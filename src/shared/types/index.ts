@@ -5,6 +5,6 @@ export * from './element'
 // Components
 export * from './button'
 export * from './calendar'
-export * from './input.d'
+export * from './input'
 // Events
 export * from './events'
