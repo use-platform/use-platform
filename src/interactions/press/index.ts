@@ -1,2 +1,2 @@
 export * from './usePress'
-export * from './types.d'
+export * from './types'
