@@ -17,7 +17,7 @@ export function useToggle(
   props: CommonToggleProps,
   ref: RefObject<HTMLInputElement>,
 ): UseToggleResult {
-  const { name, value, disabled, required, onChange, readOnly, state, ...restProps } = props
+  const { onChange, readOnly, state, ...restProps } = props
   const { focusableProps } = useFocusable(props, ref)
   const { isPressed, pressProps } = usePress(props)
 
