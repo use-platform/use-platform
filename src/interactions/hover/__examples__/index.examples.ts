@@ -3,5 +3,5 @@ import { Meta } from '@storybook/react'
 export * from './default'
 
 export default {
-  title: 'shared/useHover',
+  title: 'interactions/hover',
 } as Meta
