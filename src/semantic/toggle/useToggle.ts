@@ -15,16 +15,17 @@ interface UseToggleResult {
 // TODO: Add validation for exists aria-label or aria-labelledby.
 export function useToggle(
   props: CommonToggleProps,
-  ref: RefObject<HTMLInputElement>,
+  inputRef: RefObject<HTMLInputElement>,
 ): UseToggleResult {
-  const { name, value, disabled, required, onChange, readOnly, state, ...restProps } = props
-  const { focusableProps } = useFocusable(props, ref)
+  const { onChange, readOnly, state, ...restProps } = props
+  const { focusableProps } = useFocusable(props, inputRef)
   const { isPressed, pressProps } = usePress(props)
 
   return {
     isPressed,
     rootProps: pressProps,
     inputProps: mergeProps(restProps, focusableProps, {
+      'aria-checked': props.checked,
       'aria-invalid': state === 'invalid' || undefined,
       // Use "aria-readonly" because "readOnly" available only for text fields,
       // see https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly.
