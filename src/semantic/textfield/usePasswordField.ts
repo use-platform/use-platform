@@ -26,9 +26,7 @@ export function usePasswordField(
 
     // Use raf for set cursor at the end after layout changed.
     requestAnimationFrame(() => {
-      if (inputRef.current) {
-        setCursorToEnd(inputRef.current)
-      }
+      setCursorToEnd(inputRef.current)
     })
   }
 
