@@ -11,6 +11,7 @@ export const Textarea = (args: any) => {
 }
 
 Textarea.args = {
+  autoFocus: false,
   autoResize: false,
   cols: 0,
   rows: 0,
