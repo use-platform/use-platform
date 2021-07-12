@@ -13,8 +13,7 @@ import {
   subMonths,
   subYears,
   isEqual,
-} from 'date-fns'
-
+} from '../../../libs/date'
 import { DayOfWeek } from '../../../libs/i18n'
 import { RangeValue } from '../../../shared/types'
 import { CalendarNavigationAction, CalendarView, CalendarViewData } from '../types'
