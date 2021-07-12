@@ -1,192 +1,388 @@
-import { CSSProperties, FC, KeyboardEvent, useRef, useState } from 'react'
+import { FC, useCallback, useMemo, useRef, useState } from 'react'
 import {
+  useDateFormatter,
+  RangeValue,
+  BaseCalendarProps,
+  UseCalendarProps,
+  useCalendar,
   useCalendarCell,
   UseCalendarCellProps,
   CalendarState,
-} from '@yandex/web-platform/semantic/calendar'
+  UseSingleCalendarStateProps,
+  useSingleCalendarState,
+  UseMultipleCalendarStateProps,
+  useMultipleCalendarState,
+  UseRangeCalendarStateProps,
+  useRangeCalendarState,
+  CalendarNavigationAction,
+  CalendarView,
+} from '@yandex/web-platform'
 
-function getDays(viewDate: Date) {
-  const month = viewDate.getMonth()
-  const year = viewDate.getFullYear()
-
-  const daysInMonth = new Date(year, (month + 1) % 12, 0).getDate()
-  let monthStartsAt = (new Date(year, month, 1).getDay() - 1) % 7
-  if (monthStartsAt < 0) {
-    monthStartsAt += 7
-  }
-  const weeksInMonth = Math.ceil((monthStartsAt + daysInMonth) / 7)
-
-  const data: Date[][] = []
-
-  for (let weekIndex = 0; weekIndex < weeksInMonth; weekIndex++) {
-    data.push([])
-
-    for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-      const day = weekIndex * 7 + dayIndex - monthStartsAt + 1
-      const value = new Date(year, month, day)
-
-      data[weekIndex].push(value)
-    }
+const styles = `
+  .Table {
+    display: inline-table;
+    border-collapse: collapse;
+    width: 252px;
   }
 
-  return data
+  .Cell {
+    padding: 0;
+  }
+
+  .CellButton {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: 0;
+    flex: 1 0;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .CellButton[data-today='true'] {
+    color: blue;
+    text-decoration: underline;
+  }
+
+  .CellButton[data-focused='true'] {
+    box-shadow: inset 0 0 0 2px #fc0;
+  }
+
+  .CellButton[class][data-selected='true'],
+  .CellButton[class][data-range-selection-start='true'] {
+    background-color: #f00;
+    color: #fff;
+  }
+
+  .CellButton[data-range-selected='true'] {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .CellButton[data-range-preview='true'] {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .CellButton[data-range-selection-start='true'],
+  .CellButton[data-range-preview-start='true'] {
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+  }
+
+  .CellButton[data-range-selection-end='true'],
+  .CellButton[data-range-preview-end='true'] {
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+  }
+
+  .CellButton[data-outside-view='true'] {
+    opacity: 0.6;
+  }
+
+  .CellButton[data-disabled='true'] {
+    opacity: 0.3;
+  }
+`
+
+interface CellProps extends UseCalendarCellProps {
+  state: CalendarState
 }
 
-const Cell: FC<UseCalendarCellProps & { state: CalendarState }> = (props) => {
-  const { state, viewDate, value, children } = props
+const Cell: FC<CellProps> = (props) => {
+  const { state, children } = props
   const ref = useRef<HTMLElement>(null)
 
-  const { cellState, cellProps, buttonProps } = useCalendarCell({ viewDate, value }, state, ref)
-  const { isFocused, isSelected, isToday, isSameView } = cellState
-
-  const style: CSSProperties = {
-    display: 'flex',
-    borderRadius: '50%',
-    width: 36,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    outline: 0,
-  }
-
-  if (isToday) {
-    style.textDecoration = 'underline'
-  }
-
-  if (isFocused) {
-    style.boxShadow = '0 0 0 2px #fc0'
-  }
-
-  if (isSelected) {
-    style.color = 'white'
-    style.backgroundColor = 'red'
-  }
-
-  if (!isSameView) {
-    style.opacity = 0.4
-  }
+  const { cellState, cellProps, buttonProps } = useCalendarCell(props, state, ref)
+  const {
+    isFocused,
+    isSelected,
+    isToday,
+    isSameView,
+    isDisabled,
+    isRangeSelected,
+    isRangePreview,
+    isSelectionStart,
+    isSelectionEnd,
+    isRangePreviewStart,
+    isRangePreviewEnd,
+  } = cellState
 
   return (
-    <td {...cellProps} style={{ padding: 8 }}>
-      <span ref={ref} {...buttonProps} style={style}>
+    <td className="Cell" {...cellProps}>
+      <span
+        ref={ref}
+        className="CellButton"
+        {...buttonProps}
+        data-today={isToday}
+        data-focused={state.isCalendarFocused && isFocused}
+        data-selected={isSelected}
+        data-range-selected={isRangeSelected}
+        data-range-preview={isRangePreview}
+        data-range-preview-start={isRangePreviewStart}
+        data-range-preview-end={isRangePreviewEnd}
+        data-range-selection-start={isSelectionStart}
+        data-range-selection-end={isSelectionEnd}
+        data-outside-view={!isSameView}
+        data-disabled={isDisabled}
+      >
         {children}
       </span>
     </td>
   )
 }
 
-export const Default = () => {
-  const [selected, selectDate] = useState<Date>()
-  const [focusedDate, focusDate] = useState(() => new Date())
+interface HeaderProps {
+  viewRange: RangeValue<Date>
+  state: CalendarState
+  prevHidden?: boolean
+  nextHidden?: boolean
+}
 
-  const mockState: CalendarState = {
-    value: selected,
-    selectDate,
+const Header: FC<HeaderProps> = (props) => {
+  const { viewRange, prevHidden, nextHidden, state } = props
+  const { activeView, baseDate, navigateTo, moveDate, canNavigateTo, setView, moveView } = state
 
-    focusedDate,
-    focusDate,
-
-    activeView: 'day',
-    setActiveView: () => null,
-
-    calendarFocused: true,
-    focusCalendar: () => null,
-
-    getCellState: (value, viewDate) => {
-      const today = new Date()
-
-      return {
-        isDisabled: false,
-        isFocused:
-          value.getDate() === focusedDate.getDate() &&
-          value.getMonth() === focusedDate.getMonth() &&
-          value.getFullYear() === focusedDate.getFullYear(),
-        isRangePrevieEnd: false,
-        isRangePreview: false,
-        isRangePreviewStart: false,
-        isRangeSelected: false,
-        isSameView:
-          value.getMonth() === viewDate.getMonth() &&
-          value.getFullYear() === viewDate.getFullYear(),
-        isSelected: selected
-          ? value.getDate() === selected.getDate() &&
-            value.getMonth() === selected.getMonth() &&
-            value.getFullYear() === selected.getFullYear()
-          : false,
-        isSelectionEnd: false,
-        isSelectionStart: false,
-        isToday:
-          value.getDate() === today.getDate() &&
-          value.getMonth() === today.getMonth() &&
-          value.getFullYear() === today.getFullYear(),
-      }
-    },
-
-    getData: (viewDate: Date) => getDays(viewDate),
-    highlightDate: () => null,
-    moveDate: (date) => date,
-  }
-
-  const onKeyDown = (event: KeyboardEvent) => {
-    const nextFocusedDate = new Date(focusedDate)
-    let handled = false
-
-    switch (event.key) {
-      case 'ArrowLeft': {
-        nextFocusedDate.setDate(nextFocusedDate.getDate() - 1)
-        handled = true
-        break
+  const dateFormatter = useDateFormatter(
+    useMemo(() => {
+      const options: Record<CalendarView, Intl.DateTimeFormatOptions> = {
+        day: { month: 'long', year: 'numeric' },
+        month: { year: 'numeric' },
+        year: { year: 'numeric' },
       }
 
-      case 'ArrowRight': {
-        nextFocusedDate.setDate(nextFocusedDate.getDate() + 1)
-        handled = true
-        break
-      }
+      return options[activeView]
+    }, [activeView]),
+  )
 
-      case 'ArrowUp': {
-        nextFocusedDate.setDate(nextFocusedDate.getDate() - 7)
-        handled = true
-        break
-      }
+  const colSpan = { day: 7, month: 3, year: 5 }[activeView]
+  const candidatePrev = moveDate(baseDate, CalendarNavigationAction.PrevView)
+  const candidateNext = moveDate(baseDate, CalendarNavigationAction.NextView)
 
-      case 'ArrowDown': {
-        nextFocusedDate.setDate(nextFocusedDate.getDate() + 7)
-        handled = true
-        break
-      }
+  const handleChangeView = useCallback(() => {
+    setView(moveView(activeView, 1))
+  }, [activeView, moveView, setView])
+
+  const handleNavigateToPrevView = useCallback(() => {
+    if (canNavigateTo(candidatePrev)) {
+      navigateTo(candidatePrev)
     }
+  }, [canNavigateTo, candidatePrev, navigateTo])
 
-    if (handled) {
-      event.preventDefault()
-      mockState.focusDate(nextFocusedDate)
+  const handleNavigateToNextView = useCallback(() => {
+    if (canNavigateTo(candidateNext)) {
+      navigateTo(candidateNext)
     }
-  }
-
-  const data = mockState.getData(focusedDate)
+  }, [canNavigateTo, candidateNext, navigateTo])
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th colSpan={7}>
-            {focusedDate.toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' })}
-          </th>
-        </tr>
-      </thead>
+    <thead>
+      <tr>
+        <th colSpan={colSpan}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <button
+              disabled={!canNavigateTo(candidatePrev)}
+              onClick={handleNavigateToPrevView}
+              style={{ visibility: prevHidden ? 'hidden' : undefined }}
+            >
+              &lt;
+            </button>
 
-      {/* eslint-disable-next-line react/jsx-no-bind */}
-      <tbody onKeyDown={onKeyDown}>
-        {data.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <Cell key={cellIndex} value={cell} viewDate={focusedDate} state={mockState}>
-                {cell.getDate()}
-              </Cell>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+            <span onClick={handleChangeView}>
+              {activeView === 'year' ? (
+                <>
+                  {dateFormatter.format(viewRange.start)}-{dateFormatter.format(viewRange.end)}
+                </>
+              ) : (
+                dateFormatter.format(viewRange.start)
+              )}
+            </span>
+
+            <button
+              disabled={!canNavigateTo(candidateNext)}
+              onClick={handleNavigateToNextView}
+              style={{ visibility: nextHidden ? 'hidden' : undefined }}
+            >
+              &gt;
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
   )
 }
+
+interface CalendarBaseProps extends UseCalendarProps {
+  state: CalendarState
+}
+
+const CalendarBase: FC<CalendarBaseProps> = (props) => {
+  const { state } = props
+  const { views } = state
+
+  const { gridProps } = useCalendar(props, state)
+  const dateFormatter = useDateFormatter(
+    useMemo(() => {
+      const options: Record<CalendarView, Intl.DateTimeFormatOptions> = {
+        day: { day: 'numeric' },
+        month: { month: 'short' },
+        year: { year: 'numeric' },
+      }
+
+      return options[state.activeView]
+    }, [state.activeView]),
+  )
+
+  return (
+    <>
+      <style>{styles}</style>
+      <div>
+        {views.map(({ data, viewDate, viewRange }, index) => (
+          <table key={index} className="Table">
+            <Header
+              state={state}
+              viewRange={viewRange}
+              prevHidden={index > 0}
+              nextHidden={index < views.length - 1}
+            />
+
+            <tbody {...gridProps}>
+              {data.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {row.map((cell, cellIndex) => (
+                    <Cell key={cellIndex} value={cell} viewDate={viewDate} state={state}>
+                      {dateFormatter.format(cell)}
+                    </Cell>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ))}
+      </div>
+    </>
+  )
+}
+
+type SingleCalendarProps = UseSingleCalendarStateProps
+
+const SingleCalendar: FC<SingleCalendarProps> = (props) => {
+  const state = useSingleCalendarState(props)
+
+  return <CalendarBase state={state} />
+}
+
+type RangeCalendarProps = UseRangeCalendarStateProps
+
+const RangeCalendar: FC<RangeCalendarProps> = (props) => {
+  const state = useRangeCalendarState(props)
+
+  return <CalendarBase state={state} />
+}
+
+type MultipleCalendarProps = UseMultipleCalendarStateProps
+
+const MultipleCalendar: FC<MultipleCalendarProps> = (props) => {
+  const state = useMultipleCalendarState(props)
+
+  return <CalendarBase state={state} />
+}
+
+const argTypes = {
+  disabled: {
+    control: {
+      type: 'boolean',
+    },
+  },
+  readOnly: {
+    control: {
+      type: 'boolean',
+    },
+  },
+  viewsCount: {
+    control: {
+      type: 'number',
+      min: 1,
+      max: 3,
+    },
+  },
+  min: {
+    control: {
+      type: 'date',
+    },
+  },
+  max: {
+    control: {
+      type: 'date',
+    },
+  },
+  defaultFocusedDate: {
+    control: {
+      type: 'date',
+    },
+  },
+  defaultCalendarView: {
+    control: {
+      type: 'radio',
+      options: ['day', 'month', 'year'],
+    },
+  },
+  minCalendarView: {
+    control: {
+      type: 'radio',
+      options: ['day', 'month', 'year'],
+    },
+  },
+  maxCalendarView: {
+    control: {
+      type: 'radio',
+      options: ['day', 'month', 'year'],
+    },
+  },
+}
+
+const args = {
+  viewsCount: 2,
+}
+
+function normalizeProps(props: any): BaseCalendarProps {
+  return {
+    ...props,
+    disabled: String(props.disabled) === 'true',
+    readOnly: String(props.readOnly) === 'true',
+    defaultFocusedDate: props.defaultFocusedDate ? new Date(props.defaultFocusedDate) : undefined,
+    min: props.min ? new Date(props.min) : undefined,
+    max: props.max ? new Date(props.max) : undefined,
+  }
+}
+
+export const Single = (props: any) => {
+  const [value, setValue] = useState<Date>()
+
+  return <SingleCalendar {...normalizeProps(props)} value={value} onChange={setValue} />
+}
+
+Single.argTypes = argTypes
+Single.args = args
+
+export const Multiple = (props: any) => {
+  const [value, setValue] = useState<Date[]>()
+
+  return <MultipleCalendar {...normalizeProps(props)} value={value} onChange={setValue} />
+}
+
+Multiple.argTypes = argTypes
+Multiple.args = args
+
+export const Range = (props: any) => {
+  const [value, setValue] = useState<RangeValue<Date>>()
+
+  return <RangeCalendar {...normalizeProps(props)} value={value} onChange={setValue} />
+}
+
+Range.argTypes = argTypes
+Range.args = args
