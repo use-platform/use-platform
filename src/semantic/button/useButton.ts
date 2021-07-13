@@ -7,7 +7,7 @@ import { useFocusable } from '../../interactions/focusable'
 import type { SharedButtonProps } from '../../shared/types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UseButtonProps extends SharedButtonProps {}
+export interface UseButtonProps<T extends HTMLElement = HTMLElement> extends SharedButtonProps<T> {}
 
 export interface UseButtonResult<T> {
   isPressed: boolean
@@ -16,7 +16,7 @@ export interface UseButtonResult<T> {
 }
 
 export function useButton<T extends HTMLElement = HTMLElement>(
-  props: UseButtonProps,
+  props: UseButtonProps<T>,
   ref: RefObject<T>,
 ): UseButtonResult<T> {
   const {

@@ -4,7 +4,10 @@ import type { FocusableDOMProps } from './dom'
 import type { ElementTypeProps } from './element'
 import type { PressEventProps } from './events'
 
-export interface SharedButtonProps extends ElementTypeProps, PressEventProps, FocusableDOMProps {
+export interface SharedButtonProps<T = HTMLElement>
+  extends ElementTypeProps,
+    PressEventProps<T>,
+    FocusableDOMProps {
   children?: ReactNode
   disabled?: boolean
   href?: string
