@@ -23,7 +23,7 @@ type PressCache = {
 }
 
 export function usePress<T extends HTMLElement = HTMLElement>(
-  props: PressProps,
+  props: PressProps<T>,
 ): UsePressResult<T> {
   const { preventFocusOnPress } = props
   const { addListener, removeAllListeners } = useListeners()
@@ -34,7 +34,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     isPressed: false,
     pressStarted: false,
   })
-  const propsRef = useRef<PressProps>({})
+  const propsRef = useRef<PressProps<T>>({})
   // Use ref as cache for reuse props inside memo hook.
   propsRef.current = {
     disabled: props.disabled,
@@ -46,7 +46,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
   const pressProps = useMemo(() => {
     const cache = cacheRef.current
-    const props: HTMLAttributes<HTMLElement> = {
+    const props: HTMLAttributes<T> = {
       onKeyDown: (event) => {
         if (isValidKeyboardEvent(event.nativeEvent)) {
           // Use preventDefault for all elements except checkbox and radiobox inputs,
@@ -73,7 +73,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       },
     }
 
-    const triggerPressStart = (event: BasePressEvent) => {
+    const triggerPressStart = (event: BasePressEvent<T>) => {
       const { disabled, onPressStart } = propsRef.current
 
       if (disabled || cache.pressStarted) {
@@ -86,7 +86,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       onPressStart?.({ ...event, type: 'pressstart' })
     }
 
-    const triggerPressUp = (event: BasePressEvent) => {
+    const triggerPressUp = (event: BasePressEvent<T>) => {
       const { disabled, onPressUp } = propsRef.current
 
       if (disabled) {
@@ -96,7 +96,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       onPressUp?.({ ...event, type: 'pressup' })
     }
 
-    const triggerPressEnd = (event: BasePressEvent, triggerOnPress = true) => {
+    const triggerPressEnd = (event: BasePressEvent<T>, triggerOnPress = true) => {
       const { onPress, onPressEnd } = propsRef.current
 
       if (!cache.pressStarted) {
