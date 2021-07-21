@@ -4,11 +4,11 @@
 
 ⚠️⚠️ At the moment, the project is under active development and has been subjected to major changes. ⚠️⚠️
 
-## 💡 Motivation
+## Motivation
 
 Develop interfaces quickly with accessibility and the same work in all environments.
 
-## ✈️ Installation
+## Installation
 
 Currently package has development name `web-platform-alpha` and will change in the future.
 
@@ -16,7 +16,7 @@ Currently package has development name `web-platform-alpha` and will change in t
 npm i -PE web-platform-alpha
 ```
 
-## ☄️ Usage
+## Usage
 
 All hooks available from root public API. More examples you can find in [storybook](storybook).
 
@@ -37,7 +37,7 @@ export const Button = (props) => {
 }
 ```
 
-## 📚 Terminology
+## Terminology
 
 ### Semantic
 
@@ -51,7 +51,7 @@ State hooks contains the local state of the component and allow you to use compo
 
 Interactive hooks uses to ensure correct interaction with interface in any environment (e.g. web, touch, tv).
 
-## 🚧 Roadmap
+## Roadmap
 
 Approximate work plan (may be adjusted) Q3-Q4:
 
