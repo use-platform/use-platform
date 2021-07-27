@@ -1,6 +1,7 @@
 # folders
 node_modules
 dist
+storybook-static
 
 # files
 *.d.ts
