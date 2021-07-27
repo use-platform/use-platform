@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
 
+import type { PressProps } from '../../interactions/press'
 import type { FocusableDOMProps } from './dom'
 import type { ElementTypeProps } from './element'
-import type { PressEventProps } from './events'
 
 export interface SharedButtonProps<T = HTMLElement>
   extends ElementTypeProps,
-    PressEventProps<T>,
+    PressProps<T>,
     FocusableDOMProps {
   children?: ReactNode
   disabled?: boolean
