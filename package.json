@@ -27,12 +27,12 @@
     "date-fns": "^2.22.1"
   },
   "devDependencies": {
-    "@babel/core": "7.13.10",
+    "@babel/core": "7.14.8",
     "@bem-react/pack": "1.5.1",
     "@commitlint/cli": "12.0.1",
     "@commitlint/config-conventional": "12.0.1",
-    "@storybook/addon-essentials": "6.2.9",
-    "@storybook/react": "6.2.9",
+    "@storybook/addon-essentials": "6.3.6",
+    "@storybook/react": "6.3.6",
     "@testing-library/jest-dom": "5.12.0",
     "@testing-library/react": "11.2.7",
     "@testing-library/react-hooks": "5.1.0",
