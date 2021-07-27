@@ -56,7 +56,7 @@
     "semver": "7.3.5",
     "ts-jest": "27.0.4",
     "tslib": "2.2.0",
-    "typescript": "4.2.4"
+    "typescript": "4.3.5"
   },
   "optionalDependencies": {}
 }
