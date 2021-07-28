@@ -137,8 +137,8 @@ export function getTabbables(root: HTMLElement, filter?: (node: HTMLElement) => 
   const walker = createDomWalker(root, (node) => {
     const tabbable = isTabbable(node as HTMLElement)
 
-    if (filter) {
-      return tabbable && filter(node as HTMLElement)
+    if (filter && tabbable) {
+      return filter(node as HTMLElement)
     }
 
     return tabbable
