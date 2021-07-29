@@ -33,10 +33,10 @@ function matches(node: Element, selectors: string) {
 }
 
 function getTabindex(node: HTMLElement) {
-  const tabIndexAttr = parseInt(node.getAttribute('tabindex') || '', 10)
+  const tabIndex = parseInt(node.getAttribute('tabindex') || '', 10)
 
-  if (!isNaN(tabIndexAttr)) {
-    return tabIndexAttr
+  if (!isNaN(tabIndex)) {
+    return tabIndex
   }
 
   // Use fallback value for dom nodes with `contentEditable`,
@@ -137,8 +137,8 @@ export function getTabbables(root: HTMLElement, filter?: (node: HTMLElement) => 
   const walker = createDomWalker(root, (node) => {
     const tabbable = isTabbable(node as HTMLElement)
 
-    if (filter) {
-      return tabbable && filter(node as HTMLElement)
+    if (filter && tabbable) {
+      return filter(node as HTMLElement)
     }
 
     return tabbable
