@@ -1,131 +1,4 @@
-import { createDomWalker } from './createDomWalker'
-
-const TABBABLE_SELECTORS = [
-  '[contenteditable]:not([contenteditable="false"])',
-  '[tabindex]',
-  'a[href]',
-  'area[href]',
-  'audio[controls]',
-  'button',
-  'details',
-  'details>summary:first-of-type',
-  'input',
-  'select',
-  'textarea',
-  'video[controls]',
-].join(',')
-
-let protoMatches: Element['matches'] | null = null
-if (typeof Element !== 'undefined') {
-  protoMatches =
-    Element.prototype.matches ||
-    Element.prototype.webkitMatchesSelector ||
-    // @ts-expect-error
-    Element.prototype.matchesSelector ||
-    // @ts-expect-error
-    Element.prototype.mozMatchesSelector ||
-    // @ts-expect-error
-    Element.prototype.msMatchesSelector
-}
-
-function matches(node: Element, selectors: string) {
-  return protoMatches ? protoMatches.call(node, selectors) : false
-}
-
-function getTabindex(node: HTMLElement) {
-  const tabIndex = parseInt(node.getAttribute('tabindex') || '', 10)
-
-  if (!isNaN(tabIndex)) {
-    return tabIndex
-  }
-
-  // Use fallback value for dom nodes with `contentEditable`,
-  // because browsers not returns correct `tabIndex` value.
-  if (node.contentEditable === 'true') {
-    return 0
-  }
-
-  // Use `tabIndex` fallback value for <details/>, <audio controls/> and <video controls/>,
-  // because Chrome returns "-1" and Firefox returns "0" when `tabIndex` not set.
-  if (
-    (node.nodeName === 'AUDIO' || node.nodeName === 'VIDEO' || node.nodeName === 'DETAILS') &&
-    node.getAttribute('tabindex') === null
-  ) {
-    return 0
-  }
-
-  return node.tabIndex
-}
-
-function isInput(node: HTMLElement): node is HTMLInputElement {
-  return node.tagName === 'INPUT'
-}
-
-function isHiddenInput(node: HTMLElement): node is HTMLInputElement {
-  return isInput(node) && node.type === 'hidden'
-}
-
-function isRadioInput(node: HTMLElement): node is HTMLInputElement {
-  return isInput(node) && node.type === 'radio'
-}
-
-function isHidden(node: Element) {
-  if (window.getComputedStyle(node).visibility === 'hidden') {
-    return true
-  }
-
-  let parent: Element | null = node
-  while (parent) {
-    if (window.getComputedStyle(parent).display === 'none') {
-      return true
-    }
-
-    parent = parent.parentElement
-  }
-
-  return false
-}
-
-function getCheckedRadio(radio: HTMLInputElement) {
-  if (radio.checked) {
-    return radio
-  }
-
-  const walker = createDomWalker(radio.form || radio.ownerDocument, (node) => {
-    const element = node as HTMLElement
-
-    return (
-      isRadioInput(element) &&
-      element.name === radio.name &&
-      element.checked &&
-      element.form === radio.form
-    )
-  })
-
-  return walker.nextNode() as HTMLInputElement | null
-}
-
-function isTabbableRadio(radio: HTMLInputElement) {
-  if (!radio.name) {
-    return true
-  }
-
-  const checked = getCheckedRadio(radio)
-
-  return !checked || checked === radio
-}
-
-function isTabbable(node: HTMLElement) {
-  if (
-    !matches(node, TABBABLE_SELECTORS) ||
-    (isRadioInput(node) && !isTabbableRadio(node)) ||
-    isHiddenInput(node)
-  ) {
-    return false
-  }
-
-  return getTabindex(node) >= 0 && !(node as any).disabled && !isHidden(node)
-}
+import { ElementTreeWalker, isTabbable, adjustedTabIndex } from '../../focus'
 
 interface TabbableNode {
   index: number
@@ -134,11 +7,11 @@ interface TabbableNode {
 }
 
 export function getTabbables(root: HTMLElement, filter?: (node: HTMLElement) => boolean) {
-  const walker = createDomWalker(root, (node) => {
-    const tabbable = isTabbable(node as HTMLElement)
+  const walker = new ElementTreeWalker(root, (node) => {
+    const tabbable = isTabbable(node)
 
     if (filter && tabbable) {
-      return filter(node as HTMLElement)
+      return filter(node)
     }
 
     return tabbable
@@ -148,16 +21,16 @@ export function getTabbables(root: HTMLElement, filter?: (node: HTMLElement) => 
   const regular: HTMLElement[] = []
 
   let index = 0
-  while (walker.nextNode()) {
-    const node = walker.currentNode as HTMLElement
-    const tabIndex = getTabindex(node)
+  let node: HTMLElement | null = null
+  while ((node = walker.next())) {
+    const tabIndex = adjustedTabIndex(node)
 
     if (tabIndex === 0) {
       regular.push(node)
     } else {
       nodes.push({
         index: index++,
-        tabIndex: getTabindex(node),
+        tabIndex,
         node,
       })
     }

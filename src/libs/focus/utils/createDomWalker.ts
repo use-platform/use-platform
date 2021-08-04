@@ -8,7 +8,7 @@ export function createDomWalker(root: Node, predicate: (node: Node) => boolean) 
   }
 
   // IE11 require use function instead object.
-  const safeFilter = (acceptNode as unknown) as NodeFilter
+  const safeFilter = acceptNode as unknown as NodeFilter
   safeFilter.acceptNode = acceptNode
 
   const walker = document.createTreeWalker(
