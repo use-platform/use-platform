@@ -2,13 +2,17 @@ import { FocusEventHandler, KeyboardEventHandler } from 'react'
 
 export type PressSource = 'mouse' | 'pen' | 'touch' | 'keyboard'
 
-export interface PressEvent<T = HTMLElement> {
-  type: 'pressstart' | 'pressend' | 'pressup' | 'press'
+export interface BasePressEvent<T = HTMLElement> {
   source: PressSource
-  target: T
+  target: EventTarget | null
+  currentTarget: T
   shiftKey: boolean
   ctrlKey: boolean
   metaKey: boolean
+}
+
+export interface PressEvent<T = HTMLElement> extends BasePressEvent<T> {
+  type: 'pressstart' | 'pressend' | 'pressup' | 'press'
 }
 
 export type PressEventHandler<T> = (event: PressEvent<T>) => void
