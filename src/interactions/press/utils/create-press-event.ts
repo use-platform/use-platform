@@ -1,20 +1,21 @@
-import type { PressSource } from '../../../shared/types'
+import type { BasePressEvent, PressSource } from '../../../shared/types'
 
-export interface BasePressEvent<T extends HTMLElement = HTMLElement> {
-  source: PressSource
-  target: T
+interface PressSourceEvent {
+  target: EventTarget | null
   shiftKey: boolean
   ctrlKey: boolean
   metaKey: boolean
 }
 
-export function createPressEvent<T extends HTMLElement = HTMLElement>(
-  event: any,
+export function createPressEvent<T = HTMLElement>(
+  event: PressSourceEvent,
+  currentTarget: T,
   source: PressSource,
 ): BasePressEvent<T> {
   return {
     source,
     target: event.target,
+    currentTarget,
     shiftKey: event.shiftKey,
     ctrlKey: event.ctrlKey,
     metaKey: event.metaKey,
