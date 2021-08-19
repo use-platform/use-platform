@@ -5,6 +5,7 @@ export * from './libs/merge-props'
 export * from './libs/ssr'
 export * from './libs/uniq-id'
 
+export * from './interactions/focus'
 export * from './interactions/focusable'
 export * from './interactions/hover'
 export * from './interactions/press'
