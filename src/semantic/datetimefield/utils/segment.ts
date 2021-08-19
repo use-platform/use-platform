@@ -19,6 +19,7 @@ import {
   startOfMonth,
   startOfYear,
 } from '../../../libs/date'
+import { clamp } from '../../../libs/utils'
 import {
   DateLike,
   DateTimeEditableSegment,
@@ -54,10 +55,6 @@ function isNumeric(str: string) {
   return /^[0-9\u0660-\u0669\u06f0-\u06f9]+$/.test(str)
 }
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max)
-}
-
 function isEditableSegmentType(type: DateTimeSegmentTypes): type is DateTimeEditableSegmentTypes {
   return type in DateTimeEditableSegmentKind
 }
@@ -89,7 +86,7 @@ function resolveSegmentTimeLimits(
 ) {
   const minTime = getTime(min)
   const maxTime = getTime(max)
-  const clamped = Math.min(Math.max(getTime(value), minTime), maxTime)
+  const clamped = clamp(getTime(value), minTime, maxTime)
 
   let start: Date
   let end: Date

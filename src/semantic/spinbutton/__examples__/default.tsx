@@ -1,6 +1,7 @@
 import { FC, useCallback, useRef, useState } from 'react'
 import { useSpinButton, useButton, UseButtonProps, mergeProps } from '@yandex/web-platform'
 import { focusElement } from '@yandex/web-platform/libs/dom-utils'
+import { clamp } from '@yandex/web-platform/libs/utils'
 
 export const Default = (args: any) => {
   return <SpinButton {...args} />
@@ -29,7 +30,7 @@ function useExampleState(props: ExampleStateProps) {
   const [value, setValue] = useState<number>(0)
 
   const update = useCallback(
-    (val: number, amount: number) => Math.min(Math.max(val + amount, min), max),
+    (val: number, amount: number) => clamp(val + amount, min, max),
     [max, min],
   )
 

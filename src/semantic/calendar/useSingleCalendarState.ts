@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 
 import { isWeekend } from '../../libs/date'
+import { clamp } from '../../libs/utils'
 import { useFirstDayOfWeek } from '../../libs/i18n'
 import { MAX_DATE, MIN_DATE } from './constants'
 import {
@@ -24,7 +25,6 @@ import {
   subViews,
   clampDate,
   isEqualDate,
-  clamp,
   durationInViews,
   startOfCell,
 } from './utils'
