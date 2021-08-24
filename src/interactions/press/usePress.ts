@@ -2,11 +2,11 @@ import { HTMLAttributes, useState, useMemo, useRef, useEffect } from 'react'
 
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import { useListeners } from '../../libs/useListeners'
-import type { PressSource } from '../../shared/types'
+import type { PressSource, BasePressEvent } from '../../shared/types'
 import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
 import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
-import { BasePressEvent, createPressEvent } from './utils/create-press-event'
+import { createPressEvent } from './utils/create-press-event'
 import { isTargetContainsPoint } from './utils/detect-overlap'
 import { PressProps } from './types'
 
@@ -15,9 +15,9 @@ export interface UsePressResult<T> {
   pressProps: HTMLAttributes<T>
 }
 
-type PressCache = {
+type PressCache<T> = {
   currentPointerId: number | null
-  currentPointerTarget: HTMLElement | null
+  currentPointerTarget: T
   isPressed: boolean
   pressStarted: boolean
 }
@@ -28,9 +28,10 @@ export function usePress<T extends HTMLElement = HTMLElement>(
   const { preventFocusOnPress } = props
   const { addListener, removeAllListeners } = useListeners()
   const [isPressed, setPressed] = useState(false)
-  const cacheRef = useRef<PressCache>({
+  const cacheRef = useRef<PressCache<T>>({
     currentPointerId: null,
-    currentPointerTarget: null,
+    // Expect that the currentTarget is always exists
+    currentPointerTarget: null as unknown as T,
     isPressed: false,
     pressStarted: false,
   })
@@ -59,7 +60,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
           event.stopPropagation()
 
           if (!cache.isPressed && !event.repeat) {
-            triggerPressStart(createPressEvent(event, 'keyboard'))
+            triggerPressStart(createPressEvent(event, event.currentTarget, 'keyboard'))
           }
         }
       },
@@ -67,8 +68,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       // TODO: Register as global listener after keydown.
       onKeyUp: (event) => {
         if (isValidKeyboardEvent(event.nativeEvent) && !event.repeat) {
-          triggerPressUp(createPressEvent(event, 'keyboard'))
-          triggerPressEnd(createPressEvent(event, 'keyboard'))
+          triggerPressUp(createPressEvent(event, event.currentTarget, 'keyboard'))
+          triggerPressEnd(createPressEvent(event, event.currentTarget, 'keyboard'))
         }
       },
     }
@@ -113,7 +114,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       }
     }
 
-    const attach = (target: HTMLElement, id: number) => {
+    const attach = (target: T, id: number) => {
       cache.currentPointerTarget = target
       cache.currentPointerId = id
       cache.isPressed = true
@@ -134,10 +135,12 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
     if (typeof PointerEvent !== 'undefined') {
       const onPointerMove = (event: PointerEvent) => {
+        const pointerType = event.pointerType as PressSource
+
         if (isTargetContainsPoint(cache.currentPointerTarget, event)) {
-          triggerPressStart(createPressEvent(event, event.pointerType as PressSource))
+          triggerPressStart(createPressEvent(event, cache.currentPointerTarget, pointerType))
         } else {
-          triggerPressEnd(createPressEvent(event, event.pointerType as PressSource), false)
+          triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, pointerType), false)
         }
       }
 
@@ -147,8 +150,10 @@ export function usePress<T extends HTMLElement = HTMLElement>(
           detach()
 
           if (isTargetContainsPoint(cache.currentPointerTarget, event)) {
-            triggerPressUp(createPressEvent(event, event.pointerType as PressSource))
-            triggerPressEnd(createPressEvent(event, event.pointerType as PressSource))
+            const pointerType = event.pointerType as PressSource
+
+            triggerPressUp(createPressEvent(event, cache.currentPointerTarget, pointerType))
+            triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, pointerType))
           }
         }
       }
@@ -156,7 +161,9 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       // Cancel event can be fired while scroll.
       const onPointerCancel = (event: PointerEvent) => {
         if (cache.isPressed) {
-          triggerPressEnd(createPressEvent(event, event.pointerType as PressSource), false)
+          const pointerType = event.pointerType as PressSource
+
+          triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, pointerType), false)
         }
         detach()
       }
@@ -178,7 +185,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
           }
 
           attach(event.currentTarget, event.pointerId)
-          triggerPressStart(createPressEvent(event, event.pointerType as PressSource))
+          triggerPressStart(createPressEvent(event, event.currentTarget, event.pointerType))
 
           addListener(document, 'pointermove', onPointerMove, false)
           addListener(document, 'pointerup', onPointerUp, false)
@@ -191,9 +198,9 @@ export function usePress<T extends HTMLElement = HTMLElement>(
 
         if (touch) {
           if (isTargetContainsPoint(cache.currentPointerTarget, touch)) {
-            triggerPressStart(createPressEvent(event, 'touch'))
+            triggerPressStart(createPressEvent(event, cache.currentPointerTarget, 'touch'))
           } else {
-            triggerPressEnd(createPressEvent(event, 'touch'), false)
+            triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, 'touch'), false)
           }
         }
       }
@@ -206,8 +213,8 @@ export function usePress<T extends HTMLElement = HTMLElement>(
           detach()
 
           if (isTargetContainsPoint(cache.currentPointerTarget, touch)) {
-            triggerPressUp(createPressEvent(event, 'touch'))
-            triggerPressEnd(createPressEvent(event, 'touch'))
+            triggerPressUp(createPressEvent(event, cache.currentPointerTarget, 'touch'))
+            triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, 'touch'))
           }
         }
       }
@@ -215,7 +222,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
       // Cancel event can be fired while scroll.
       const onTouchCancel = (event: TouchEvent) => {
         if (cache.isPressed) {
-          triggerPressEnd(createPressEvent(event, 'touch'), false)
+          triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, 'touch'), false)
         }
         detach()
       }
@@ -234,7 +241,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
           }
 
           attach(event.currentTarget, touch.identifier)
-          triggerPressStart(createPressEvent(event, 'touch'))
+          triggerPressStart(createPressEvent(event, event.currentTarget, 'touch'))
 
           addListener(document, 'touchmove', onTouchMove, false)
           addListener(document, 'touchend', onTouchEnd, false)
