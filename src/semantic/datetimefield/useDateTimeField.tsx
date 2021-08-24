@@ -1,14 +1,15 @@
-import { AriaAttributes, HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react'
 
 import { usePress } from '../../interactions/press'
 import { AriaLabelingProps } from '../../shared/types'
 import { useFocusManager } from '../../libs/focus'
 import { useUniqId } from '../../libs/uniq-id'
 
-export interface UseDateTimeFieldProps
-  extends AriaLabelingProps,
-    Pick<AriaAttributes, 'aria-controls' | 'aria-haspopup' | 'aria-invalid'> {
+export interface UseDateTimeFieldProps extends AriaLabelingProps {
   id?: string
+  'aria-controls'?: string
+  'aria-haspopup'?: boolean | 'false' | 'true' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'
+  'aria-invalid'?: boolean | 'false' | 'true' | 'grammar' | 'spelling'
 }
 
 export interface UseDateTimeFieldResult {
