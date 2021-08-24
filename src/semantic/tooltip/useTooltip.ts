@@ -1,3 +1,4 @@
+import { useUniqId } from '@yandex/web-platform/libs/uniq-id'
 import { HTMLAttributes } from 'react'
 
 import { useHover } from '../../interactions/hover'
@@ -11,16 +12,16 @@ interface UseTooltipResult {
 
 export function useTooltip(props: CommonTooltipProps): UseTooltipResult {
   const { isHovered, hoverProps } = useHover(props)
-  const uniqId = '11'
+  const id = useUniqId(props.tooltipId)
 
   return {
     isVisible: isHovered,
     targetProps: {
       ...hoverProps,
-      'aria-describedby': uniqId,
+      'aria-describedby': id,
     },
     tooltipProps: {
-      id: uniqId,
+      id,
       'aria-hidden': !isHovered,
       role: 'tooltip',
     },
