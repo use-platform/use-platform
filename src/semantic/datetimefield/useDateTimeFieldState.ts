@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { getTime, startOfYear } from '../../libs/date'
 import { useDateFormatter } from '../../libs/i18n'
+import { EXTRA_STEP, MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from './constants'
 import {
   DateLike,
   DateTimeEditableSegmentKind,
@@ -9,6 +10,7 @@ import {
   DateTimeSegment,
 } from './types'
 import {
+  getInitialValueForStep,
   getResolvedOptions,
   isPlaceholderSegmentType,
   resolveDateTimeSegments,
@@ -17,18 +19,6 @@ import {
   setDateSegmentValue,
   stepValue,
 } from './utils'
-
-const EXTRA_STEP: Partial<Record<DateTimeEditableSegmentTypes, number>> = {
-  year: 10,
-  month: 3,
-  day: 7,
-  hour: 2,
-  minute: 5,
-  second: 5,
-}
-
-const MIN_DEFAULT_DATE = new Date(0, 0, 1, 0, 0, 0, 0)
-const MAX_DEFAULT_DATE = new Date(9999, 12, 0, 23, 59, 59, 999)
 
 export interface UseDateTimeFieldStateProps {
   value?: DateLike
@@ -128,7 +118,9 @@ export function useDateTimeFieldState(
       const isPlaceholder = isPlaceholderSegmentType(currentState, type)
       const limits = resolveSegmentLimits(type, value, minValue, maxValue)
       const round = type === 'hour' || type === 'minute' || type === 'second'
-      const newValue = isPlaceholder ? limits.value : stepValue({ ...limits, step, round })
+      const newValue = isPlaceholder
+        ? getInitialValueForStep(type, step, limits, minValue, maxValue)
+        : stepValue({ ...limits, step, round })
 
       setSegmentValue(type, newValue)
     },

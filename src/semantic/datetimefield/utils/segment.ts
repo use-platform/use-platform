@@ -12,6 +12,7 @@ import {
   getSeconds,
   getTime,
   getYear,
+  isEqual,
   set,
   startOfDay,
   startOfHour,
@@ -20,6 +21,7 @@ import {
   startOfYear,
 } from '../../../libs/date'
 import { clamp } from '../../../libs/utils'
+import { MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from '../constants'
 import {
   DateLike,
   DateTimeEditableSegment,
@@ -235,6 +237,30 @@ export function resolveDateTimeSegments(
   return parts.map((part) => {
     return resolveDateTimeSegment(part, value, min, max, segmentsState)
   })
+}
+
+export function getInitialValueForStep(
+  type: DateTimeEditableSegmentTypes,
+  step: number,
+  limits: DateTimeSegmentLimits,
+  minDate: DateLike,
+  maxDate: DateLike,
+) {
+  if (type === 'year') {
+    // if the user has specified a minimum value, then we use it
+    if (step > 0 && !isEqual(minDate, MIN_DEFAULT_DATE)) {
+      return limits.min
+    }
+
+    // if the user has specified a maximum value, then we use it
+    if (step < 0 && !isEqual(maxDate, MAX_DEFAULT_DATE)) {
+      return limits.max
+    }
+
+    return clamp(limits.value, limits.min, limits.max)
+  }
+
+  return step > 0 ? limits.min : limits.max
 }
 
 interface StepValueOptions {
