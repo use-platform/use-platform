@@ -12,6 +12,7 @@ import {
   getSeconds,
   getTime,
   getYear,
+  isEqual,
   set,
   startOfDay,
   startOfHour,
@@ -19,6 +20,8 @@ import {
   startOfMonth,
   startOfYear,
 } from '../../../libs/date'
+import { clamp } from '../../../libs/utils'
+import { MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from '../constants'
 import {
   DateLike,
   DateTimeEditableSegment,
@@ -54,10 +57,6 @@ function isNumeric(str: string) {
   return /^[0-9\u0660-\u0669\u06f0-\u06f9]+$/.test(str)
 }
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max)
-}
-
 function isEditableSegmentType(type: DateTimeSegmentTypes): type is DateTimeEditableSegmentTypes {
   return type in DateTimeEditableSegmentKind
 }
@@ -89,7 +88,7 @@ function resolveSegmentTimeLimits(
 ) {
   const minTime = getTime(min)
   const maxTime = getTime(max)
-  const clamped = Math.min(Math.max(getTime(value), minTime), maxTime)
+  const clamped = clamp(getTime(value), minTime, maxTime)
 
   let start: Date
   let end: Date
@@ -238,6 +237,30 @@ export function resolveDateTimeSegments(
   return parts.map((part) => {
     return resolveDateTimeSegment(part, value, min, max, segmentsState)
   })
+}
+
+export function getInitialValueForStep(
+  type: DateTimeEditableSegmentTypes,
+  step: number,
+  limits: DateTimeSegmentLimits,
+  minDate: DateLike,
+  maxDate: DateLike,
+) {
+  if (type === 'year') {
+    // if the user has specified a minimum value, then we use it
+    if (step > 0 && !isEqual(minDate, MIN_DEFAULT_DATE)) {
+      return limits.min
+    }
+
+    // if the user has specified a maximum value, then we use it
+    if (step < 0 && !isEqual(maxDate, MAX_DEFAULT_DATE)) {
+      return limits.max
+    }
+
+    return clamp(limits.value, limits.min, limits.max)
+  }
+
+  return step > 0 ? limits.min : limits.max
 }
 
 interface StepValueOptions {

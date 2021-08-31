@@ -1,3 +1,4 @@
+import { clamp } from '../../../libs/utils'
 import {
   addMonths,
   addYears,
@@ -30,10 +31,6 @@ import {
 } from './year-view'
 
 export const isEqualDate = isEqual
-
-export function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max)
-}
 
 export function createRange(start: Date, end: Date): RangeValue<Date> {
   if (end < start) {

@@ -391,49 +391,47 @@ describe('useDateTimeFieldState', () => {
   })
 
   test.each`
-    type        | segmentValue
-    ${'year'}   | ${1997}
-    ${'month'}  | ${9}
-    ${'day'}    | ${10}
-    ${'hour'}   | ${11}
-    ${'minute'} | ${12}
-    ${'second'} | ${13}
-  `(
-    'should set default value for $type from placeholder date on step handler',
-    ({ type, segmentValue }) => {
-      const { result } = renderHook(() => {
-        const [value, onChange] = useState(new Date(2000, 0))
-        return useDateTimeFieldState({
-          value,
-          onChange,
-          placeholder: new Date(1997, 8, 10, 11, 12, 13),
-          formatOptions: DEFAULT_DATETIME_FORMAT,
-        })
+    type        | minSegmentValue | maxSegmentValue
+    ${'year'}   | ${1997}         | ${1997}
+    ${'month'}  | ${1}            | ${12}
+    ${'day'}    | ${1}            | ${31}
+    ${'hour'}   | ${0}            | ${23}
+    ${'minute'} | ${0}            | ${59}
+    ${'second'} | ${0}            | ${59}
+  `('should set valid default value for $type on step handler', (data) => {
+    const { type, minSegmentValue, maxSegmentValue } = data
+    const { result } = renderHook(() => {
+      const [value, onChange] = useState(new Date(2000, 0))
+      return useDateTimeFieldState({
+        value,
+        onChange,
+        placeholder: new Date(1997, 8, 10, 11, 12, 13),
+        formatOptions: DEFAULT_DATETIME_FORMAT,
+      })
+    })
+
+    const getActual = () => findSegment(result.current.segments, type)
+
+    const resetAndAction = (callback: () => void) => {
+      act(() => {
+        result.current.setSegmentValue(type, null)
       })
 
-      const getActual = () => findSegment(result.current.segments, type)
+      act(() => {
+        callback()
+      })
+    }
 
-      const resetAndAction = (callback: () => void) => {
-        act(() => {
-          result.current.setSegmentValue(type, null)
-        })
+    resetAndAction(() => result.current.increment(type))
+    expect(getActual()).toHaveProperty('value', minSegmentValue)
 
-        act(() => {
-          callback()
-        })
-      }
+    resetAndAction(() => result.current.decrement(type))
+    expect(getActual()).toHaveProperty('value', maxSegmentValue)
 
-      resetAndAction(() => result.current.increment(type))
-      expect(getActual()).toHaveProperty('value', segmentValue)
+    resetAndAction(() => result.current.extraIncrement(type))
+    expect(getActual()).toHaveProperty('value', minSegmentValue)
 
-      resetAndAction(() => result.current.decrement(type))
-      expect(getActual()).toHaveProperty('value', segmentValue)
-
-      resetAndAction(() => result.current.extraIncrement(type))
-      expect(getActual()).toHaveProperty('value', segmentValue)
-
-      resetAndAction(() => result.current.extraDecrement(type))
-      expect(getActual()).toHaveProperty('value', segmentValue)
-    },
-  )
+    resetAndAction(() => result.current.extraDecrement(type))
+    expect(getActual()).toHaveProperty('value', maxSegmentValue)
+  })
 })
