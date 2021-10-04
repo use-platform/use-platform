@@ -1,37 +1,4 @@
-import {
-  endOfDay,
-  endOfHour,
-  endOfMinute,
-  endOfMonth,
-  endOfYear,
-  getDate,
-  getDaysInMonth,
-  getHours,
-  getMinutes,
-  getMonth,
-  getSeconds,
-  getTime,
-  getYear,
-  isEqual,
-  set,
-  startOfDay,
-  startOfHour,
-  startOfMinute,
-  startOfMonth,
-  startOfYear,
-} from '../../../libs/date'
-import { clamp } from '../../../libs/utils'
-import { MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from '../constants'
-import {
-  DateLike,
-  DateTimeEditableSegment,
-  DateTimeEditableSegmentKind,
-  DateTimeEditableSegmentTypes,
-  DateTimeSegment,
-  DateTimeSegmentLimits,
-  DateTimeSegmentTypes,
-} from '../types'
-import { formatToParts } from './format'
+import { DateTimeEditableSegment, DateTimeEditableSegmentTypes } from '../types'
 
 // Converts unicode number strings to real JS numbers.
 // Numbers can be displayed and typed in many number systems, but JS
@@ -57,222 +24,7 @@ function isNumeric(str: string) {
   return /^[0-9\u0660-\u0669\u06f0-\u06f9]+$/.test(str)
 }
 
-function isEditableSegmentType(type: DateTimeSegmentTypes): type is DateTimeEditableSegmentTypes {
-  return type in DateTimeEditableSegmentKind
-}
-
-export function isPlaceholderSegmentType(
-  state: number,
-  type: DateTimeEditableSegmentTypes,
-): boolean {
-  return (state & DateTimeEditableSegmentKind[type]) === 0
-}
-
-export function resolveValidSegmentsState(formatter: Intl.DateTimeFormat) {
-  const parts = formatToParts(formatter)
-
-  return parts.reduce((state, segment) => {
-    if (isEditableSegmentType(segment.type)) {
-      return state | DateTimeEditableSegmentKind[segment.type]
-    }
-
-    return state
-  }, 0)
-}
-
-function resolveSegmentTimeLimits(
-  type: DateTimeEditableSegmentTypes,
-  value: DateLike,
-  min: DateLike,
-  max: DateLike,
-) {
-  const minTime = getTime(min)
-  const maxTime = getTime(max)
-  const clamped = clamp(getTime(value), minTime, maxTime)
-
-  let start: Date
-  let end: Date
-
-  switch (type) {
-    case 'day':
-      start = startOfMonth(clamped)
-      end = endOfMonth(clamped)
-      break
-
-    case 'dayPeriod':
-    case 'hour':
-      start = startOfDay(clamped)
-      end = endOfDay(clamped)
-      break
-
-    case 'minute':
-      start = startOfHour(clamped)
-      end = endOfHour(clamped)
-      break
-
-    case 'month':
-      start = startOfYear(clamped)
-      end = endOfYear(clamped)
-      break
-
-    case 'second':
-      start = startOfMinute(clamped)
-      end = endOfMinute(clamped)
-      break
-
-    case 'year':
-      start = new Date(min)
-      end = new Date(max)
-      break
-  }
-
-  return [Math.max(minTime, getTime(start)), Math.min(maxTime, getTime(end))] as const
-}
-
-export function resolveSegmentLimits(
-  type: DateTimeEditableSegmentTypes,
-  value: DateLike,
-  min: DateLike,
-  max: DateLike,
-): DateTimeSegmentLimits {
-  const limits: DateTimeSegmentLimits = {
-    min: 0,
-    max: 0,
-    value: 0,
-  }
-  const [minTime, maxTime] = resolveSegmentTimeLimits(type, value, min, max)
-
-  switch (type) {
-    case 'day':
-      limits.value = getDate(value)
-      limits.min = getDate(minTime)
-      limits.max = getDate(maxTime)
-      break
-
-    case 'dayPeriod':
-      limits.value = getHours(value) >= 12 ? 2 : 1
-      limits.min = getHours(minTime) >= 12 ? 2 : 1
-      limits.max = getHours(maxTime) >= 12 ? 2 : 1
-      break
-
-    case 'hour':
-      limits.value = getHours(value)
-      limits.min = getHours(minTime)
-      limits.max = getHours(maxTime)
-      break
-
-    case 'minute':
-      limits.value = getMinutes(value)
-      limits.min = getMinutes(minTime)
-      limits.max = getMinutes(maxTime)
-      break
-
-    case 'month':
-      limits.value = getMonth(value) + 1
-      limits.min = getMonth(minTime) + 1
-      limits.max = getMonth(maxTime) + 1
-      break
-
-    case 'second':
-      limits.value = getSeconds(value)
-      limits.min = getSeconds(minTime)
-      limits.max = getSeconds(maxTime)
-      break
-
-    case 'year':
-      limits.value = getYear(value)
-      limits.min = getYear(minTime)
-      limits.max = getYear(maxTime)
-      break
-
-    default:
-      throw new Error('Invalid editable segment type')
-  }
-
-  return limits
-}
-
-function resolveDateTimeSegment(
-  part: Intl.DateTimeFormatPart,
-  value: DateLike,
-  min: DateLike,
-  max: DateLike,
-  segmentsState: number,
-): DateTimeSegment {
-  if (!isEditableSegmentType(part.type)) {
-    return {
-      type: part.type,
-      text: part.value,
-      isEditable: false,
-    }
-  }
-
-  const limits = resolveSegmentLimits(part.type, value, min, max)
-  const isPlaceholder = isPlaceholderSegmentType(segmentsState, part.type)
-  const isValid = isPlaceholder || (limits.value >= limits.min && limits.value <= limits.max)
-  const isDisabled = !isPlaceholder && limits.min === limits.max && isValid
-
-  const segment: DateTimeEditableSegment = {
-    type: part.type,
-    text: part.value,
-    isEditable: true,
-    isPlaceholder,
-    isValid,
-    isDisabled,
-    ...limits,
-  }
-
-  return segment
-}
-
-export function resolveDateTimeSegments(
-  formatter: Intl.DateTimeFormat,
-  value: DateLike,
-  min: DateLike,
-  max: DateLike,
-  segmentsState: number,
-) {
-  const parts = formatToParts(formatter, value)
-
-  return parts.map((part) => {
-    return resolveDateTimeSegment(part, value, min, max, segmentsState)
-  })
-}
-
-export function getInitialValueForStep(
-  type: DateTimeEditableSegmentTypes,
-  step: number,
-  limits: DateTimeSegmentLimits,
-  minDate: DateLike,
-  maxDate: DateLike,
-) {
-  if (type === 'year') {
-    // if the user has specified a minimum value, then we use it
-    if (step > 0 && !isEqual(minDate, MIN_DEFAULT_DATE)) {
-      return limits.min
-    }
-
-    // if the user has specified a maximum value, then we use it
-    if (step < 0 && !isEqual(maxDate, MAX_DEFAULT_DATE)) {
-      return limits.max
-    }
-
-    return clamp(limits.value, limits.min, limits.max)
-  }
-
-  return step > 0 ? limits.min : limits.max
-}
-
-interface StepValueOptions {
-  value: number
-  step: number
-  min: number
-  max: number
-  round?: boolean
-}
-
-export function stepValue(options: StepValueOptions) {
-  const { value, step, min, max, round = false } = options
+export function stepValue(value: number, step: number, min: number, max: number, round = false) {
   let newValue = value
 
   if (round) {
@@ -302,63 +54,26 @@ export function parseSegmentValue(type: DateTimeEditableSegmentTypes, str: strin
   if (isNumeric(str) || /^[ap]$/i.test(str)) {
     const numberValue = parseNumber(str)
 
-    if (isFinite(numberValue)) {
-      return numberValue
-    }
-
     if (type === 'dayPeriod') {
       const lower = str.toLowerCase()
-      if (lower === 'a') {
+
+      if (lower === 'a' || numberValue === 1) {
         return 1
       }
 
-      if (lower === 'p') {
+      if (lower === 'p' || numberValue === 2) {
         return 2
       }
+
+      return null
+    }
+
+    if (isFinite(numberValue)) {
+      return numberValue
     }
   }
 
   return null
-}
-
-export function setDateSegmentValue(
-  value: DateLike,
-  type: DateTimeEditableSegmentTypes,
-  segmentValue: number,
-): Date {
-  const v = new Date(value)
-
-  switch (type) {
-    case 'day':
-      return set(v, { date: clamp(segmentValue, 1, getDaysInMonth(value)) })
-
-    case 'dayPeriod': {
-      const hours = getHours(v)
-      const wasPM = hours >= 12
-      const isPM = segmentValue > 1
-
-      if (isPM === wasPM) {
-        return v
-      }
-
-      return set(v, { hours: wasPM ? hours - 12 : hours + 12 })
-    }
-
-    case 'hour':
-      return set(v, { hours: clamp(segmentValue, 0, 23) })
-
-    case 'minute':
-      return set(v, { minutes: clamp(segmentValue, 0, 59) })
-
-    case 'second':
-      return set(v, { seconds: clamp(segmentValue, 0, 59) })
-
-    case 'month':
-      return set(v, { month: clamp(segmentValue, 1, 12) - 1 })
-
-    case 'year':
-      return set(v, { year: clamp(segmentValue, 1, 9999) })
-  }
 }
 
 export function getAriaValueAttributes(
@@ -366,17 +81,18 @@ export function getAriaValueAttributes(
   options: Intl.ResolvedDateTimeFormatOptions,
 ) {
   const { value, min, max } = segment
-  const attrs = { value, min, max }
+  const attrs = { value: value ?? undefined, min, max }
 
   if (segment.type !== 'hour') {
     return attrs
   }
 
   const { hourCycle } = options
+  const hours = value ?? 0
 
   switch (hourCycle) {
     case 'h11':
-      attrs.value = value % 12
+      attrs.value = hours % 12
       attrs.min = 0
       attrs.max = 11
 
@@ -390,7 +106,7 @@ export function getAriaValueAttributes(
       break
 
     case 'h12':
-      attrs.value = value % 12 || 12
+      attrs.value = hours % 12 || 12
       attrs.min = 1
       attrs.max = 12
 
@@ -411,7 +127,7 @@ export function getAriaValueAttributes(
       break
 
     case 'h24':
-      attrs.value = value || 24
+      attrs.value = hours || 24
       attrs.min = min || 24
       attrs.max = max || 24
 
@@ -422,7 +138,7 @@ export function getAriaValueAttributes(
       break
 
     case 'h23':
-      attrs.value = value
+      attrs.value = hours
       attrs.min = min
       attrs.max = max
       break
