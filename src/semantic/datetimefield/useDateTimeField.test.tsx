@@ -3,6 +3,7 @@ import { FC, HTMLAttributes, useCallback, useRef, useState } from 'react'
 import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
 import { FocusManagerScope } from '../../libs/focus'
 import {
+  DateTimeChangeEvent,
   DateTimeEditableSegment,
   useDateTimeField,
   useDateTimeFieldSegment,
@@ -62,9 +63,9 @@ const Fixture: FC<UseDateTimeFieldStateProps> = (props) => {
   const ref = useRef<HTMLDivElement>(null)
 
   const handleChange = useCallback(
-    (v: Date) => {
-      setLocalValue(v)
-      onChange?.(v)
+    (event: DateTimeChangeEvent) => {
+      setLocalValue(event.value)
+      onChange?.(event)
     },
     [onChange],
   )
@@ -135,7 +136,7 @@ describe('useDateTimeField', () => {
     expect(segment).toHaveAttribute('aria-valuenow', '1990')
 
     fireEvent.keyDown(segment, { key: 'Backspace' })
-    expect(segment).toHaveAttribute('aria-valuenow', '1905')
+    expect(segment).not.toHaveAttribute('aria-valuenow')
   })
 
   test('should set segment value from keyboard typed key', () => {

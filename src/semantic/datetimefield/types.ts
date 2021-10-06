@@ -15,15 +15,12 @@ export interface DateTimeReadOnlySegment {
   isEditable: false
 }
 
-export interface DateTimeSegmentLimits {
-  value: number
-  min: number
-  max: number
-}
-
-export interface DateTimeEditableSegment extends DateTimeSegmentLimits {
+export interface DateTimeEditableSegment {
   type: DateTimeEditableSegmentTypes
   text: string
+  value: number | null
+  min: number
+  max: number
   isEditable: true
   isPlaceholder: boolean
   isValid: boolean
@@ -32,12 +29,6 @@ export interface DateTimeEditableSegment extends DateTimeSegmentLimits {
 
 export type DateTimeSegment = DateTimeReadOnlySegment | DateTimeEditableSegment
 
-export const DateTimeEditableSegmentKind: Record<DateTimeEditableSegmentTypes, number> = {
-  dayPeriod: 1 << 0,
-  second: 1 << 1,
-  minute: 1 << 2,
-  hour: 1 << 3,
-  day: 1 << 4,
-  month: 1 << 5,
-  year: 1 << 6,
+export interface DateTimeChangeEvent {
+  value: Date | null
 }

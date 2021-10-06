@@ -1,34 +1,25 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
-import { getTime, startOfYear } from '../../libs/date'
 import { useDateFormatter } from '../../libs/i18n'
-import { EXTRA_STEP, MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from './constants'
+import { EXTRA_STEP } from './constants'
 import {
   DateLike,
-  DateTimeEditableSegmentKind,
+  DateTimeChangeEvent,
   DateTimeEditableSegmentTypes,
   DateTimeSegment,
 } from './types'
-import {
-  getInitialValueForStep,
-  getResolvedOptions,
-  isPlaceholderSegmentType,
-  resolveDateTimeSegments,
-  resolveSegmentLimits,
-  resolveValidSegmentsState,
-  setDateSegmentValue,
-  stepValue,
-} from './utils'
+import { DateComponents } from './utils/DateComponents'
+import { DateTimeFieldAdapter } from './utils/DateTimeFieldAdapter'
 
 export interface UseDateTimeFieldStateProps {
-  value?: DateLike
+  value?: DateLike | null
   min?: DateLike
   max?: DateLike
   disabled?: boolean
   readOnly?: boolean
   placeholder?: DateLike
   formatOptions?: Intl.DateTimeFormatOptions
-  onChange?: (value: Date) => void
+  onChange?: (event: DateTimeChangeEvent) => void
 }
 
 export interface UseDateTimeFieldStateResult {
@@ -47,84 +38,69 @@ export function useDateTimeFieldState(
   props: UseDateTimeFieldStateProps,
 ): UseDateTimeFieldStateResult {
   const {
-    value: _value,
-    min: minValue = MIN_DEFAULT_DATE,
-    max: maxValue = MAX_DEFAULT_DATE,
-    placeholder: _placeholder,
+    value: propValue,
+    min: propMin,
+    max: propMax,
+    placeholder: propPlaceholder,
     formatOptions,
     disabled,
     readOnly,
     onChange,
   } = props
+  const lastValueChange = useRef(propValue ?? null)
   const formatter = useDateFormatter(formatOptions)
-  const resolvedOptions = useMemo(() => getResolvedOptions(formatter), [formatter])
+  const adapter = useMemo(() => {
+    return new DateTimeFieldAdapter({
+      formatter,
+      min: propMin,
+      max: propMax,
+      placeholder: propPlaceholder,
+    })
+  }, [formatter, propMax, propMin, propPlaceholder])
 
-  const placeholder = getTime(_placeholder ?? startOfYear(new Date()))
-  const [placeholderDate, setPlaceholderDate] = useState(placeholder)
+  const [localValue, setLocalValue] = useState(() => {
+    return adapter.normalizeDateComponents(DateComponents.from(propValue))
+  })
 
-  const validState = useMemo(() => resolveValidSegmentsState(formatter), [formatter])
-  const [_currentState, setCurrentState] = useState(_value ? validState : 0)
-  // removing invalid bits from the current state,
-  // because after changing the date format, the valid state may be change
-  const currentState = _currentState & validState
-  const value = currentState === validState ? getTime(_value ?? placeholderDate) : placeholderDate
+  const value = useMemo(() => {
+    if (localValue.has(adapter.requiredSegments) && propValue) {
+      return DateComponents.from(propValue)
+    }
 
-  const segments = useMemo(() => {
-    return resolveDateTimeSegments(formatter, value, minValue, maxValue, currentState)
-  }, [formatter, value, minValue, maxValue, currentState])
+    return localValue
+  }, [propValue, adapter.requiredSegments, localValue])
 
-  const changeState = useCallback(
-    (type: DateTimeEditableSegmentTypes, v: number | null) => {
-      let nextState = currentState
-
-      if (v === null) {
-        nextState &= ~DateTimeEditableSegmentKind[type]
-      } else {
-        nextState |= DateTimeEditableSegmentKind[type]
-      }
-
-      if (nextState !== currentState) {
-        setCurrentState(nextState)
-      }
-
-      return nextState === validState
-    },
-    [currentState, validState],
-  )
+  const segments = useMemo(() => adapter.getSegments(value), [adapter, value])
 
   const setSegmentValue = useCallback(
-    (type: DateTimeEditableSegmentTypes, v: number | null) => {
+    (type: DateTimeEditableSegmentTypes, segmentValue: number | null) => {
       if (disabled || readOnly) {
         return
       }
 
-      const { value: defaultValue } = resolveSegmentLimits(type, placeholder, minValue, maxValue)
-      const segmentValue = v ?? defaultValue
+      const newLocalValue = adapter.setSegmentValue(value, type, segmentValue)
+      if (DateComponents.isEqual(value, newLocalValue)) {
+        return
+      }
 
-      const isValid = changeState(type, v)
-      const dateValue = setDateSegmentValue(value, type, segmentValue)
+      setLocalValue(newLocalValue)
+      const date = adapter.toDate(newLocalValue)
+      if (date !== lastValueChange.current) {
+        lastValueChange.current = date
 
-      setPlaceholderDate(dateValue.getTime())
-
-      if (isValid) {
-        onChange?.(dateValue)
+        onChange?.({ value: date })
       }
     },
-    [disabled, readOnly, placeholder, minValue, maxValue, changeState, value, onChange],
+    [disabled, readOnly, adapter, value, onChange],
   )
 
   const stepHandler = useCallback(
     (type: DateTimeEditableSegmentTypes, step: number) => {
-      const isPlaceholder = isPlaceholderSegmentType(currentState, type)
-      const limits = resolveSegmentLimits(type, value, minValue, maxValue)
-      const round = type === 'hour' || type === 'minute' || type === 'second'
-      const newValue = isPlaceholder
-        ? getInitialValueForStep(type, step, limits, minValue, maxValue)
-        : stepValue({ ...limits, step, round })
+      const segmentValue = adapter.moveByStep(value, type, step)
 
-      setSegmentValue(type, newValue)
+      setSegmentValue(type, segmentValue)
     },
-    [currentState, value, maxValue, minValue, setSegmentValue],
+    [adapter, value, setSegmentValue],
   )
 
   const increment = useCallback(
@@ -149,24 +125,24 @@ export function useDateTimeFieldState(
 
   const incrementToMax = useCallback(
     (type: DateTimeEditableSegmentTypes) => {
-      const { max } = resolveSegmentLimits(type, value, minValue, maxValue)
+      const { max } = adapter.getLimits(value, type)
 
       setSegmentValue(type, max)
     },
-    [value, maxValue, minValue, setSegmentValue],
+    [adapter, setSegmentValue, value],
   )
 
   const decrementToMin = useCallback(
     (type: DateTimeEditableSegmentTypes) => {
-      const { min } = resolveSegmentLimits(type, value, minValue, maxValue)
+      const { min } = adapter.getLimits(value, type)
 
       setSegmentValue(type, min)
     },
-    [value, maxValue, minValue, setSegmentValue],
+    [adapter, setSegmentValue, value],
   )
 
   return {
-    resolvedOptions,
+    resolvedOptions: adapter.resolvedOptions,
     segments,
     setSegmentValue,
     increment,

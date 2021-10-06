@@ -1,6 +1,7 @@
-import { FC, forwardRef, HTMLAttributes, useRef } from 'react'
+import { FC, forwardRef, HTMLAttributes, useCallback, useRef, useState } from 'react'
 import { FocusManagerScope } from '@yandex/web-platform/libs/focus'
 import {
+  DateTimeChangeEvent,
   useDateTimeField,
   useDateTimeFieldSegment,
   useDateTimeFieldState,
@@ -59,13 +60,23 @@ const styles = `
 `
 
 export const Default = (props: any) => {
+  const { onChange } = props
+  const [value, setValue] = useState<Date | null>(null)
   const ref = useRef<HTMLElement>(null)
+
+  const handleChange = useCallback(
+    (event: DateTimeChangeEvent) => {
+      setValue(event.value)
+      onChange?.(event)
+    },
+    [onChange],
+  )
 
   return (
     <>
       <style>{styles}</style>
       <FocusManagerScope value={ref}>
-        <DateTimeField ref={ref} {...props} />
+        <DateTimeField ref={ref} {...props} value={value} onChange={handleChange} />
       </FocusManagerScope>
     </>
   )
@@ -97,12 +108,12 @@ Default.args = {
   disabled: false,
   readOnly: false,
   formatOptions: {
-    day: 'numeric',
-    month: 'long',
+    day: '2-digit',
+    month: '2-digit',
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    hourCycle: 'h12',
+    second: '2-digit',
   },
 }
 

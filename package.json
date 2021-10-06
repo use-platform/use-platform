@@ -23,6 +23,9 @@
     "storybook:build": "build-storybook",
     "unit": "jest"
   },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0"
+  },
   "dependencies": {
     "date-fns": "^2.22.1"
   },

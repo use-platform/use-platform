@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react'
+import React, { HTMLAttributes, useCallback, useState } from 'react'
 
 import { mergeProps } from '../../libs/merge-props'
 import { useFocusManager } from '../../libs/focus'
@@ -22,7 +22,7 @@ export function useDateTimeFieldSegment(
   state: UseDateTimeFieldStateResult,
 ): UseDateTimeFieldSegmentResult {
   const { segment } = props
-  const { type, max, text, isValid, isDisabled } = segment
+  const { type, value, max, text, isValid, isDisabled } = segment
   const {
     resolvedOptions,
     increment,
@@ -36,15 +36,6 @@ export function useDateTimeFieldSegment(
   const { isRTL } = useLocale()
   const { focusNext, focusPrevious } = useFocusManager()
   const [enteredKeys, setEnteredKeys] = useState('')
-
-  const isFocusedRef = useRef(false)
-
-  useEffect(() => {
-    if (isFocusedRef.current && isDisabled) {
-      isFocusedRef.current = false
-      focusNext({ from: null, tabbable: true })
-    }
-  }, [focusNext, isDisabled])
 
   const ariaValueAttrs = getAriaValueAttributes(segment, resolvedOptions)
   const { spinButtonProps } = useSpinButton({
@@ -60,7 +51,6 @@ export function useDateTimeFieldSegment(
   })
 
   const { pressProps } = usePress({
-    disabled: isDisabled,
     onPressStart: (event) => {
       if (event.source === 'mouse') {
         event.currentTarget.focus()
@@ -108,13 +98,22 @@ export function useDateTimeFieldSegment(
         }
 
         case 'Backspace': {
-          setValue(null)
+          if (isDisabled || value === null) {
+            focusPrevious(focusOptions)
+          } else {
+            setValue(null)
+          }
+
           break
         }
 
         default:
           event.stopPropagation()
           // TODO: check readOnly
+          if (isDisabled) {
+            return
+          }
+
           const maxLen = max.toString().length
           const newValue = enteredKeys + event.key
           const numberValue = parseSegmentValue(type, newValue)
@@ -134,7 +133,7 @@ export function useDateTimeFieldSegment(
           }
       }
     },
-    [enteredKeys, focusNext, focusPrevious, isRTL, max, setValue, type],
+    [enteredKeys, focusNext, focusPrevious, isDisabled, isRTL, max, setValue, type, value],
   )
 
   const segmentProps: HTMLAttributes<HTMLElement> = {
@@ -143,20 +142,15 @@ export function useDateTimeFieldSegment(
     // 'aria-labelledby': '',
     // TODO: may be move to useDateTimeField?
     'aria-invalid': !isValid,
+    tabIndex: 0,
+    onKeyDown,
     onFocus: useCallback(() => {
       setEnteredKeys('')
-
-      isFocusedRef.current = true
-    }, []),
-    onBlur: useCallback(() => {
-      isFocusedRef.current = false
     }, []),
   }
 
   if (!isDisabled) {
     segmentProps.inputMode = 'numeric'
-    segmentProps.onKeyDown = onKeyDown
-    segmentProps.tabIndex = 0
     // TODO: Voice over incorrect work with contentEditable
     segmentProps.contentEditable = true
     segmentProps.suppressContentEditableWarning = true
