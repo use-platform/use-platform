@@ -718,4 +718,38 @@ describe('useDateTimeFieldState', () => {
     expect(findSegment(result.current.segments, 'day')).toHaveProperty('text', '4')
     expect(findSegment(result.current.segments, 'month')).toHaveProperty('text', '2')
   })
+
+  test.each([true, false])('should trigger onChange for `hour12=%s` time format', (hour12) => {
+    const onChange = jest.fn()
+    const { result } = renderHook(() => {
+      return useDateTimeFieldState({
+        onChange,
+        formatOptions: { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12 },
+      })
+    })
+
+    act(() => {
+      result.current.setSegmentValue('hour', 23)
+    })
+
+    expect(findSegment(result.current.segments, 'hour')).toHaveProperty('value', 23)
+
+    act(() => {
+      result.current.setSegmentValue('minute', 34)
+    })
+
+    expect(findSegment(result.current.segments, 'minute')).toHaveProperty('value', 34)
+
+    act(() => {
+      result.current.setSegmentValue('second', 45)
+    })
+
+    expect(findSegment(result.current.segments, 'second')).toHaveProperty('value', 45)
+
+    expect(onChange).toBeCalledTimes(1)
+    const { value } = onChange.mock.calls[0][0]
+    expect(value.getHours()).toBe(23)
+    expect(value.getMinutes()).toBe(34)
+    expect(value.getSeconds()).toBe(45)
+  })
 })

@@ -229,10 +229,11 @@ export class DateTimeFieldAdapter {
 
   toDate(dateComponents: DateComponents) {
     const date = dateComponents.toDate(this.baseDate)
+    const day = date.getDate()
 
     if (
       dateComponents.has(this.requiredSegments) &&
-      date.getDate() === dateComponents.get('day') &&
+      day === dateComponents.get('day', day) &&
       isInRange(date.getTime(), this.minTime, this.maxTime)
     ) {
       return date
