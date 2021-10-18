@@ -61,7 +61,7 @@ Approximate work plan (may be adjusted) Q3-Q4:
   - [x] [useFocusable](./src/interactions/focusable/useFocusable.ts)
 - [ ] utils
   - [x] i18n locale
-  - [ ] useUniqId
+  - [x] useUniqId
 - [ ] button
   - [x] [useButton](./src/semantic/button/useButton.ts)
   - [ ] useToggleButton
@@ -73,18 +73,21 @@ Approximate work plan (may be adjusted) Q3-Q4:
   - [x] [useCalendar](./src/semantic/calendar/useSingleCalendarState.ts)
   - [x] [useRangeCalendar](./src/semantic/calendar/useRangeCalendarState.ts)
   - [x] [useMultipleCalendar](./src/semantic/calendar/useMultipleCalendarState.ts)
+- [x] datefield
+  - [x] useSpinButton
+  - [x] useDateTimeField
 - [x] textfield
   - [x] [useTextField](./src/semantic/textfield/useTextField.ts)
   - [x] [usePasswordField](./src/semantic/textfield/usePasswordField.ts)
   - [x] [useAutoResize](./src/semantic/textfield/useAutoResize.ts)
   - [x] [useClearButton](./src/semantic/textfield/useClearButton.ts)
+- [x] useFocusLock
 - [ ] useRadio
 - [ ] useSlider
 - [ ] useSelect
 - [ ] useComboBox
 - [ ] useMenu
 - [ ] useOverlay
-- [ ] useFocusLock
 - [ ] usePopup
 - [ ] useModal
 - [ ] usePortal
