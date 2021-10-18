@@ -32,8 +32,8 @@
   "devDependencies": {
     "@babel/core": "7.14.8",
     "@bem-react/pack": "1.5.1",
-    "@commitlint/cli": "13.1.0",
-    "@commitlint/config-conventional": "13.1.0",
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/react": "^6.3.12",
     "@testing-library/jest-dom": "5.14.1",
