@@ -38,7 +38,7 @@ export function useDateTimeFieldState(
   props: UseDateTimeFieldStateProps,
 ): UseDateTimeFieldStateResult {
   const {
-    value: propValue,
+    value: propValue = null,
     min: propMin,
     max: propMax,
     placeholder: propPlaceholder,
@@ -47,7 +47,7 @@ export function useDateTimeFieldState(
     readOnly,
     onChange,
   } = props
-  const lastValueChange = useRef(propValue ?? null)
+  const lastValueChange = useRef<DateLike | null>(null)
   const formatter = useDateFormatter(formatOptions)
   const adapter = useMemo(() => {
     return new DateTimeFieldAdapter({
@@ -63,12 +63,14 @@ export function useDateTimeFieldState(
   })
 
   const value = useMemo(() => {
-    if (localValue.has(adapter.requiredSegments) && propValue) {
+    if (lastValueChange.current !== propValue) {
       return DateComponents.from(propValue)
     }
 
     return localValue
-  }, [propValue, adapter.requiredSegments, localValue])
+  }, [propValue, localValue])
+
+  lastValueChange.current = propValue
 
   const segments = useMemo(() => adapter.getSegments(value), [adapter, value])
 
@@ -85,11 +87,12 @@ export function useDateTimeFieldState(
 
       setLocalValue(newLocalValue)
       const date = adapter.toDate(newLocalValue)
-      if (date !== lastValueChange.current) {
-        lastValueChange.current = date
 
+      if (date !== lastValueChange.current) {
         onChange?.({ value: date })
       }
+
+      lastValueChange.current = date
     },
     [disabled, readOnly, adapter, value, onChange],
   )
