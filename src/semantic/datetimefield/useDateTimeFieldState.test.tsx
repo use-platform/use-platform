@@ -325,9 +325,20 @@ describe('useDateTimeFieldState', () => {
 
   test('should trigger onChange', () => {
     const onChange = jest.fn()
-    const { result } = renderHook(() => {
-      return useDateTimeFieldState({ onChange, formatOptions: DEFAULT_DATE_FORMAT })
-    })
+    const { result, rerender } = renderHook(
+      ({ value }) => {
+        return useDateTimeFieldState({
+          value,
+          onChange,
+          formatOptions: DEFAULT_DATE_FORMAT,
+        })
+      },
+      {
+        initialProps: {
+          value: null as DateLike | null,
+        },
+      },
+    )
 
     act(() => {
       result.current.setSegmentValue('day', 23)
@@ -343,6 +354,8 @@ describe('useDateTimeFieldState', () => {
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange.mock.calls[0][0].value.getTime()).toBe(new Date(1997, 8, 23).getTime())
+
+    rerender({ value: new Date(1997, 8, 23) })
 
     act(() => {
       result.current.setSegmentValue('year', null)
@@ -719,7 +732,7 @@ describe('useDateTimeFieldState', () => {
     expect(findSegment(result.current.segments, 'month')).toHaveProperty('text', '2')
   })
 
-  test.each([true, false])('should trigger onChange for `hour12=%s` time format', (hour12) => {
+  test.each([true, false])('should trigger onChange for "hour12=%s" time format', (hour12) => {
     const onChange = jest.fn()
     const { result } = renderHook(() => {
       return useDateTimeFieldState({
@@ -728,28 +741,48 @@ describe('useDateTimeFieldState', () => {
       })
     })
 
-    act(() => {
-      result.current.setSegmentValue('hour', 23)
-    })
-
-    expect(findSegment(result.current.segments, 'hour')).toHaveProperty('value', 23)
-
-    act(() => {
-      result.current.setSegmentValue('minute', 34)
-    })
-
-    expect(findSegment(result.current.segments, 'minute')).toHaveProperty('value', 34)
-
-    act(() => {
-      result.current.setSegmentValue('second', 45)
-    })
-
-    expect(findSegment(result.current.segments, 'second')).toHaveProperty('value', 45)
+    act(() => result.current.setSegmentValue('hour', 23))
+    act(() => result.current.setSegmentValue('minute', 34))
+    act(() => result.current.setSegmentValue('second', 45))
 
     expect(onChange).toBeCalledTimes(1)
     const { value } = onChange.mock.calls[0][0]
     expect(value.getHours()).toBe(23)
     expect(value.getMinutes()).toBe(34)
     expect(value.getSeconds()).toBe(45)
+  })
+
+  test('should set value after update prop', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => {
+        return useDateTimeFieldState({ value })
+      },
+      {
+        initialProps: {
+          value: null as DateLike | null,
+        },
+      },
+    )
+
+    rerender({ value: new Date(1990, 0) })
+
+    expect(findSegment(result.current.segments, 'year')).toHaveProperty('value', 1990)
+  })
+
+  test('should unset value after update prop', () => {
+    const { result, rerender } = renderHook(
+      ({ value }) => {
+        return useDateTimeFieldState({ value })
+      },
+      {
+        initialProps: {
+          value: new Date(1990, 0) as DateLike | null,
+        },
+      },
+    )
+
+    rerender({ value: null })
+
+    expect(findSegment(result.current.segments, 'year')).toHaveProperty('value', null)
   })
 })
