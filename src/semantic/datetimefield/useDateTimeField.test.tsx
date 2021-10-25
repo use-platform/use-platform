@@ -191,4 +191,20 @@ describe('useDateTimeField', () => {
     fireEvent.keyDown(segment, { key: 'End' })
     expect(segment).toHaveAttribute('aria-valuenow', '59')
   })
+
+  test('should bubble keydown with space key', () => {
+    const onKeyDown = jest.fn()
+    render(
+      <div onKeyDown={onKeyDown}>
+        <Fixture />
+      </div>,
+    )
+
+    const segments = screen.getAllByRole('spinbutton')
+
+    segments[0].focus()
+    fireEvent.keyDown(segments[0], { key: ' ' })
+
+    expect(onKeyDown).toBeCalledTimes(1)
+  })
 })
