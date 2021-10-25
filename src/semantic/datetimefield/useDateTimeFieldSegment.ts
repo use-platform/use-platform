@@ -107,6 +107,10 @@ export function useDateTimeFieldSegment(
           break
         }
 
+        // FIXME: Remove this, and check valid user input in default case.
+        case ' ':
+          break
+
         default:
           event.stopPropagation()
           // TODO: check readOnly
