@@ -5,15 +5,6 @@ import { PressProps } from '../../interactions/press'
 const STEP_DELAY = 400
 const STEP_TIMEOUT = 70
 
-enum ActionKind {
-  Increment = 'Increment',
-  ExtraIncrement = 'ExtraIncrement',
-  Decrement = 'Decrement',
-  ExtraDecrement = 'ExtraDecrement',
-  IncrementToMax = 'IncrementToMax',
-  DecrementToMin = 'DecrementToMin',
-}
-
 export interface UseSpinButtonProps {
   min?: number
   max?: number
@@ -63,45 +54,18 @@ export function useSpinButton<T extends HTMLElement = HTMLElement>(
         return
       }
 
-      const handlers: Record<ActionKind, (() => void) | undefined> = {
-        [ActionKind.Increment]: onIncrement,
+      const handlers: Record<string, (() => void) | undefined> = {
+        ArrowUp: onIncrement,
         // fallback to increment
-        [ActionKind.ExtraIncrement]: onExtraIncrement ?? onIncrement,
-        [ActionKind.Decrement]: onDecrement,
+        PageUp: onExtraIncrement ?? onIncrement,
+        ArrowDown: onDecrement,
         // fallback to decrement
-        [ActionKind.ExtraDecrement]: onExtraDecrement ?? onDecrement,
-        [ActionKind.IncrementToMax]: onIncrementToMax,
-        [ActionKind.DecrementToMin]: onDecrementToMin,
+        PageDown: onExtraDecrement ?? onDecrement,
+        End: onIncrementToMax,
+        Home: onDecrementToMin,
       }
 
-      let action: ActionKind | undefined
-      switch (event.key) {
-        case 'ArrowUp':
-          action = ActionKind.Increment
-          break
-
-        case 'ArrowDown':
-          action = ActionKind.Decrement
-          break
-
-        case 'PageUp':
-          action = ActionKind.ExtraIncrement
-          break
-
-        case 'PageDown':
-          action = ActionKind.ExtraDecrement
-          break
-
-        case 'Home':
-          action = ActionKind.DecrementToMin
-          break
-
-        case 'End':
-          action = ActionKind.IncrementToMax
-          break
-      }
-
-      const handler = action && handlers[action]
+      const handler = handlers[event.key]
       if (handler) {
         event.preventDefault()
         handler()
