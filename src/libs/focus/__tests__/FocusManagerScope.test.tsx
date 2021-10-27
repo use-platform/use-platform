@@ -16,7 +16,7 @@ const Fixture = forwardRef<FocusManager, PropsWithChildren<{}>>(({ children }, r
   const scopeRef = useRef<HTMLDivElement>(null)
 
   return (
-    <FocusManagerScope value={scopeRef}>
+    <FocusManagerScope scopeRef={scopeRef}>
       <UseFocusManager ref={ref} />
       <div ref={scopeRef} data-testid="scope">
         {children}
@@ -39,7 +39,9 @@ describe('FocusManagerScope', () => {
     const scopeRef = createRef<HTMLElement>()
     const { result } = renderHook(() => useFocusManager(), {
       initialProps: { scopeRef },
-      wrapper: ({ children }) => <FocusManagerScope value={scopeRef}>{children}</FocusManagerScope>,
+      wrapper: ({ children }) => (
+        <FocusManagerScope scopeRef={scopeRef}>{children}</FocusManagerScope>
+      ),
     })
 
     expect(result.current.focusFirst()).toBe(null)

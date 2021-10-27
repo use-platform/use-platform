@@ -5,13 +5,13 @@ import { createFocusManager, FocusManager } from './createFocusManager'
 const FocusManagerContext = createContext<FocusManager | null>(null)
 
 export interface FocusManagerScopeProps {
-  value: RefObject<HTMLElement>
+  scopeRef: RefObject<HTMLElement>
 }
 
 export const FocusManagerScope: FC<FocusManagerScopeProps> = (props) => {
-  const { value, children } = props
+  const { scopeRef, children } = props
 
-  const manager = useMemo(() => createFocusManager(value), [value])
+  const manager = useMemo(() => createFocusManager(scopeRef), [scopeRef])
 
   return <FocusManagerContext.Provider value={manager}>{children}</FocusManagerContext.Provider>
 }

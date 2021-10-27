@@ -71,7 +71,7 @@ const Fixture: FC<UseDateTimeFieldStateProps> = (props) => {
   )
 
   return (
-    <FocusManagerScope value={ref}>
+    <FocusManagerScope scopeRef={ref}>
       <div ref={ref}>
         <DateTimeField {...other} value={localValue} onChange={handleChange} />
       </div>
