@@ -1,4 +1,4 @@
-import React, { createContext, FC, RefObject, useContext, useMemo } from 'react'
+import React, { createContext, FC, RefObject, useContext, useEffect, useMemo } from 'react'
 
 import { createFocusManager, FocusManager } from './createFocusManager'
 
@@ -6,12 +6,20 @@ const FocusManagerContext = createContext<FocusManager | null>(null)
 
 export interface FocusManagerScopeProps {
   scopeRef: RefObject<HTMLElement>
+  autoFocus?: boolean
 }
 
 export const FocusManagerScope: FC<FocusManagerScopeProps> = (props) => {
-  const { scopeRef, children } = props
+  const { scopeRef, autoFocus, children } = props
 
   const manager = useMemo(() => createFocusManager(scopeRef), [scopeRef])
+
+  useEffect(() => {
+    if (autoFocus) {
+      manager.focusFirst()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return <FocusManagerContext.Provider value={manager}>{children}</FocusManagerContext.Provider>
 }
