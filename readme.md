@@ -18,7 +18,7 @@ npm i -PE web-platform-alpha
 
 ## Usage
 
-All hooks available from root public API. More examples you can find in [storybook](storybook).
+All hooks available from root public API. More examples you can find in [storybook][storybook].
 
 ```tsx
 import { useRef } from 'react'
@@ -60,8 +60,8 @@ Approximate work plan (may be adjusted) Q3-Q4:
   - [x] [usePress](./src/interactions/press/usePress.ts)
   - [x] [useFocusable](./src/interactions/focusable/useFocusable.ts)
 - [ ] utils
-  - [x] i18n locale
-  - [x] useUniqId
+  - [x] [i18n locale](./src/libs/i18n/useLocale.ts)
+  - [x] [useUniqId](./src/libs/uniq-id/useUniqId.ts)
 - [ ] button
   - [x] [useButton](./src/semantic/button/useButton.ts)
   - [ ] useToggleButton
@@ -74,14 +74,14 @@ Approximate work plan (may be adjusted) Q3-Q4:
   - [x] [useRangeCalendar](./src/semantic/calendar/useRangeCalendarState.ts)
   - [x] [useMultipleCalendar](./src/semantic/calendar/useMultipleCalendarState.ts)
 - [x] datefield
-  - [x] useSpinButton
-  - [x] useDateTimeField
+  - [x] [useSpinButton](./src/semantic/spinbutton/useSpinButton.ts)
+  - [x] [useDateTimeField](./src/semantic/datetimefield/useDateTimeField.ts)
 - [x] textfield
   - [x] [useTextField](./src/semantic/textfield/useTextField.ts)
   - [x] [usePasswordField](./src/semantic/textfield/usePasswordField.ts)
   - [x] [useAutoResize](./src/semantic/textfield/useAutoResize.ts)
   - [x] [useClearButton](./src/semantic/textfield/useClearButton.ts)
-- [x] useFocusLock
+- [x] [useFocusTrap](./src/libs/focus-trap/useFocusTrap.ts)
 - [ ] useRadio
 - [ ] useSlider
 - [ ] useSelect
