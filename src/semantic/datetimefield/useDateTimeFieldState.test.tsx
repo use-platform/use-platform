@@ -1,13 +1,8 @@
 import { useCallback, useState } from 'react'
 
 import { renderHook, act } from '../../libs/testing'
-import {
-  DateLike,
-  DateTimeChangeEvent,
-  DateTimeEditableSegment,
-  DateTimeEditableSegmentTypes,
-  DateTimeSegment,
-} from './types'
+import { DateInputChangeEvent, DateLike } from '../../shared/types'
+import { DateTimeEditableSegment, DateTimeEditableSegmentTypes, DateTimeSegment } from './types'
 import { useDateTimeFieldState } from './useDateTimeFieldState'
 
 const DEFAULT_DATE_FORMAT: Intl.DateTimeFormatOptions = {
@@ -29,12 +24,12 @@ function findSegment(segments: DateTimeSegment[], type: DateTimeEditableSegmentT
 
 function useDateTimeValue(
   initialValue?: DateLike | null,
-  onChange?: (event: DateTimeChangeEvent) => void,
+  onChange?: (event: DateInputChangeEvent<DateLike | null>) => void,
 ) {
   const [value, setValue] = useState<DateLike | null>(initialValue ?? null)
 
   const handleChange = useCallback(
-    (event: DateTimeChangeEvent) => {
+    (event: DateInputChangeEvent<DateLike | null>) => {
       setValue(event.value)
       onChange?.(event)
     },

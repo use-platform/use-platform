@@ -9,20 +9,3 @@ export type RangeValue<T> = {
    */
   end: T
 }
-
-export interface ValueProps<T> {
-  /**
-   * The current value.
-   */
-  value?: T
-
-  /**
-   * The default value (uncontrolled mode).
-   */
-  defaultValue?: T
-
-  /**
-   * Handler that is called when the value changes.
-   */
-  onChange?: (value: T) => void
-}

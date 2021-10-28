@@ -2,8 +2,8 @@ import { FC, HTMLAttributes, useCallback, useRef, useState } from 'react'
 
 import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
 import { FocusManagerScope } from '../../libs/focus'
+import { DateInputChangeEvent, DateLike } from '../../shared/types'
 import {
-  DateTimeChangeEvent,
   DateTimeEditableSegment,
   useDateTimeField,
   useDateTimeFieldSegment,
@@ -63,7 +63,7 @@ const Fixture: FC<UseDateTimeFieldStateProps> = (props) => {
   const ref = useRef<HTMLDivElement>(null)
 
   const handleChange = useCallback(
-    (event: DateTimeChangeEvent) => {
+    (event: DateInputChangeEvent<DateLike | null>) => {
       setLocalValue(event.value)
       onChange?.(event)
     },

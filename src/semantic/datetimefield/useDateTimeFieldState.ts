@@ -1,25 +1,19 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
 
 import { useDateFormatter } from '../../libs/i18n'
+import { DateInputValueProps, DateLike } from '../../shared/types'
 import { EXTRA_STEP } from './constants'
-import {
-  DateLike,
-  DateTimeChangeEvent,
-  DateTimeEditableSegmentTypes,
-  DateTimeSegment,
-} from './types'
+import { DateTimeEditableSegmentTypes, DateTimeSegment } from './types'
 import { DateComponents } from './utils/DateComponents'
 import { DateTimeFieldAdapter } from './utils/DateTimeFieldAdapter'
 
-export interface UseDateTimeFieldStateProps {
-  value?: DateLike | null
+export interface UseDateTimeFieldStateProps extends DateInputValueProps<DateLike | null> {
   min?: DateLike
   max?: DateLike
   disabled?: boolean
   readOnly?: boolean
   placeholder?: DateLike
   formatOptions?: Intl.DateTimeFormatOptions
-  onChange?: (event: DateTimeChangeEvent) => void
 }
 
 export interface UseDateTimeFieldStateResult {

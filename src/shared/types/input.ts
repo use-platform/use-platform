@@ -19,6 +19,8 @@ export interface InputValueProps<T> {
   value?: T
 }
 
+export type DateLike = Date | number
+
 export interface DateInputChangeEvent<T> {
   value: T
 }

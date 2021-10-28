@@ -1,5 +1,3 @@
-export type DateLike = number | Date
-
 export type DateTimeSegmentTypes = Intl.DateTimeFormatPartTypes
 
 export type DateTimeReadOnlySegmentTypes = 'era' | 'literal' | 'timeZoneName' | 'weekday'
@@ -28,7 +26,3 @@ export interface DateTimeEditableSegment {
 }
 
 export type DateTimeSegment = DateTimeReadOnlySegment | DateTimeEditableSegment
-
-export interface DateTimeChangeEvent {
-  value: Date | null
-}
