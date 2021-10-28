@@ -16,6 +16,7 @@ import {
   useRangeCalendarState,
   CalendarNavigationAction,
   CalendarView,
+  DateInputChangeEvent,
 } from '@yandex/web-platform'
 
 const styles = `
@@ -362,8 +363,11 @@ function normalizeProps(props: any): BaseCalendarProps {
 
 export const Single = (props: any) => {
   const [value, setValue] = useState<Date>()
+  const onChange = useCallback((event: DateInputChangeEvent<Date>) => {
+    setValue(event.value)
+  }, [])
 
-  return <SingleCalendar {...normalizeProps(props)} value={value} onChange={setValue} />
+  return <SingleCalendar {...normalizeProps(props)} value={value} onChange={onChange} />
 }
 
 Single.argTypes = argTypes
@@ -371,8 +375,11 @@ Single.args = args
 
 export const Multiple = (props: any) => {
   const [value, setValue] = useState<Date[]>()
+  const onChange = useCallback((event: DateInputChangeEvent<Date[]>) => {
+    setValue(event.value)
+  }, [])
 
-  return <MultipleCalendar {...normalizeProps(props)} value={value} onChange={setValue} />
+  return <MultipleCalendar {...normalizeProps(props)} value={value} onChange={onChange} />
 }
 
 Multiple.argTypes = argTypes
@@ -380,8 +387,11 @@ Multiple.args = args
 
 export const Range = (props: any) => {
   const [value, setValue] = useState<RangeValue<Date>>()
+  const onChange = useCallback((event: DateInputChangeEvent<RangeValue<Date>>) => {
+    setValue(event.value)
+  }, [])
 
-  return <RangeCalendar {...normalizeProps(props)} value={value} onChange={setValue} />
+  return <RangeCalendar {...normalizeProps(props)} value={value} onChange={onChange} />
 }
 
 Range.argTypes = argTypes

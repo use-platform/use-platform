@@ -1,4 +1,4 @@
-import { RangeValue, ValueProps } from '../../shared/types'
+import { DateInputValueProps, RangeValue } from '../../shared/types'
 
 export type CalendarView = 'day' | 'month' | 'year'
 
@@ -111,11 +111,11 @@ export interface BaseCalendarProps {
   max?: Date
 }
 
-export type SingleCalendarProps = ValueProps<Date> & BaseCalendarProps
+export type SingleCalendarProps = DateInputValueProps<Date> & BaseCalendarProps
 
-export type MultipleCalendarProps = ValueProps<Date[]> & BaseCalendarProps
+export type MultipleCalendarProps = DateInputValueProps<Date[]> & BaseCalendarProps
 
-export type RangeCalendarProps = ValueProps<RangeValue<Date>> & BaseCalendarProps
+export type RangeCalendarProps = DateInputValueProps<RangeValue<Date>> & BaseCalendarProps
 
 export interface BaseCalendarState {
   /**

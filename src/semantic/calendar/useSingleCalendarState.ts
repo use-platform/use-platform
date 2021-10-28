@@ -177,7 +177,7 @@ export function useSingleCalendarState(
       focusTo(nextView, date)
 
       if (!readOnly && nextView === minCalendarView) {
-        onChange?.(date)
+        onChange?.({ value: date })
       }
     }
   }

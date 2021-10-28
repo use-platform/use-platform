@@ -18,3 +18,13 @@ export interface InputValueProps<T> {
   onChange?: ChangeEventHandler<HTMLInputElement>
   value?: T
 }
+
+export interface DateInputChangeEvent<T> {
+  value: T
+}
+
+export interface DateInputValueProps<T> {
+  defaultValue?: T
+  onChange?: (event: DateInputChangeEvent<T>) => void
+  value?: T
+}
