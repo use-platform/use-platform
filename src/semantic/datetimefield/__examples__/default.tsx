@@ -75,7 +75,7 @@ export const Default = (props: any) => {
   return (
     <>
       <style>{styles}</style>
-      <FocusManagerScope value={ref}>
+      <FocusManagerScope scopeRef={ref}>
         <DateTimeField ref={ref} {...props} value={value} onChange={handleChange} />
       </FocusManagerScope>
     </>

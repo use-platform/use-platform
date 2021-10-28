@@ -12,18 +12,21 @@ const UseFocusManager = forwardRef<FocusManager, {}>((_props, ref) => {
   return null
 })
 
-const Fixture = forwardRef<FocusManager, PropsWithChildren<{}>>(({ children }, ref) => {
-  const scopeRef = useRef<HTMLDivElement>(null)
+const Fixture = forwardRef<FocusManager, PropsWithChildren<{ autoFocus?: boolean }>>(
+  (props, ref) => {
+    const { children, autoFocus } = props
+    const scopeRef = useRef<HTMLDivElement>(null)
 
-  return (
-    <FocusManagerScope value={scopeRef}>
-      <UseFocusManager ref={ref} />
-      <div ref={scopeRef} data-testid="scope">
-        {children}
-      </div>
-    </FocusManagerScope>
-  )
-})
+    return (
+      <FocusManagerScope scopeRef={scopeRef} autoFocus={autoFocus}>
+        <UseFocusManager ref={ref} />
+        <div ref={scopeRef} data-testid="scope">
+          {children}
+        </div>
+      </FocusManagerScope>
+    )
+  },
+)
 
 describe('FocusManagerScope', () => {
   const render = createClientRender()
@@ -39,7 +42,9 @@ describe('FocusManagerScope', () => {
     const scopeRef = createRef<HTMLElement>()
     const { result } = renderHook(() => useFocusManager(), {
       initialProps: { scopeRef },
-      wrapper: ({ children }) => <FocusManagerScope value={scopeRef}>{children}</FocusManagerScope>,
+      wrapper: ({ children }) => (
+        <FocusManagerScope scopeRef={scopeRef}>{children}</FocusManagerScope>
+      ),
     })
 
     expect(result.current.focusFirst()).toBe(null)
@@ -280,5 +285,15 @@ describe('FocusManagerScope', () => {
 
     ref.current?.focusLast({ tabbable: true })
     expect(screen.getByTestId('item-2')).toHaveFocus()
+  })
+
+  test('should focus first element with autoFocus', () => {
+    render(
+      <Fixture autoFocus>
+        <input data-testid="item-1" />
+      </Fixture>,
+    )
+
+    expect(screen.getByTestId('item-1')).toHaveFocus()
   })
 })
