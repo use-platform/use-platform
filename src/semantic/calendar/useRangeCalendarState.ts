@@ -22,11 +22,11 @@ export function useRangeCalendarState(
   const singleState = useSingleCalendarState({
     ...restProps,
     value: value ? value.start : undefined,
-    onChange: (date) => {
+    onChange: (event) => {
       if (!highlightedDate) {
-        setHighlightedDate(date)
+        setHighlightedDate(event.value)
       } else {
-        onChange?.(createRange(highlightedDate, date))
+        onChange?.({ value: createRange(highlightedDate, event.value) })
         setHighlightedDate(null)
       }
     },

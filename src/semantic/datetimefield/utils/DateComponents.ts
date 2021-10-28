@@ -1,5 +1,6 @@
 import { clamp } from '../../../libs/utils'
-import { DateLike, DateTimeEditableSegmentTypes } from '../types'
+import { DateLike } from '../../../shared/types'
+import { DateTimeEditableSegmentTypes } from '../types'
 
 export enum DateComponent {
   dayPeriod = 1 << 0,

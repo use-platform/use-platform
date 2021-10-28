@@ -14,17 +14,17 @@ export function useMultipleCalendarState(
   const singleState = useSingleCalendarState({
     ...restProps,
     value: value?.[0],
-    onChange: (date) => {
+    onChange: (event) => {
       const values = value?.slice() ?? []
 
-      const index = values.findIndex((val) => isEqualDate(val, date))
+      const index = values.findIndex((val) => isEqualDate(val, event.value))
       if (index !== -1) {
         values.splice(index, 1)
       } else {
-        values.push(date)
+        values.push(event.value)
       }
 
-      onChange?.(values)
+      onChange?.({ value: values })
     },
   })
 

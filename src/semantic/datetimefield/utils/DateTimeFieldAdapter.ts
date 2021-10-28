@@ -1,6 +1,7 @@
 import { clamp, isInRange } from '../../../libs/utils'
 import { getDaysInMonth, getTime, startOfYear } from '../../../libs/date'
-import { DateLike, DateTimeSegment, DateTimeEditableSegmentTypes } from '../types'
+import { DateLike } from '../../../shared/types'
+import { DateTimeSegment, DateTimeEditableSegmentTypes } from '../types'
 import { MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from '../constants'
 import { formatToParts, getResolvedOptions } from './format'
 import { stepValue } from './segment'

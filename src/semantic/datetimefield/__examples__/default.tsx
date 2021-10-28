@@ -1,7 +1,8 @@
 import { FC, forwardRef, HTMLAttributes, useCallback, useRef, useState } from 'react'
 import { FocusManagerScope } from '@yandex/web-platform/libs/focus'
 import {
-  DateTimeChangeEvent,
+  DateInputChangeEvent,
+  DateLike,
   useDateTimeField,
   useDateTimeFieldSegment,
   useDateTimeFieldState,
@@ -61,11 +62,11 @@ const styles = `
 
 export const Default = (props: any) => {
   const { onChange } = props
-  const [value, setValue] = useState<Date | null>(null)
+  const [value, setValue] = useState<DateLike | null>(null)
   const ref = useRef<HTMLElement>(null)
 
   const handleChange = useCallback(
-    (event: DateTimeChangeEvent) => {
+    (event: DateInputChangeEvent<DateLike | null>) => {
       setValue(event.value)
       onChange?.(event)
     },

@@ -1,4 +1,4 @@
-import { DateLike } from '../types'
+import { DateLike } from '../../../shared/types'
 
 export function getResolvedOptions(
   formatter: Intl.DateTimeFormat,
