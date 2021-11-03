@@ -13,7 +13,6 @@ import {
   startOfYear,
   subMonths,
   subYears,
-  isEqual,
 } from '../../../libs/date'
 import { DayOfWeek } from '../../../libs/i18n'
 import { RangeValue } from '../../../shared/types'
@@ -30,7 +29,7 @@ import {
   subYearViews,
 } from './year-view'
 
-export const isEqualDate = isEqual
+export { isEqual as isEqualDate } from '../../../libs/date'
 
 export function createRange(start: Date, end: Date): RangeValue<Date> {
   if (end < start) {
