@@ -18,5 +18,6 @@ export * from './semantic/spinbutton'
 export * from './semantic/toggle'
 export * from './semantic/textfield'
 export * from './semantic/switch'
+export * from './semantic/tooltip'
 
 export * from './shared/types'
