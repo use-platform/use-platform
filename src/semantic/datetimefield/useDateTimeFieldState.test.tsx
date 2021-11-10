@@ -780,4 +780,13 @@ describe('useDateTimeFieldState', () => {
 
     expect(findSegment(result.current.segments, 'year')).toHaveProperty('value', null)
   })
+
+  test('should not reset hours if segment value is set to 12', () => {
+    const { result } = renderHook(() => {
+      const [value, onChange] = useDateTimeValue(new Date(2021, 10, 10, 12, 45))
+      return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
+    })
+
+    expect(findSegment(result.current.segments, 'hour')).toHaveProperty('value', 12)
+  })
 })
