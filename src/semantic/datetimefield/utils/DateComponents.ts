@@ -50,7 +50,7 @@ export class DateComponents {
     const hour = value.getHours()
 
     return new DateComponents({
-      dayPeriod: hour <= 12 ? 1 : 2,
+      dayPeriod: hour < 12 ? 1 : 2,
       second: value.getSeconds(),
       minute: value.getMinutes(),
       hour,
