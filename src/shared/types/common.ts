@@ -9,3 +9,14 @@ export type RangeValue<T> = {
    */
   end: T
 }
+
+export type DateValue = Date | number
+
+/**
+ * @deprecated Use `DateValue` instead.
+ */
+export type DateLike = DateValue
+
+export type MaybeDateValue = DateValue | null
+
+export type RangeMaybeDateValue = RangeValue<MaybeDateValue>
