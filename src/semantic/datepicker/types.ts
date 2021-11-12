@@ -4,7 +4,7 @@ import type {
   InputBaseProps,
   FocusableDOMProps,
   MaybeDateValue,
-  RangeMaybeDateValue,
+  DateRangeValue,
 } from '../../shared/types'
 
 export interface SharedDatePickerProps extends InputBaseProps, FocusableDOMProps {
@@ -13,5 +13,4 @@ export interface SharedDatePickerProps extends InputBaseProps, FocusableDOMProps
 }
 
 export type BaseDatePickerProps = SharedDatePickerProps & DateInputValueProps<MaybeDateValue>
-export type BaseDateRangePickerProps = SharedDatePickerProps &
-  DateInputValueProps<RangeMaybeDateValue>
+export type BaseDateRangePickerProps = SharedDatePickerProps & DateInputValueProps<DateRangeValue>
