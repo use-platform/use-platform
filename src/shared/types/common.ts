@@ -19,4 +19,4 @@ export type DateLike = DateValue
 
 export type MaybeDateValue = DateValue | null
 
-export type RangeMaybeDateValue = RangeValue<MaybeDateValue>
+export type DateRangeValue = RangeValue<MaybeDateValue>
