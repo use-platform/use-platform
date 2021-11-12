@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 import { getDateWithTime } from './utils'
-import type { RangeMaybeDateValue } from '../../shared/types'
+import type { RangeMaybeDateValue, DateInputChangeEvent } from '../../shared/types'
 import type { BaseDateRangePickerProps } from './types'
 
 export interface UseDateRangePickerStateResult {
   value: RangeMaybeDateValue
-  setValue: (event: { value: RangeMaybeDateValue }) => void
+  setValue: (event: DateInputChangeEvent<RangeMaybeDateValue>) => void
   isOpen: boolean
   setOpen: (isOpen: boolean) => void
 }
@@ -17,7 +17,7 @@ export function useDateRangePickerState(
   const { onChange, value = { start: null, end: null } } = props
   const [isOpen, setOpen] = useState(false)
 
-  function handleSetValue(event: { value: RangeMaybeDateValue }) {
+  function handleSetValue(event: DateInputChangeEvent<RangeMaybeDateValue>) {
     if (isOpen) {
       setOpen(false)
     }

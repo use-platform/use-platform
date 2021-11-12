@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 import { getDateWithTime } from './utils'
-import type { MaybeDateValue } from '../../shared/types'
+import type { MaybeDateValue, DateInputChangeEvent } from '../../shared/types'
 import type { BaseDatePickerProps } from './types'
 
 export interface UseDatePickerStateResult {
   value: MaybeDateValue
-  setValue: (event: { value: MaybeDateValue }) => void
+  setValue: (event: DateInputChangeEvent<MaybeDateValue>) => void
   isOpen: boolean
   setOpen: (isOpen: boolean) => void
 }
@@ -15,7 +15,7 @@ export function useDatePickerState(props: BaseDatePickerProps): UseDatePickerSta
   const { onChange, value = null } = props
   const [isOpen, setOpen] = useState(false)
 
-  function handleSetValue(event: { value: MaybeDateValue }) {
+  function handleSetValue(event: DateInputChangeEvent<MaybeDateValue>) {
     if (isOpen) {
       setOpen(false)
     }
