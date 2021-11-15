@@ -5,6 +5,7 @@ import type {
   FocusableDOMProps,
   MaybeDateValue,
   DateRangeValue,
+  DateInputChangeEvent,
 } from '../../shared/types'
 
 export interface SharedDatePickerProps extends InputBaseProps, FocusableDOMProps {
@@ -14,3 +15,10 @@ export interface SharedDatePickerProps extends InputBaseProps, FocusableDOMProps
 
 export type BaseDatePickerProps = SharedDatePickerProps & DateInputValueProps<MaybeDateValue>
 export type BaseDateRangePickerProps = SharedDatePickerProps & DateInputValueProps<DateRangeValue>
+
+export interface UseDatePickerStateResult<T> {
+  value: T
+  setValue: (event: DateInputChangeEvent<T>) => void
+  isOpen: boolean
+  setOpen: (isOpen: boolean) => void
+}

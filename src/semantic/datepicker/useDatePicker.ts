@@ -1,17 +1,23 @@
-import { KeyboardEvent } from 'react'
+import type { KeyboardEvent, HTMLAttributes } from 'react'
 
-import type { UseDatePickerStateResult } from './useDatePickerState'
-import type { UseDateRangePickerStateResult } from './useDateRangePickerState'
+import type { DateRangeValue, MaybeDateValue } from '../../shared/types'
+import type { ButtonBaseProps } from '../button'
+import type { UseDatePickerStateResult } from './types'
 
 export interface UseDatePickerProps {
   disabled?: boolean
   readOnly?: boolean
 }
 
+export interface UseDatePickerResult {
+  groupProps: HTMLAttributes<HTMLElement>
+  triggerProps: ButtonBaseProps
+}
+
 export function useDatePicker(
   props: UseDatePickerProps,
-  state: UseDatePickerStateResult | UseDateRangePickerStateResult,
-) {
+  state: UseDatePickerStateResult<MaybeDateValue | DateRangeValue>,
+): UseDatePickerResult {
   const { disabled, readOnly } = props
 
   const onKeyDown = (event: KeyboardEvent) => {

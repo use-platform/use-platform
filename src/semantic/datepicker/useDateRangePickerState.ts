@@ -2,18 +2,11 @@ import { useState } from 'react'
 
 import { getDateWithTime } from './utils'
 import type { DateRangeValue, DateInputChangeEvent } from '../../shared/types'
-import type { BaseDateRangePickerProps } from './types'
-
-export interface UseDateRangePickerStateResult {
-  value: DateRangeValue
-  setValue: (event: DateInputChangeEvent<DateRangeValue>) => void
-  isOpen: boolean
-  setOpen: (isOpen: boolean) => void
-}
+import type { BaseDateRangePickerProps, UseDatePickerStateResult } from './types'
 
 export function useDateRangePickerState(
   props: BaseDateRangePickerProps,
-): UseDateRangePickerStateResult {
+): UseDatePickerStateResult<DateRangeValue> {
   const { onChange, value = { start: null, end: null } } = props
   const [isOpen, setOpen] = useState(false)
 
