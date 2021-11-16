@@ -70,9 +70,15 @@ export const GroupedRadios = (args: GroupedRadioArgs) => {
   }, [])
   return (
     <RadioGroup value={selected} onChange={valueChanged} {...restArgs}>
-      <Radio value="foo">foo</Radio>
-      <Radio value="bar">bar</Radio>
-      <Radio value="baz">baz</Radio>
+      <Radio value="foo" disabled={firstRadioDisabled}>
+        foo
+      </Radio>
+      <Radio value="bar" disabled={secondRadioDisabled}>
+        bar
+      </Radio>
+      <Radio value="baz" disabled={thirdRadioDisabled}>
+        baz
+      </Radio>
     </RadioGroup>
   )
 }
