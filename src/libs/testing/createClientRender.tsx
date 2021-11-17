@@ -1,5 +1,5 @@
-import { ReactElement, cloneElement } from 'react'
 import { RenderOptions, RenderResult, render as testingLibraryRender } from '@testing-library/react'
+import { ReactElement, cloneElement } from 'react'
 
 export * from '@testing-library/react'
 

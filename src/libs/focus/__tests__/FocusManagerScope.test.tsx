@@ -1,8 +1,8 @@
-import { createRef, forwardRef, PropsWithChildren, useImperativeHandle, useRef } from 'react'
+import { PropsWithChildren, createRef, forwardRef, useImperativeHandle, useRef } from 'react'
 
 import { createClientRender, renderHook, screen } from '../../testing'
+import { FocusManagerScope, useFocusManager } from '../FocusManagerScope'
 import { FocusManager } from '../createFocusManager'
-import { useFocusManager, FocusManagerScope } from '../FocusManagerScope'
 
 const UseFocusManager = forwardRef<FocusManager, {}>((_props, ref) => {
   const manager = useFocusManager()

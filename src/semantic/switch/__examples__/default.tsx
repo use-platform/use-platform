@@ -1,5 +1,5 @@
-import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 import { SwitchBaseProps, useSwitch } from '@yandex/web-platform'
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 export const Default = (args: SwitchBaseProps) => {
   const [checked, setChecked] = useState(false)

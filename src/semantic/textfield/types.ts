@@ -1,12 +1,12 @@
 import type {
   DOMProps,
   ElementTypeProps,
-  FocusableDOMProps,
   FocusEventProps,
+  FocusableDOMProps,
   InputBaseProps,
+  InputValueProps,
   KeyboardEventProps,
   ValidationProps,
-  InputValueProps,
 } from '../../shared/types'
 
 export interface TextFieldBaseProps

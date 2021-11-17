@@ -1,6 +1,6 @@
-import { createElement, FC } from 'react'
+import { FC, createElement } from 'react'
 
-import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
+import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
 import { useHover } from './useHover'
 
 const Fixture: FC<{ disabled: true }> = (props) => {

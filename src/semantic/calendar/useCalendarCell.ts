@@ -1,7 +1,7 @@
 import { HTMLAttributes, RefObject, useEffect } from 'react'
 
 import { usePress } from '../../interactions/press'
-import { CalendarState, CalendarCellState } from './types'
+import { CalendarCellState, CalendarState } from './types'
 
 export interface UseCalendarCellProps {
   /**

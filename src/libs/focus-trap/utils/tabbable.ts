@@ -1,4 +1,4 @@
-import { ElementTreeWalker, isTabbable, adjustedTabIndex } from '../../focus'
+import { ElementTreeWalker, adjustedTabIndex, isTabbable } from '../../focus'
 
 interface TabbableNode {
   index: number

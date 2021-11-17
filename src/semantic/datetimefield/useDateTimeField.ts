@@ -1,9 +1,9 @@
 import { HTMLAttributes } from 'react'
 
 import { usePress } from '../../interactions/press'
-import { AriaLabelingProps } from '../../shared/types'
 import { useFocusManager } from '../../libs/focus'
 import { useUniqId } from '../../libs/uniq-id'
+import { AriaLabelingProps } from '../../shared/types'
 
 export interface UseDateTimeFieldProps extends AriaLabelingProps {
   id?: string

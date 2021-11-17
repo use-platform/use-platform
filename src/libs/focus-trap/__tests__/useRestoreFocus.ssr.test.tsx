@@ -1,9 +1,8 @@
 /**
  * @jest-environment node
  */
-
 import { createServerRender } from '../../testing'
-import { useRestoreFocus, UseRestoreFocusProps } from '../useRestoreFocus'
+import { UseRestoreFocusProps, useRestoreFocus } from '../useRestoreFocus'
 
 function Fixture(props: UseRestoreFocusProps) {
   useRestoreFocus(props)

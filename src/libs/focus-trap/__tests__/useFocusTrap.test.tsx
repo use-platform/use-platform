@@ -1,7 +1,7 @@
 import { FC, useRef } from 'react'
 
-import { screen, createClientRender } from '../../testing'
-import { useFocusTrap, UseFocusTrapProps } from '../useFocusTrap'
+import { createClientRender, screen } from '../../testing'
+import { UseFocusTrapProps, useFocusTrap } from '../useFocusTrap'
 
 type FixtureProps = Partial<UseFocusTrapProps>
 

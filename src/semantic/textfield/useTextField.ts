@@ -6,8 +6,8 @@ import {
   useLayoutEffect,
 } from 'react'
 
-import { setCursorToEnd } from '../../libs/dom-utils'
 import { useFocusable } from '../../interactions/focusable'
+import { setCursorToEnd } from '../../libs/dom-utils'
 import type { CommonTextFieldProps } from './types'
 
 export interface UseTextFieldResult {

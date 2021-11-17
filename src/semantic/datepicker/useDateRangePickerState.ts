@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { getDateWithTime } from './utils'
-import type { DateRangeValue, DateInputChangeEvent } from '../../shared/types'
+import type { DateInputChangeEvent, DateRangeValue } from '../../shared/types'
 import type { BaseDateRangePickerProps, UseDatePickerStateResult } from './types'
+import { getDateWithTime } from './utils'
 
 export function useDateRangePickerState(
   props: BaseDateRangePickerProps,

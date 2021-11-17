@@ -1,5 +1,5 @@
 import { renderHook } from '../../testing'
-import { useRestoreFocus, UseRestoreFocusProps } from '../useRestoreFocus'
+import { UseRestoreFocusProps, useRestoreFocus } from '../useRestoreFocus'
 
 let elements: HTMLElement[] = []
 

@@ -1,5 +1,5 @@
-import { adjustedTabIndex } from './adjustedTabIndex'
 import { ElementTreeWalker } from './ElementTreeWalker'
+import { adjustedTabIndex } from './adjustedTabIndex'
 import { isFocusable } from './isFocusable'
 
 enum FocusDirection {

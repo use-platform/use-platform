@@ -1,14 +1,14 @@
-import { FC, forwardRef, HTMLAttributes, useCallback, useRef, useState } from 'react'
-import { FocusManagerScope } from '@yandex/web-platform/libs/focus'
 import {
   DateInputChangeEvent,
   DateLike,
+  DateTimeEditableSegment,
+  UseDateTimeFieldStateResult,
   useDateTimeField,
   useDateTimeFieldSegment,
   useDateTimeFieldState,
-  UseDateTimeFieldStateResult,
-  DateTimeEditableSegment,
 } from '@yandex/web-platform'
+import { FocusManagerScope } from '@yandex/web-platform/libs/focus'
+import { FC, HTMLAttributes, forwardRef, useCallback, useRef, useState } from 'react'
 
 const styles = `
 .DateTimeField {

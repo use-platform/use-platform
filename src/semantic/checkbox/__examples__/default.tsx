@@ -1,5 +1,5 @@
-import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 import { SharedCheckboxProps, useCheckbox, useHover } from '@yandex/web-platform'
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 export const Default = (args: any) => {
   const [checked, setChecked] = useState(false)

@@ -1,6 +1,6 @@
-import { CSSProperties } from 'react'
 import { Story } from '@storybook/react'
 import { useHover } from '@yandex/web-platform'
+import { CSSProperties } from 'react'
 
 const style: CSSProperties = {
   width: '100px',

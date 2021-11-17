@@ -1,4 +1,4 @@
-import { HTMLAttributes, useCallback, useRef, KeyboardEvent, useEffect } from 'react'
+import { HTMLAttributes, KeyboardEvent, useCallback, useEffect, useRef } from 'react'
 
 import { PressProps } from '../../interactions/press'
 

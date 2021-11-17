@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-import { createClientRender, screen, fireEvent } from '../../libs/testing'
-import { useFocusWithin, UseFocusWithinProps } from './useFocusWithin'
+import { createClientRender, fireEvent, screen } from '../../libs/testing'
+import { UseFocusWithinProps, useFocusWithin } from './useFocusWithin'
 
 const Fixture: FC<UseFocusWithinProps<HTMLDivElement>> = (props) => {
   const { focusWithinProps } = useFocusWithin(props)

@@ -1,23 +1,23 @@
-import { FC, useCallback, useMemo, useRef, useState } from 'react'
 import {
-  useDateFormatter,
-  RangeValue,
   BaseCalendarProps,
-  UseCalendarProps,
-  useCalendar,
-  useCalendarCell,
-  UseCalendarCellProps,
-  CalendarState,
-  UseSingleCalendarStateProps,
-  useSingleCalendarState,
-  UseMultipleCalendarStateProps,
-  useMultipleCalendarState,
-  UseRangeCalendarStateProps,
-  useRangeCalendarState,
   CalendarNavigationAction,
+  CalendarState,
   CalendarView,
   DateInputChangeEvent,
+  RangeValue,
+  UseCalendarCellProps,
+  UseCalendarProps,
+  UseMultipleCalendarStateProps,
+  UseRangeCalendarStateProps,
+  UseSingleCalendarStateProps,
+  useCalendar,
+  useCalendarCell,
+  useDateFormatter,
+  useMultipleCalendarState,
+  useRangeCalendarState,
+  useSingleCalendarState,
 } from '@yandex/web-platform'
+import { FC, useCallback, useMemo, useRef, useState } from 'react'
 
 const styles = `
   .Table {
