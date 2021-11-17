@@ -1,4 +1,5 @@
-import { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler } from 'react'
+
 import type {
   FocusableDOMProps,
   InputBaseProps,

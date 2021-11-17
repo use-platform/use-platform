@@ -1,10 +1,10 @@
-import { FC, useRef } from 'react'
+import { ChangeEvent, FC, useRef } from 'react'
 
 import { createClientRender, fireEvent, screen } from '../../libs/testing'
 import { useRadio } from './useRadio'
-
 import { isFirefox } from '../../libs/platform'
 import { RadioGroupContext } from './RadioGroupContext'
+
 jest.mock('../../libs/platform')
 
 const Radio: FC<any> = (props) => {
@@ -65,7 +65,7 @@ describe('useRadio', () => {
     process.env.NODE_ENV = 'development'
     const consoleSpy = jest.spyOn(console, 'warn')
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {} }}>
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
         <Radio value="foo" defaultChecked />
       </RadioGroupContext.Provider>,
     )
@@ -77,7 +77,9 @@ describe('useRadio', () => {
 
   test('should set checked state based on RadioGroupContext', () => {
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', selectedValue: 'foo', setValue: () => {} }}>
+      <RadioGroupContext.Provider
+        value={{ name: 'foo', selectedValue: 'foo', setSelectedValue: () => {} }}
+      >
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
@@ -87,18 +89,21 @@ describe('useRadio', () => {
   test('should call setValue function when user checks radiobutton', () => {
     const setValue = jest.fn()
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue }}>
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: setValue }}>
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
     fireEvent.click(screen.getByTestId('radio'))
-    expect(setValue).toHaveBeenLastCalledWith('foo')
+    const eventArg = setValue.mock.calls[0][0]
+    expect((eventArg as ChangeEvent<HTMLInputElement>)?.target?.value).toBe('foo')
   })
 
   test('should not call setValue function when user checks radiobutton and component is readonly', () => {
     const setValue = jest.fn()
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue, readOnly: true }}>
+      <RadioGroupContext.Provider
+        value={{ name: 'foo', setSelectedValue: setValue, readOnly: true }}
+      >
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
@@ -110,9 +115,10 @@ describe('useRadio', () => {
     const OLD_ENV = process.env.NODE_ENV
     process.env.NODE_ENV = 'development'
     const consoleSpy = jest.spyOn(console, 'warn')
+    const handler = jest.fn()
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {} }}>
-        <Radio value="foo" onChange={() => {}} />
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
+        <Radio value="foo" onChange={handler} />
       </RadioGroupContext.Provider>,
     )
     expect(consoleSpy).toHaveBeenCalledWith(
@@ -123,7 +129,7 @@ describe('useRadio', () => {
 
   test('should set control name based on RadioGroupContext', () => {
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {} }}>
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
@@ -135,7 +141,7 @@ describe('useRadio', () => {
     process.env.NODE_ENV = 'development'
     const consoleSpy = jest.spyOn(console, 'warn')
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {} }}>
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
         <Radio value="foo" name="foo" />
       </RadioGroupContext.Provider>,
     )
@@ -147,8 +153,21 @@ describe('useRadio', () => {
 
   test('should disable all options if component is disabled via context', () => {
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {}, disabled: true }}>
+      <RadioGroupContext.Provider
+        value={{ name: 'foo', setSelectedValue: () => {}, disabled: true }}
+      >
         <Radio value="foo" />
+      </RadioGroupContext.Provider>,
+    )
+    expect(screen.getByTestId('radio')).toHaveAttribute('disabled')
+  })
+
+  test('should disable all options if component is disabled via context and some options are explicitly enabled', () => {
+    render(
+      <RadioGroupContext.Provider
+        value={{ name: 'foo', setSelectedValue: () => {}, disabled: true }}
+      >
+        <Radio value="foo" disabled={false} />
       </RadioGroupContext.Provider>,
     )
     expect(screen.getByTestId('radio')).toHaveAttribute('disabled')
@@ -156,7 +175,7 @@ describe('useRadio', () => {
 
   test('should disable option if its disablity state is set explicitly, and context is set', () => {
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {} }}>
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
         <Radio value="foo" disabled />
       </RadioGroupContext.Provider>,
     )
@@ -165,7 +184,9 @@ describe('useRadio', () => {
 
   test('should mark all options as readonly if context state is readonly', () => {
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {}, readOnly: true }}>
+      <RadioGroupContext.Provider
+        value={{ name: 'foo', setSelectedValue: () => {}, readOnly: true }}
+      >
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
@@ -177,7 +198,7 @@ describe('useRadio', () => {
     process.env.NODE_ENV = 'development'
     const consoleSpy = jest.spyOn(console, 'warn')
     render(
-      <RadioGroupContext.Provider value={{ name: 'foo', setValue: () => {} }}>
+      <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
         <Radio value="foo" readOnly />
       </RadioGroupContext.Provider>,
     )

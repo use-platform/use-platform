@@ -19,5 +19,6 @@ export * from './semantic/toggle'
 export * from './semantic/textfield'
 export * from './semantic/switch'
 export * from './semantic/datepicker'
+export * from './semantic/radio'
 
 export * from './shared/types'

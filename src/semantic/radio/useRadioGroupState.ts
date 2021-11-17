@@ -1,5 +1,6 @@
+import { ChangeEventHandler } from 'react'
+
 import type { InputBaseProps, InputValueProps } from '../../shared/types/input'
-import { useState } from 'react'
 import { useUniqId } from '../../libs/uniq-id'
 
 export interface UseRadioGroupStateResult {
@@ -7,21 +8,20 @@ export interface UseRadioGroupStateResult {
   selectedValue?: string
   disabled?: boolean
   readOnly?: boolean
-  setValue: (value: string | undefined) => void
+  setSelectedValue?: ChangeEventHandler<HTMLInputElement>
 }
 
 export interface UseRadioGroupStateProps extends InputBaseProps, InputValueProps<string> {}
 
 export function useRadioGroupState(props: UseRadioGroupStateProps): UseRadioGroupStateResult {
-  const [selectedValue, setValue] = useState<string | undefined>(props.value || props.defaultValue)
   const { disabled, readOnly } = props
-  let { name } = props
+  let { name, onChange: setSelectedValue, value: selectedValue } = props
   name = useUniqId(name)
   return {
     disabled,
     name,
     readOnly,
     selectedValue,
-    setValue,
+    setSelectedValue,
   }
 }

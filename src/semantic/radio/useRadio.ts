@@ -1,23 +1,33 @@
-import { InputHTMLAttributes, RefObject, useContext } from 'react'
+import { ChangeEvent, InputHTMLAttributes, RefObject } from 'react'
+
 import { RadioProps } from './types'
 import { useFocusable } from '../../interactions/focusable'
 import { mergeProps } from '../../libs/merge-props'
 import { isFirefox } from '../../libs/platform'
-import { RadioGroupContext } from './RadioGroupContext'
+import { useRadioGroupContext } from './useRadioGroupContext'
 
 export interface UseRadioResult {
   inputProps: InputHTMLAttributes<HTMLInputElement>
 }
 
 export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement>): UseRadioResult {
-  const { onChange: componentOnChange, readOnly: componentReadOnly, state, ...restProps } = props
-  let readOnly = componentReadOnly
+  const {
+    checked: propsChecked,
+    defaultChecked,
+    disabled,
+    name,
+    onChange,
+    readOnly: propsReadOnly,
+    state,
+    ...restProps
+  } = props
   const { focusableProps } = useFocusable(props, inputRef)
-  const radioGroupContext = useContext(RadioGroupContext)
-  let checked = props.checked
-  let name = props.name
-  let onChange = readOnly ? undefined : componentOnChange
-  let disabled = props.disabled
+  const radioGroupContext = useRadioGroupContext()
+  const checked = radioGroupContext
+    ? radioGroupContext.selectedValue === props.value
+    : propsChecked ?? defaultChecked
+  const readOnly = radioGroupContext ? radioGroupContext.readOnly : propsReadOnly
+
   if (radioGroupContext) {
     if (process.env.NODE_ENV === 'development') {
       if (props.checked || props.defaultChecked) {
@@ -36,21 +46,20 @@ export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement
         console.warn('Using readOnly prop with RadioGroupContext will have no effect')
       }
     }
-
-    checked = radioGroupContext.selectedValue === props.value
-    name = radioGroupContext.name
-    disabled ||= radioGroupContext.disabled
-    readOnly = radioGroupContext.readOnly
-    onChange = () => {
-      if (!radioGroupContext.readOnly) {
-        radioGroupContext.setValue(props.value)
-      }
-    }
   }
+
   return {
     inputProps: mergeProps(restProps, focusableProps, {
       type: 'radio',
-      onChange,
+      onChange: readOnly
+        ? undefined
+        : (event: ChangeEvent<HTMLInputElement>) => {
+          if (radioGroupContext) {
+            radioGroupContext.setSelectedValue?.(event)
+          } else {
+            onChange?.(event)
+          }
+        },
       'aria-invalid': state === 'invalid' || undefined,
       'aria-checked': checked || props.defaultChecked,
       // Use "aria-readonly" because "readOnly" available only for text fields,
@@ -59,8 +68,8 @@ export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement
       // https://bugzilla.mozilla.org/show_bug.cgi?id=654072
       autoComplete: isFirefox() ? 'off' : undefined,
       checked,
-      name,
-      disabled,
+      name: radioGroupContext?.name ?? name,
+      disabled: radioGroupContext?.disabled || disabled,
       readOnly,
     }),
   }

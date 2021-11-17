@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react'
+
 import { renderHook, act } from '../../libs/testing'
 import { useRadioGroupState } from './useRadioGroupState'
 import { useUniqId } from '../../libs/uniq-id'
@@ -7,18 +9,39 @@ jest.mock('../../libs/uniq-id')
   (customId?: string) => customId || 'fakeRandomId',
 )
 
+const dummyHTMLInputElement = document.createElement('input')
+dummyHTMLInputElement.value = 'foo'
+const dummyChangeEvent: ChangeEvent<HTMLInputElement> = {
+  target: dummyHTMLInputElement,
+  nativeEvent: new Event('change'),
+  currentTarget: dummyHTMLInputElement,
+  bubbles: false,
+  cancelable: false,
+  defaultPrevented: false,
+  eventPhase: 0,
+  isTrusted: false,
+  preventDefault: () => {},
+  isDefaultPrevented: () => false,
+  stopPropagation: () => {},
+  isPropagationStopped: () => false,
+  persist: () => {},
+  timeStamp: 0,
+  type: '',
+}
+
 describe('useRadioGroupState', () => {
   test('selected value should be set from props', () => {
     const { result } = renderHook(() => useRadioGroupState({ value: 'foo' }))
     expect(result.current.selectedValue).toBe('foo')
   })
 
-  test('setValue function should set value', () => {
-    const { result } = renderHook(() => useRadioGroupState({}))
+  test('should use onChange handler in setSelectedValue callback', () => {
+    const onChange = jest.fn()
+    const { result } = renderHook(() => useRadioGroupState({ onChange }))
     act(() => {
-      result.current.setValue('foo')
+      result.current.setSelectedValue?.(dummyChangeEvent)
     })
-    expect(result.current.selectedValue).toBe('foo')
+    expect(onChange).toHaveBeenCalledWith(dummyChangeEvent)
   })
 
   test('name should be returned from props', () => {

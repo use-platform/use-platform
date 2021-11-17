@@ -1,13 +1,8 @@
 import { Meta } from '@storybook/react'
 
-export * from './default'
+export * from './standalone'
+export * from './grouped'
 
 export default {
   title: 'semantic/radio',
-  argTypes: {
-    value: {
-      options: ['foo', 'bar', 'baz'],
-      control: { type: 'select' },
-    },
-  },
 } as Meta
