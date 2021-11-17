@@ -1,11 +1,10 @@
 /**
  * @jest-environment node
  */
-
 import { useRef } from 'react'
 
 import { createServerRender } from '../../testing'
-import { useFocusTrap, UseFocusTrapProps } from '../useFocusTrap'
+import { UseFocusTrapProps, useFocusTrap } from '../useFocusTrap'
 
 function Fixture(props: Partial<UseFocusTrapProps>) {
   const { enabled = false, ...other } = props

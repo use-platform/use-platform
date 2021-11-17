@@ -1,5 +1,5 @@
 import { focusElement } from '../dom-utils'
-import { getTabbables } from './utils/tabbable'
+import { FocusTrapInstance } from './types'
 import {
   focusFirstIn,
   getActiveElement,
@@ -8,7 +8,7 @@ import {
   isFocusFree,
   isGuard,
 } from './utils'
-import { FocusTrapInstance } from './types'
+import { getTabbables } from './utils/tabbable'
 
 enum Direction {
   None = 0,

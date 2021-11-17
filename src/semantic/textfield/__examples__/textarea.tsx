@@ -1,5 +1,5 @@
+import { useAutoResize, useTextField } from '@yandex/web-platform'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
-import { useTextField, useAutoResize } from '@yandex/web-platform'
 
 export const Textarea = (args: any) => {
   const [value, setValue] = useState('')

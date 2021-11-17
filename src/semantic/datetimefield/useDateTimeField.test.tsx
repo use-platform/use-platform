@@ -1,16 +1,16 @@
 import { FC, HTMLAttributes, useCallback, useRef, useState } from 'react'
 
-import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
-import { FocusManagerScope } from '../../libs/focus'
-import { DateInputChangeEvent, DateLike } from '../../shared/types'
 import {
   DateTimeEditableSegment,
+  UseDateTimeFieldStateProps,
+  UseDateTimeFieldStateResult,
   useDateTimeField,
   useDateTimeFieldSegment,
   useDateTimeFieldState,
-  UseDateTimeFieldStateResult,
-  UseDateTimeFieldStateProps,
 } from '.'
+import { FocusManagerScope } from '../../libs/focus'
+import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
+import { DateInputChangeEvent, DateLike } from '../../shared/types'
 
 interface EditableSegmentProps extends HTMLAttributes<HTMLElement> {
   segment: DateTimeEditableSegment

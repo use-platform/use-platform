@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
-import { createClientRender, screen, fireEvent, installPointerEvent } from '../../libs/testing'
+import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
 import { useButton } from '../button'
 import { useClearButton } from './useClearButton'
 

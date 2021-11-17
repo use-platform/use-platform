@@ -1,11 +1,11 @@
 import type {
-  DateInputValueProps,
-  DateValue,
-  InputBaseProps,
-  FocusableDOMProps,
-  MaybeDateValue,
-  DateRangeValue,
   DateInputChangeEvent,
+  DateInputValueProps,
+  DateRangeValue,
+  DateValue,
+  FocusableDOMProps,
+  InputBaseProps,
+  MaybeDateValue,
 } from '../../shared/types'
 
 export interface SharedDatePickerProps extends InputBaseProps, FocusableDOMProps {

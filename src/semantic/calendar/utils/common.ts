@@ -1,4 +1,3 @@
-import { clamp } from '../../../libs/utils'
 import {
   addMonths,
   addYears,
@@ -15,6 +14,7 @@ import {
   subYears,
 } from '../../../libs/date'
 import { DayOfWeek } from '../../../libs/i18n'
+import { clamp } from '../../../libs/utils'
 import { RangeValue } from '../../../shared/types'
 import { CalendarNavigationAction, CalendarView, CalendarViewData } from '../types'
 import { durationInDayViews, getDayViewData, moveInDayView } from './day-view'

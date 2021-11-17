@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import { installPointerEvent, createClientRender, screen, fireEvent } from '../../libs/testing'
+import { UseSpinButtonProps, useSpinButton } from '.'
 import { usePress } from '../../interactions/press'
-import { useSpinButton, UseSpinButtonProps } from '.'
+import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
 
 const SpinButton: FC<UseSpinButtonProps> = (props) => {
   const { spinButtonProps, incrementButtonProps, decrementButtonProps } = useSpinButton(props)

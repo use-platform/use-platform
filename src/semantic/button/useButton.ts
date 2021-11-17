@@ -1,9 +1,9 @@
-import { RefObject, ElementType, HTMLAttributes, AllHTMLAttributes } from 'react'
+import { AllHTMLAttributes, ElementType, HTMLAttributes, RefObject } from 'react'
 
-import { isFirefox } from '../../libs/platform'
-import { mergeProps } from '../../libs/merge-props'
-import { usePress } from '../../interactions/press'
 import { useFocusable } from '../../interactions/focusable'
+import { usePress } from '../../interactions/press'
+import { mergeProps } from '../../libs/merge-props'
+import { isFirefox } from '../../libs/platform'
 import type { SharedButtonProps } from '../../shared/types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

@@ -1,4 +1,4 @@
-import type { KeyboardEvent, HTMLAttributes } from 'react'
+import type { HTMLAttributes, KeyboardEvent } from 'react'
 
 import type { DateRangeValue, MaybeDateValue } from '../../shared/types'
 import type { ButtonBaseProps } from '../button'

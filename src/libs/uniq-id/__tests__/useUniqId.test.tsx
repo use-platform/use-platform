@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import { renderHook, createClientRender, screen } from '../../testing'
-import { SSRProvider } from '../../ssr'
 import { useUniqId } from '..'
+import { SSRProvider } from '../../ssr'
+import { createClientRender, renderHook, screen } from '../../testing'
 
 const UnitCase: FC<{ id?: string }> = ({ id }) => <div data-testid="test" id={useUniqId(id)} />
 

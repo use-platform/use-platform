@@ -1,14 +1,14 @@
-import { HTMLAttributes, useState, useMemo, useRef, useEffect } from 'react'
+import { HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react'
 
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import { useListeners } from '../../libs/useListeners'
-import type { PressSource, BasePressEvent } from '../../shared/types'
-import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
-import { getTouchById, getTouchFromEvent } from './utils/touch-event'
-import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
+import type { BasePressEvent, PressSource } from '../../shared/types'
+import { PressProps } from './types'
 import { createPressEvent } from './utils/create-press-event'
 import { isTargetContainsPoint } from './utils/detect-overlap'
-import { PressProps } from './types'
+import { isCheckableInput, isValidKeyboardEvent } from './utils/keyboard-event'
+import { disableTextSelection, restoreTextSelection } from './utils/text-selection'
+import { getTouchById, getTouchFromEvent } from './utils/touch-event'
 
 export interface UsePressResult<T> {
   isPressed: boolean

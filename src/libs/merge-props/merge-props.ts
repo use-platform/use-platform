@@ -1,6 +1,6 @@
+import type { TupleTypes, UnionToIntersection } from '../utility-types'
 import { chainFn } from './utils/chain-fn'
 import { isFn } from './utils/is-fn'
-import type { UnionToIntersection, TupleTypes } from '../utility-types'
 
 type Props = Record<string, any>
 

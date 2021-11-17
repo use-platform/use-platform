@@ -1,11 +1,11 @@
-import { clamp, isInRange } from '../../../libs/utils'
 import { getDaysInMonth, getTime, startOfYear } from '../../../libs/date'
+import { clamp, isInRange } from '../../../libs/utils'
 import { DateLike } from '../../../shared/types'
-import { DateTimeSegment, DateTimeEditableSegmentTypes } from '../types'
 import { MAX_DEFAULT_DATE, MIN_DEFAULT_DATE } from '../constants'
+import { DateTimeEditableSegmentTypes, DateTimeSegment } from '../types'
+import { DateComponent, DateComponents } from './DateComponents'
 import { formatToParts, getResolvedOptions } from './format'
 import { stepValue } from './segment'
-import { DateComponent, DateComponents } from './DateComponents'
 
 export interface DateTimeFieldAdapterOptions {
   formatter: Intl.DateTimeFormat

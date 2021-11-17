@@ -1,6 +1,6 @@
-import { CSSProperties, useState } from 'react'
 import { Story } from '@storybook/react'
-import { useFocusWithin, UseFocusWithinProps } from '@yandex/web-platform'
+import { UseFocusWithinProps, useFocusWithin } from '@yandex/web-platform'
+import { CSSProperties, useState } from 'react'
 
 export const FocusWithin: Story<UseFocusWithinProps> = (props) => {
   const [isFocusWithin, onFocusChange] = useState(false)

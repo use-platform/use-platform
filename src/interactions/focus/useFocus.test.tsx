@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-import { createClientRender, screen, fireEvent } from '../../libs/testing'
-import { useFocus, UseFocusProps } from './useFocus'
+import { createClientRender, fireEvent, screen } from '../../libs/testing'
+import { UseFocusProps, useFocus } from './useFocus'
 
 const Fixture: FC<UseFocusProps<HTMLDivElement>> = (props) => {
   const { focusProps } = useFocus(props)
