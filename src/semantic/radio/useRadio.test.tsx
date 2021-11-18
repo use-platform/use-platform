@@ -4,17 +4,32 @@ import { createClientRender, fireEvent, screen } from '../../libs/testing'
 import { useRadio } from './useRadio'
 import { isFirefox } from '../../libs/platform'
 import { RadioGroupContext } from './RadioGroupContext'
+import { usePress } from '../../interactions/press'
 
 jest.mock('../../libs/platform')
+jest.mock('../../interactions/press')
+
+const touchStartMock = jest.fn()
 
 const Radio: FC<any> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { inputProps } = useRadio(props, inputRef)
+  const { inputProps, isPressed, rootProps } = useRadio(props, inputRef)
 
-  return <input {...inputProps} data-testid="radio" />
+  return (
+    <label data-testid="label" {...rootProps}>
+      <input {...inputProps} data-testid="radio" className={isPressed ? 'is-pressed' : ''} />
+    </label>
+  )
 }
 
+const usePressMocked = usePress as jest.MockedFunction<typeof usePress>
 describe('useRadio', () => {
+  beforeAll(() => {
+    usePressMocked.mockReturnValue({
+      isPressed: true,
+      pressProps: { onTouchStart: touchStartMock },
+    })
+  })
   const render = createClientRender()
 
   test('should set correct type', () => {
@@ -102,7 +117,7 @@ describe('useRadio', () => {
     const setValue = jest.fn()
     render(
       <RadioGroupContext.Provider
-        value={{ name: 'foo', setSelectedValue: setValue, readOnly: true }}
+        value={{ name: 'foo', setSelectedValue: setValue, isReadOnly: true }}
       >
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
@@ -154,7 +169,7 @@ describe('useRadio', () => {
   test('should disable all options if component is disabled via context', () => {
     render(
       <RadioGroupContext.Provider
-        value={{ name: 'foo', setSelectedValue: () => {}, disabled: true }}
+        value={{ name: 'foo', setSelectedValue: () => {}, isDisabled: true }}
       >
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
@@ -165,7 +180,7 @@ describe('useRadio', () => {
   test('should disable all options if component is disabled via context and some options are explicitly enabled', () => {
     render(
       <RadioGroupContext.Provider
-        value={{ name: 'foo', setSelectedValue: () => {}, disabled: true }}
+        value={{ name: 'foo', setSelectedValue: () => {}, isDisabled: true }}
       >
         <Radio value="foo" disabled={false} />
       </RadioGroupContext.Provider>,
@@ -185,7 +200,7 @@ describe('useRadio', () => {
   test('should mark all options as readonly if context state is readonly', () => {
     render(
       <RadioGroupContext.Provider
-        value={{ name: 'foo', setSelectedValue: () => {}, readOnly: true }}
+        value={{ name: 'foo', setSelectedValue: () => {}, isReadOnly: true }}
       >
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
@@ -206,5 +221,23 @@ describe('useRadio', () => {
       'Using readOnly prop with RadioGroupContext will have no effect',
     )
     process.env.NODE_ENV = OLD_ENV
+  })
+
+  test('should call usePress with correct props', () => {
+    render(<Radio value="foo" preventFocusOnPress />)
+    const usePressProps = usePressMocked.mock.calls[usePressMocked.mock.calls.length - 1][0]
+    expect(usePressProps.preventFocusOnPress).toBeTruthy()
+  })
+
+  test('should return pressed state from usePress hook', () => {
+    render(<Radio value="foo" />)
+    expect(screen.getByTestId('radio')).toHaveClass('is-pressed')
+  })
+
+  test('should return root props from pressed hook', () => {
+    touchStartMock.mockClear()
+    render(<Radio value="foo" />)
+    fireEvent.touchStart(screen.getByTestId('label'))
+    expect(touchStartMock).toHaveBeenCalled()
   })
 })

@@ -1,17 +1,33 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react'
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 import {
+  BaseRadioProps,
   RadioGroupContext,
+  useRadio,
   UseRadioGroupProps,
   useRadioGroup,
   useRadioGroupState,
 } from '@yandex/web-platform'
-import { CommonRadioArgs } from './types'
-import { Radio } from './radio'
 
-interface GroupedRadioArgs extends CommonRadioArgs {
+interface GroupedRadioArgs {
+  firstRadioDisabled: boolean
+  secondRadioDisabled: boolean
+  thirdRadioDisabled: boolean
+  value: string
   disabled: boolean
   readOnly: boolean
+}
+
+const Radio: FC<BaseRadioProps> = (props) => {
+  const { children, ...restProps } = props
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { inputProps, rootProps, isPressed } = useRadio(restProps, inputRef)
+  return (
+    <label {...rootProps} style={{ opacity: isPressed || props.disabled ? 0.5 : 1 }}>
+      <input {...inputProps} ref={inputRef} />
+      {children}
+    </label>
+  )
 }
 
 export const GroupedRadios = (args: GroupedRadioArgs) => {

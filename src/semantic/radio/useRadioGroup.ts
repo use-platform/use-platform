@@ -8,13 +8,13 @@ export interface UseRadioGroupResult {
 }
 
 export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
-  const { onChange, ...restProps } = props
+  const { onChange, disabled, readOnly, ...restProps } = props
 
   return {
     rootProps: mergeProps(restProps, {
       role: 'radiogroup',
-      'aria-disabled': props.disabled,
-      'aria-readonly': props.readOnly,
+      'aria-disabled': disabled,
+      'aria-readonly': readOnly,
     }),
   }
 }

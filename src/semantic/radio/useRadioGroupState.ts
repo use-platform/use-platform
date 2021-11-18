@@ -6,8 +6,8 @@ import { useUniqId } from '../../libs/uniq-id'
 export interface UseRadioGroupStateResult {
   name: string
   selectedValue?: string
-  disabled?: boolean
-  readOnly?: boolean
+  isDisabled?: boolean
+  isReadOnly?: boolean
   setSelectedValue?: ChangeEventHandler<HTMLInputElement>
 }
 
@@ -18,9 +18,9 @@ export function useRadioGroupState(props: UseRadioGroupStateProps): UseRadioGrou
   let { name, onChange: setSelectedValue, value: selectedValue } = props
   name = useUniqId(name)
   return {
-    disabled,
+    isDisabled: disabled,
     name,
-    readOnly,
+    isReadOnly: readOnly,
     selectedValue,
     setSelectedValue,
   }

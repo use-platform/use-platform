@@ -9,7 +9,7 @@ import type {
 
 export interface UseRadioGroupProps extends InputBaseProps, InputValueProps<string> {}
 
-export interface RadioProps extends InputBaseProps, FocusableDOMProps, ValidationProps {
+export interface BaseRadioProps extends InputBaseProps, FocusableDOMProps, ValidationProps {
   checked?: boolean
   defaultChecked?: boolean
   onChange?: ChangeEventHandler<HTMLInputElement>

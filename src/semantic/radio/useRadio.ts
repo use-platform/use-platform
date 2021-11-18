@@ -1,18 +1,24 @@
-import { ChangeEvent, InputHTMLAttributes, RefObject } from 'react'
+import { ChangeEvent, HTMLAttributes, InputHTMLAttributes, RefObject } from 'react'
 
-import { RadioProps } from './types'
+import { BaseRadioProps } from './types'
 import { useFocusable } from '../../interactions/focusable'
 import { mergeProps } from '../../libs/merge-props'
 import { isFirefox } from '../../libs/platform'
 import { useRadioGroupContext } from './useRadioGroupContext'
+import { usePress } from '../../interactions/press'
 
 export interface UseRadioResult {
   inputProps: InputHTMLAttributes<HTMLInputElement>
+  isPressed: boolean
+  rootProps: HTMLAttributes<HTMLElement>
 }
 
-export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement>): UseRadioResult {
+export function useRadio(
+  props: BaseRadioProps,
+  inputRef: RefObject<HTMLInputElement>,
+): UseRadioResult {
   const {
-    checked: propsChecked,
+    checked: propChecked,
     defaultChecked,
     disabled,
     name,
@@ -22,11 +28,12 @@ export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement
     ...restProps
   } = props
   const { focusableProps } = useFocusable(props, inputRef)
+  const { isPressed, pressProps } = usePress(props)
   const radioGroupContext = useRadioGroupContext()
   const checked = radioGroupContext
     ? radioGroupContext.selectedValue === props.value
-    : propsChecked ?? defaultChecked
-  const readOnly = radioGroupContext ? radioGroupContext.readOnly : propsReadOnly
+    : propChecked ?? defaultChecked
+  const readOnly = radioGroupContext ? radioGroupContext.isReadOnly : propsReadOnly
 
   if (radioGroupContext) {
     if (process.env.NODE_ENV === 'development') {
@@ -49,6 +56,8 @@ export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement
   }
 
   return {
+    isPressed,
+    rootProps: pressProps,
     inputProps: mergeProps(restProps, focusableProps, {
       type: 'radio',
       onChange: readOnly
@@ -69,7 +78,7 @@ export function useRadio(props: RadioProps, inputRef: RefObject<HTMLInputElement
       autoComplete: isFirefox() ? 'off' : undefined,
       checked,
       name: radioGroupContext?.name ?? name,
-      disabled: radioGroupContext?.disabled || disabled,
+      disabled: radioGroupContext?.isDisabled || disabled,
       readOnly,
     }),
   }

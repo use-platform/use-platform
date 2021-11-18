@@ -1,9 +1,24 @@
-import { useState } from 'react'
+import { FC, ChangeEvent, useCallback, useRef, useState } from 'react'
 
-import { CommonRadioArgs } from './types'
-import { Radio } from './radio'
+import { BaseRadioProps, useRadio } from '@yandex/web-platform'
 
-interface StandaloneRadioArgs extends CommonRadioArgs {
+const Radio: FC<BaseRadioProps> = (props) => {
+  const { children, ...restProps } = props
+  const inputRef = useRef<HTMLInputElement>(null)
+  const { inputProps, rootProps, isPressed } = useRadio(restProps, inputRef)
+  return (
+    <label {...rootProps} style={{ opacity: isPressed || props.disabled ? 0.5 : 1 }}>
+      <input {...inputProps} ref={inputRef} />
+      {children}
+    </label>
+  )
+}
+
+interface StandaloneRadioArgs {
+  firstRadioDisabled: boolean
+  secondRadioDisabled: boolean
+  thirdRadioDisabled: boolean
+  value: string
   firstRadioReadonly: boolean
   secondRadioReadonly: boolean
   thirdRadioReadonly: boolean
@@ -11,7 +26,10 @@ interface StandaloneRadioArgs extends CommonRadioArgs {
 
 export const StandaloneRadios = (args: StandaloneRadioArgs) => {
   const [selected, setSelected] = useState(args.value)
-  const useOnChange = (value: string) => () => setSelected(value)
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setSelected(event.target.value),
+    [],
+  )
   const [oldArgsValue, setOldArgsValue] = useState(args.value)
   if (args.value !== oldArgsValue) {
     setOldArgsValue(args.value)
@@ -25,7 +43,7 @@ export const StandaloneRadios = (args: StandaloneRadioArgs) => {
         checked={selected === 'foo'}
         value="foo"
         name="testinput"
-        onChange={useOnChange('foo')}
+        onChange={handleOnChange}
       >
         foo
       </Radio>
@@ -35,7 +53,7 @@ export const StandaloneRadios = (args: StandaloneRadioArgs) => {
         readOnly={args.secondRadioReadonly}
         value="bar"
         name="testinput"
-        onChange={useOnChange('bar')}
+        onChange={handleOnChange}
       >
         bar
       </Radio>
@@ -45,7 +63,7 @@ export const StandaloneRadios = (args: StandaloneRadioArgs) => {
         readOnly={args.thirdRadioReadonly}
         value="baz"
         name="testinput"
-        onChange={useOnChange('baz')}
+        onChange={handleOnChange}
       >
         baz
       </Radio>

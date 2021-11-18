@@ -60,13 +60,13 @@ describe('useRadioGroupState', () => {
     const { result } = renderHook(({ disabled }) => useRadioGroupState({ disabled }), {
       initialProps: { disabled: true },
     })
-    expect(result.current.disabled).toBe(true)
+    expect(result.current.isDisabled).toBe(true)
   })
 
   test('readonly state should be set from props', () => {
     const { result } = renderHook(({ readOnly }) => useRadioGroupState({ readOnly }), {
       initialProps: { readOnly: true },
     })
-    expect(result.current.readOnly).toBe(true)
+    expect(result.current.isReadOnly).toBe(true)
   })
 })
