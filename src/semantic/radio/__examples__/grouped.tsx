@@ -16,6 +16,9 @@ interface GroupedRadioArgs {
   value: string
   disabled: boolean
   readOnly: boolean
+  firstRadioReadonly: boolean
+  secondRadioReadonly: boolean
+  thirdRadioReadonly: boolean
 }
 
 const Radio: FC<BaseRadioProps> = (props) => {
@@ -31,7 +34,16 @@ const Radio: FC<BaseRadioProps> = (props) => {
 }
 
 export const GroupedRadios = (args: GroupedRadioArgs) => {
-  const { value, firstRadioDisabled, secondRadioDisabled, thirdRadioDisabled, ...restArgs } = args
+  const {
+    value,
+    firstRadioDisabled,
+    secondRadioDisabled,
+    thirdRadioDisabled,
+    firstRadioReadonly,
+    secondRadioReadonly,
+    thirdRadioReadonly,
+    ...restArgs
+  } = args
   const [selected, setSelected] = useState(value)
   const [oldArgsValue, setOldArgsValue] = useState(value)
   if (value !== oldArgsValue) {
@@ -43,13 +55,13 @@ export const GroupedRadios = (args: GroupedRadioArgs) => {
   }, [])
   return (
     <RadioGroup value={selected} onChange={valueChanged} {...restArgs}>
-      <Radio value="foo" disabled={firstRadioDisabled}>
+      <Radio value="foo" disabled={firstRadioDisabled} readOnly={firstRadioReadonly}>
         foo
       </Radio>
-      <Radio value="bar" disabled={secondRadioDisabled}>
+      <Radio value="bar" disabled={secondRadioDisabled} readOnly={secondRadioReadonly}>
         bar
       </Radio>
-      <Radio value="baz" disabled={thirdRadioDisabled}>
+      <Radio value="baz" disabled={thirdRadioDisabled} readOnly={thirdRadioReadonly}>
         baz
       </Radio>
     </RadioGroup>
@@ -63,6 +75,9 @@ GroupedRadios.args = {
   firstRadioDisabled: false,
   secondRadioDisabled: false,
   thirdRadioDisabled: false,
+  firstRadioReadonly: false,
+  secondRadioReadonly: false,
+  thirdRadioReadonly: false,
 }
 
 GroupedRadios.argTypes = {

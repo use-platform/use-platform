@@ -33,7 +33,7 @@ export function useRadio(
   const checked = radioGroupContext
     ? radioGroupContext.selectedValue === props.value
     : propChecked ?? defaultChecked
-  const readOnly = radioGroupContext ? radioGroupContext.isReadOnly : propsReadOnly
+  const readOnly = radioGroupContext?.isReadOnly || propsReadOnly
 
   if (radioGroupContext) {
     if (process.env.NODE_ENV === 'development') {
@@ -47,10 +47,6 @@ export function useRadio(
 
       if (props.name) {
         console.warn('Using name prop with RadioGroupContext will have no effect')
-      }
-
-      if (props.readOnly !== undefined) {
-        console.warn('Using readOnly prop with RadioGroupContext will have no effect')
       }
     }
   }

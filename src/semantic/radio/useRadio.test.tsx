@@ -208,19 +208,13 @@ describe('useRadio', () => {
     expect(screen.getByTestId('radio')).toHaveAttribute('readonly')
   })
 
-  test('should send warning to the console, if we are using readOnly prop with radiogroupcontextprovider in development mode', () => {
-    const OLD_ENV = process.env.NODE_ENV
-    process.env.NODE_ENV = 'development'
-    const consoleSpy = jest.spyOn(console, 'warn')
+  test('should mark single option as readonly if context is set', () => {
     render(
       <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: () => {} }}>
         <Radio value="foo" readOnly />
       </RadioGroupContext.Provider>,
     )
-    expect(consoleSpy).toHaveBeenCalledWith(
-      'Using readOnly prop with RadioGroupContext will have no effect',
-    )
-    process.env.NODE_ENV = OLD_ENV
+    expect(screen.getByTestId('radio')).toHaveAttribute('readonly')
   })
 
   test('should call usePress with correct props', () => {
