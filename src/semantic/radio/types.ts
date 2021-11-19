@@ -1,5 +1,3 @@
-import type { ChangeEventHandler } from 'react'
-
 import type {
   FocusableDOMProps,
   InputBaseProps,
@@ -9,9 +7,11 @@ import type {
 
 export interface UseRadioGroupProps extends InputBaseProps, InputValueProps<string> {}
 
-export interface BaseRadioProps extends InputBaseProps, FocusableDOMProps, ValidationProps {
+export interface BaseRadioProps
+  extends InputBaseProps,
+    FocusableDOMProps,
+    ValidationProps,
+    InputValueProps<string> {
   checked?: boolean
   defaultChecked?: boolean
-  onChange?: ChangeEventHandler<HTMLInputElement>
-  value?: string
 }
