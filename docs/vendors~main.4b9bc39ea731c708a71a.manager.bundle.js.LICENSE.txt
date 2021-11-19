@@ -1,0 +1,1 @@
+.versions/latest/vendors~main.4b9bc39ea731c708a71a.manager.bundle.js.LICENSE.txt
