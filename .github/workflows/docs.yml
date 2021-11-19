@@ -1,0 +1,146 @@
+name: docs
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - master
+
+env:
+  PR_NAME: pr-${{ github.event.pull_request.number }}
+  PUBLISH_DIR: storybook-static
+
+jobs:
+  deploy:
+    env:
+      PREVIEW_URL: https://${{ github.repository_owner }}.github.io/web-platform/pr-${{ github.event.pull_request.number }}/
+
+    name: Deploy Job
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+  
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - run: npm ci
+      - run: npm run storybook:build
+
+      - name: Deploy Latest
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.PUBLISH_DIR }}
+          destination_dir: docs/.versions/latest
+
+      - name: Deploy Preview
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref != 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ env.PUBLISH_DIR }}
+          destination_dir: docs/.versions/${{ env.PR_NAME }}
+
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+
+      - name: Update symlinks
+        run: |
+          mkdir -p docs/.versions
+
+          # clean symlinks
+          for f in docs/*; do
+            [[ -L $f ]] && unlink $f
+          done
+
+          # create pr symlinks
+          for f in docs/.versions/*; do
+            if [[ -d "$f" ]]; then
+              VERSION="$(basename -- $f)"
+
+              if [[ $VERSION != "latest" && ! -L $TARGET ]]; then
+                SOURCE=".versions/$VERSION"
+                TARGET="docs/$VERSION"
+
+                ln -s $SOURCE $TARGET
+              fi
+            fi
+          done
+
+          # create latest symlinks
+          for f in docs/.versions/latest/*; do
+            FILENAME="$(basename -- $f)"
+            SOURCE=".versions/latest/$FILENAME"
+            TARGET="docs/$FILENAME"
+
+            if [[ -e "$f" && ! -L $TARGET ]]; then
+              ln -s $SOURCE $TARGET
+            fi
+          done
+
+          git add .
+          if [[ -n "`git status --porcelain`" ]]; then
+            git commit -m 'deploy: ${{ env.GITHUB_SHA }}'
+            git push origin gh-pages
+          fi
+
+      - name: Find Comment
+        uses: peter-evans/find-comment@v1
+        if: ${{ github.ref != 'refs/heads/main' }}
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Deploy preview
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ github.ref != 'refs/heads/main' }}
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Deploy preview:
+            - [${{ env.PREVIEW_URL }}](${{ env.PREVIEW_URL }})
+          edit-mode: replace
+
+  clean:
+    name: Clean Preview Job
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - run: |
+          git config user.name ${{ github.event.pull_request.user.login }}
+          git config user.email ${{ github.event.pull_request.user.login }}@users.noreply.github.com
+  
+      - name: Remove PR preview dir
+        run: |
+          [ -L "docs/${{ env.PR_NAME }}" ] && unlink "docs/${{ env.PR_NAME }}"
+          git rm -r docs/.versions/${{ env.PR_NAME }}
+          git add .
+          git commit -m 'deploy: ${{ env.GITHUB_SHA }}'
+          git push origin gh-pages
