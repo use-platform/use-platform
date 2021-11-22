@@ -1,11 +1,11 @@
 import { ChangeEvent, HTMLAttributes, InputHTMLAttributes, RefObject } from 'react'
 
-import { BaseRadioProps } from './types'
 import { useFocusable } from '../../interactions/focusable'
+import { usePress } from '../../interactions/press'
 import { mergeProps } from '../../libs/merge-props'
 import { isFirefox } from '../../libs/platform'
+import { BaseRadioProps } from './types'
 import { useRadioGroupContext } from './useRadioGroupContext'
-import { usePress } from '../../interactions/press'
 
 export interface UseRadioResult {
   inputProps: InputHTMLAttributes<HTMLInputElement>
@@ -23,7 +23,7 @@ export function useRadio(
     disabled,
     name,
     onChange,
-    readOnly: propsReadOnly,
+    readOnly: propReadOnly,
     state,
     ...restProps
   } = props
@@ -33,10 +33,10 @@ export function useRadio(
   const checked = radioGroupContext
     ? radioGroupContext.selectedValue === props.value
     : propChecked ?? defaultChecked
-  const readOnly = radioGroupContext?.isReadOnly || propsReadOnly
+  const readOnly = radioGroupContext?.isReadOnly || propReadOnly
 
   if (radioGroupContext) {
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV !== 'production') {
       if (props.checked || props.defaultChecked) {
         console.warn('Using checked/defaultChecked prop with RadioGroupContext will have no effect')
       }
@@ -51,20 +51,20 @@ export function useRadio(
     }
   }
 
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (radioGroupContext) {
+      radioGroupContext.setSelectedValue?.(event)
+    } else {
+      onChange?.(event)
+    }
+  }
+
   return {
     isPressed,
     rootProps: pressProps,
     inputProps: mergeProps(restProps, focusableProps, {
       type: 'radio',
-      onChange: readOnly
-        ? undefined
-        : (event: ChangeEvent<HTMLInputElement>) => {
-          if (radioGroupContext) {
-            radioGroupContext.setSelectedValue?.(event)
-          } else {
-            onChange?.(event)
-          }
-        },
+      onChange: readOnly ? undefined : handleOnChange,
       'aria-invalid': state === 'invalid' || undefined,
       'aria-checked': checked || props.defaultChecked,
       // Use "aria-readonly" because "readOnly" available only for text fields,
@@ -75,7 +75,6 @@ export function useRadio(
       checked,
       name: radioGroupContext?.name ?? name,
       disabled: radioGroupContext?.isDisabled || disabled,
-      readOnly,
     }),
   }
 }

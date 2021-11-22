@@ -1,11 +1,11 @@
-import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
-
 import { BaseRadioProps, mergeProps, useRadio } from '@yandex/web-platform'
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 const Radio: FC<BaseRadioProps> = (props) => {
   const { children, ...restProps } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const { inputProps, rootProps, isPressed } = useRadio(restProps, inputRef)
+
   return (
     <label {...rootProps} style={{ opacity: isPressed || props.disabled ? 0.5 : 1 }}>
       <input {...inputProps} ref={inputRef} />

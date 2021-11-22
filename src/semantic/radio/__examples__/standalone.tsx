@@ -1,11 +1,11 @@
-import { FC, ChangeEvent, useCallback, useRef, useState } from 'react'
-
 import { BaseRadioProps, useRadio } from '@yandex/web-platform'
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 const Radio: FC<BaseRadioProps> = (props) => {
   const { children, ...restProps } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const { inputProps, rootProps, isPressed } = useRadio(restProps, inputRef)
+
   return (
     <label {...rootProps} style={{ opacity: isPressed || props.disabled ? 0.5 : 1 }}>
       <input {...inputProps} ref={inputRef} />
@@ -31,10 +31,12 @@ export const StandaloneRadios = (args: StandaloneRadioArgs) => {
     [],
   )
   const [oldArgsValue, setOldArgsValue] = useState(args.value)
+
   if (args.value !== oldArgsValue) {
     setOldArgsValue(args.value)
     setSelected(args.value)
   }
+
   return (
     <>
       <Radio

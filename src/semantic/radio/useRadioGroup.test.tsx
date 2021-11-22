@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-import { useRadioGroup } from './useRadioGroup'
 import { createClientRender, fireEvent, screen } from '../../libs/testing'
+import { useRadioGroup } from './useRadioGroup'
 
 const RadioGroup: FC<any> = (props) => {
   const { rootProps } = useRadioGroup(props)

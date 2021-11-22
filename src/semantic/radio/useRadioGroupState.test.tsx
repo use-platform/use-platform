@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react'
 
-import { renderHook, act } from '../../libs/testing'
-import { useRadioGroupState } from './useRadioGroupState'
+import { act, renderHook } from '../../libs/testing'
 import { useUniqId } from '../../libs/uniq-id'
+import { useRadioGroupState } from './useRadioGroupState'
 
 jest.mock('../../libs/uniq-id')
 ;(useUniqId as jest.MockedFunction<typeof useUniqId>).mockImplementation(

@@ -1,10 +1,10 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
-import { createClientRender, fireEvent, screen } from '../../libs/testing'
-import { useRadio } from './useRadio'
-import { isFirefox } from '../../libs/platform'
-import { RadioGroupContext } from './RadioGroupContext'
 import { usePress } from '../../interactions/press'
+import { isFirefox } from '../../libs/platform'
+import { createClientRender, fireEvent, screen } from '../../libs/testing'
+import { RadioGroupContext } from './RadioGroupContext'
+import { useRadio } from './useRadio'
 
 jest.mock('../../libs/platform')
 jest.mock('../../interactions/press')
@@ -63,7 +63,8 @@ describe('useRadio', () => {
   })
 
   test('should turn autocomplete off if we are using Firefox', () => {
-    (isFirefox as jest.MockedFunction<typeof isFirefox>).mockReturnValueOnce(true)
+    // eslint-disable-next-line no-extra-semi
+    ;(isFirefox as jest.MockedFunction<typeof isFirefox>).mockReturnValueOnce(true)
     render(<Radio value="foo" />)
     expect(screen.getByTestId('radio')).toHaveAttribute('autocomplete', 'off')
   })
@@ -205,7 +206,7 @@ describe('useRadio', () => {
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
-    expect(screen.getByTestId('radio')).toHaveAttribute('readonly')
+    expect(screen.getByTestId('radio')).toHaveAttribute('aria-readonly', 'true')
   })
 
   test('should mark single option as readonly if context is set', () => {
@@ -214,7 +215,7 @@ describe('useRadio', () => {
         <Radio value="foo" readOnly />
       </RadioGroupContext.Provider>,
     )
-    expect(screen.getByTestId('radio')).toHaveAttribute('readonly')
+    expect(screen.getByTestId('radio')).toHaveAttribute('aria-readonly', 'true')
   })
 
   test('should call usePress with correct props', () => {
