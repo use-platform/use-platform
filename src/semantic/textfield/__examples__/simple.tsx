@@ -1,5 +1,5 @@
+import { TextFieldBaseProps, useButton, useClearButton, useTextField } from '@yandex/web-platform'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
-import { TextFieldBaseProps, useButton, useTextField, useClearButton } from '@yandex/web-platform'
 
 export const Simple = (args: any) => {
   const [value, setValue] = useState('')

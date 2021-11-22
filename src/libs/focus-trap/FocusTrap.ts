@@ -1,6 +1,6 @@
 import { FocusTrapManager } from './FocusTrapManager'
-import { createGuard, removeElementFromDocument } from './utils'
 import { FocusTrapInstance, FocusTrapOptions } from './types'
+import { createGuard, removeElementFromDocument } from './utils'
 
 export class FocusTrap implements FocusTrapInstance {
   private manager: FocusTrapManager

@@ -1,6 +1,6 @@
-import { FC, ChangeEvent, useRef } from 'react'
+import { ChangeEvent, FC, useRef } from 'react'
 
-import { createClientRender, screen, fireEvent } from '../../libs/testing'
+import { createClientRender, fireEvent, screen } from '../../libs/testing'
 import { useTextField } from './useTextField'
 
 const TextField: FC<any> = (props) => {

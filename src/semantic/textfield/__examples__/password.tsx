@@ -1,5 +1,5 @@
+import { useButton, usePasswordField, useTextField } from '@yandex/web-platform'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
-import { useButton, useTextField, usePasswordField } from '@yandex/web-platform'
 
 export const Password = (args: any) => {
   const [value, setValue] = useState('')

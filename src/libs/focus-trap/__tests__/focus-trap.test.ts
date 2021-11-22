@@ -1,7 +1,7 @@
 import { getByTestId } from '@testing-library/react'
 
+import { createGuard, focusFirstIn, getNextTabbableIndex, isFocusFree, isGuard } from '../utils'
 import { getTabbables } from '../utils/tabbable'
-import { createGuard, isFocusFree, isGuard, focusFirstIn, getNextTabbableIndex } from '../utils'
 import { basicFixture } from './fixtures'
 
 describe('focus-trap', () => {

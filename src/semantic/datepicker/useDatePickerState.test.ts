@@ -1,4 +1,4 @@
-import { renderHook, act } from '../../libs/testing'
+import { act, renderHook } from '../../libs/testing'
 import { useDatePickerState } from './useDatePickerState'
 
 describe('useDatePickerState', () => {

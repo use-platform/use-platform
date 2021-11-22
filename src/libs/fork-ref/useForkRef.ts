@@ -1,4 +1,4 @@
-import { useMemo, Ref, MutableRefObject } from 'react'
+import { MutableRefObject, Ref, useMemo } from 'react'
 
 export function useForkRef(refA?: AnyRef, refB?: AnyRef): CallbackRef | null {
   return useMemo(() => {

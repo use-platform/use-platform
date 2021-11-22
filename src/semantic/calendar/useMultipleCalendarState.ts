@@ -1,6 +1,6 @@
 import { MultipleCalendarProps, MultipleCalendarState } from './types'
-import { isEqualDate, isSameCell } from './utils'
 import { useSingleCalendarState } from './useSingleCalendarState'
+import { isEqualDate, isSameCell } from './utils'
 
 export type UseMultipleCalendarStateProps = MultipleCalendarProps
 

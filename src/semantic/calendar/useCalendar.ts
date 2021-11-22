@@ -1,4 +1,4 @@
-import { FocusEvent, KeyboardEvent, HTMLAttributes } from 'react'
+import { FocusEvent, HTMLAttributes, KeyboardEvent } from 'react'
 
 import { useLocale } from '../../libs/i18n'
 import { CalendarNavigationAction, CalendarState } from './types'

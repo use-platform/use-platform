@@ -1,6 +1,6 @@
-import { CSSProperties, useState } from 'react'
 import { Story } from '@storybook/react'
-import { useFocus, UseFocusProps } from '@yandex/web-platform'
+import { UseFocusProps, useFocus } from '@yandex/web-platform'
+import { CSSProperties, useState } from 'react'
 
 export const Focus: Story<UseFocusProps> = (props) => {
   const [isFocused, onFocusChange] = useState(false)

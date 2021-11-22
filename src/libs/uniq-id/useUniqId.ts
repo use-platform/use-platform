@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 
-import { SSRContext, initialContextValue } from '../ssr'
 import { canUseDom } from '../dom-utils'
+import { SSRContext, initialContextValue } from '../ssr'
 
 /**
  * React-hook for generate uniq identifier.

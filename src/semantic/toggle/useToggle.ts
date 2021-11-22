@@ -1,9 +1,9 @@
 import { HTMLAttributes, InputHTMLAttributes, RefObject } from 'react'
 
-import { mergeProps } from '../../libs/merge-props'
-import { isFirefox } from '../../libs/platform'
 import { useFocusable } from '../../interactions/focusable'
 import { usePress } from '../../interactions/press'
+import { mergeProps } from '../../libs/merge-props'
+import { isFirefox } from '../../libs/platform'
 import type { CommonToggleProps } from './types'
 
 interface UseToggleResult {

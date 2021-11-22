@@ -1,13 +1,13 @@
 import React, { HTMLAttributes, useCallback, useState } from 'react'
 
-import { mergeProps } from '../../libs/merge-props'
+import { usePress } from '../../interactions/press'
 import { useFocusManager } from '../../libs/focus'
 import { useLocale } from '../../libs/i18n'
-import { usePress } from '../../interactions/press'
+import { mergeProps } from '../../libs/merge-props'
 import { useSpinButton } from '../spinbutton'
 import { DateTimeEditableSegment } from './types'
-import { getAriaValueAttributes, parseSegmentValue } from './utils'
 import { UseDateTimeFieldStateResult } from './useDateTimeFieldState'
+import { getAriaValueAttributes, parseSegmentValue } from './utils'
 
 export interface UseDateTimeFieldSegmentProps {
   segment: DateTimeEditableSegment

@@ -3,6 +3,7 @@ import { FC, useRef } from 'react'
 import { createClientRender, screen } from '../../libs/testing'
 import { useAutoResize } from './useAutoResize'
 import { useTextField } from './useTextField'
+
 // TODO: fix any type
 const TextField: FC<any> = (props) => {
   const { autoResize, ...restProps } = props

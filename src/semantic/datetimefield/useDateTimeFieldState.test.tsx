@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { renderHook, act } from '../../libs/testing'
+import { act, renderHook } from '../../libs/testing'
 import { DateInputChangeEvent, DateLike } from '../../shared/types'
 import { DateTimeEditableSegment, DateTimeEditableSegmentTypes, DateTimeSegment } from './types'
 import { useDateTimeFieldState } from './useDateTimeFieldState'

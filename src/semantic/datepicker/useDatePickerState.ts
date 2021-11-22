@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { getDateWithTime } from './utils'
-import type { MaybeDateValue, DateInputChangeEvent } from '../../shared/types'
+import type { DateInputChangeEvent, MaybeDateValue } from '../../shared/types'
 import type { BaseDatePickerProps, UseDatePickerStateResult } from './types'
+import { getDateWithTime } from './utils'
 
 export function useDatePickerState(
   props: BaseDatePickerProps,

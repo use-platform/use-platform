@@ -1,5 +1,5 @@
-import { FC, useRef } from 'react'
 import { useButton, useHover } from '@yandex/web-platform'
+import { FC, useRef } from 'react'
 
 export const Default = (args: any) => {
   return <Button {...args} />

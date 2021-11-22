@@ -1,6 +1,6 @@
-import React, { createContext, FC, RefObject, useContext, useEffect, useMemo } from 'react'
+import React, { FC, RefObject, createContext, useContext, useEffect, useMemo } from 'react'
 
-import { createFocusManager, FocusManager } from './createFocusManager'
+import { FocusManager, createFocusManager } from './createFocusManager'
 
 const FocusManagerContext = createContext<FocusManager | null>(null)
 
