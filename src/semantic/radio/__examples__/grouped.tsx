@@ -1,13 +1,12 @@
-import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
-
 import {
   BaseRadioProps,
   RadioGroupContext,
-  useRadio,
   UseRadioGroupProps,
+  useRadio,
   useRadioGroup,
   useRadioGroupState,
 } from '@yandex/web-platform'
+import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 interface GroupedRadioArgs {
   firstRadioDisabled: boolean
@@ -25,6 +24,7 @@ const Radio: FC<BaseRadioProps> = (props) => {
   const { children, ...restProps } = props
   const inputRef = useRef<HTMLInputElement>(null)
   const { inputProps, rootProps, isPressed } = useRadio(restProps, inputRef)
+
   return (
     <label {...rootProps} style={{ opacity: isPressed || props.disabled ? 0.5 : 1 }}>
       <input {...inputProps} ref={inputRef} />
@@ -46,13 +46,16 @@ export const GroupedRadios = (args: GroupedRadioArgs) => {
   } = args
   const [selected, setSelected] = useState(value)
   const [oldArgsValue, setOldArgsValue] = useState(value)
+
   if (value !== oldArgsValue) {
     setOldArgsValue(value)
     setSelected(value)
   }
+
   const valueChanged = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSelected(event.target.value)
   }, [])
+
   return (
     <RadioGroup value={selected} onChange={valueChanged} {...restArgs}>
       <Radio value="foo" disabled={firstRadioDisabled} readOnly={firstRadioReadonly}>
@@ -91,6 +94,7 @@ const RadioGroup: FC<UseRadioGroupProps> = (props) => {
   const { children, value, disabled, onChange, readOnly, ...restProps } = props
   const state = useRadioGroupState({ value, disabled, onChange, readOnly })
   const { rootProps } = useRadioGroup(restProps)
+
   return (
     <RadioGroupContext.Provider value={state}>
       <div {...rootProps}>{children}</div>

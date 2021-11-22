@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react'
 
-import { mergeProps } from '../../libs/merge-props'
 import type { UseRadioGroupProps } from './types'
 
 export interface UseRadioGroupResult {
@@ -11,10 +10,11 @@ export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
   const { onChange, disabled, readOnly, ...restProps } = props
 
   return {
-    rootProps: mergeProps(restProps, {
+    rootProps: {
+      ...restProps,
       role: 'radiogroup',
       'aria-disabled': disabled,
       'aria-readonly': readOnly,
-    }),
+    },
   }
 }
