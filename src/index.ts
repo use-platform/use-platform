@@ -20,5 +20,6 @@ export * from './semantic/textfield'
 export * from './semantic/switch'
 export * from './semantic/datepicker'
 export * from './semantic/radio'
+export * from './semantic/label'
 
 export * from './shared/types'
