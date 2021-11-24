@@ -5,6 +5,7 @@ import { useRadioGroup } from './useRadioGroup'
 
 const RadioGroup: FC<any> = (props) => {
   const { rootProps } = useRadioGroup(props)
+
   return (
     <div {...rootProps} data-testid="radio-group">
       <input type="radio" value="foo" data-testid="radio" />

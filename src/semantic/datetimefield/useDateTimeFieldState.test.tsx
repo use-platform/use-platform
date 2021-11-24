@@ -53,6 +53,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -76,6 +77,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -99,6 +101,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -122,6 +125,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -145,6 +149,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -168,6 +173,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -191,6 +197,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT, max })
     })
 
@@ -214,6 +221,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT, min })
     })
 
@@ -289,6 +297,7 @@ describe('useDateTimeFieldState', () => {
     const initialValue = new Date(1997, 8, 23, 15, 45, 30)
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -308,6 +317,7 @@ describe('useDateTimeFieldState', () => {
   `('should update hours after change dayPeriod $name', ({ dayPeriod, initialValue, hours }) => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(initialValue)
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
@@ -370,6 +380,7 @@ describe('useDateTimeFieldState', () => {
   test('should set min value on increment if it is out of range', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 0, 1, 23))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -389,6 +400,7 @@ describe('useDateTimeFieldState', () => {
   test('should set max value on decrement if it is out of range', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 0, 1, 1))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -408,6 +420,7 @@ describe('useDateTimeFieldState', () => {
   test('should set clamped value passed to setSegmentValue', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 0, 1, 1))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -433,6 +446,7 @@ describe('useDateTimeFieldState', () => {
   test('should disabled year segment', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 8))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -448,6 +462,7 @@ describe('useDateTimeFieldState', () => {
   test('should disabled month segment', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 8, 1))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -463,6 +478,7 @@ describe('useDateTimeFieldState', () => {
   test('should disabled day segment', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 8, 1, 0))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -478,6 +494,7 @@ describe('useDateTimeFieldState', () => {
   test('should disabled hour segment', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 8, 1, 14, 0))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -493,6 +510,7 @@ describe('useDateTimeFieldState', () => {
   test('should disabled minute segment', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 8, 1, 14, 0, 0))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -508,6 +526,7 @@ describe('useDateTimeFieldState', () => {
   test('should disabled seconds segment', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 8, 1, 14, 0, 0, 0))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -532,6 +551,7 @@ describe('useDateTimeFieldState', () => {
     const { type, minSegmentValue, maxSegmentValue } = data
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2000, 0))
+
       return useDateTimeFieldState({
         value,
         onChange,
@@ -784,6 +804,7 @@ describe('useDateTimeFieldState', () => {
   test('should not reset hours if segment value is set to 12', () => {
     const { result } = renderHook(() => {
       const [value, onChange] = useDateTimeValue(new Date(2021, 10, 10, 12, 45))
+
       return useDateTimeFieldState({ value, onChange, formatOptions: DEFAULT_DATETIME_FORMAT })
     })
 
