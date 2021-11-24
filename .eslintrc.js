@@ -254,6 +254,7 @@ module.exports = {
 
     'react-hooks/rules-of-hooks': 2,
     'react-hooks/exhaustive-deps': 1,
+    'newline-before-return': 1,
   },
   overrides: [
     {
