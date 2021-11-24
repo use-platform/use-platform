@@ -11,6 +11,12 @@ export function mergeProps<T extends Props[]>(...args: T): UnionToIntersection<T
     for (const key in result) {
       if (/^on[A-Z]/.test(key) && isFn(props[key]) && isFn(result[key])) {
         result[key] = chainFn(result[key], props[key])
+      } else if (key === 'aria-labelledby' && props[key] && result[key]) {
+        const currentPropValues = (result[key] as string).split(' ')
+        if (!currentPropValues.includes(props[key])) {
+          currentPropValues.push(props[key])
+        }
+        result[key] = currentPropValues.join(' ')
       } else {
         result[key] = props[key] !== undefined ? props[key] : result[key]
       }
