@@ -82,11 +82,12 @@ Approximate work plan (may be adjusted) Q3-Q4:
   - [x] [useAutoResize](./src/semantic/textfield/useAutoResize.ts)
   - [x] [useClearButton](./src/semantic/textfield/useClearButton.ts)
 - [x] [useFocusTrap](./src/libs/focus-trap/useFocusTrap.ts)
-- [ ] useRadio
+- [x] [useLabel](./src/semantic/label/useLabel.ts)
+- [x] [useRadio](./src/semantic/radio/useRadio.ts)
 - [ ] useSlider
 - [ ] useSelect
 - [ ] useComboBox
-- [ ] useMenu
+- [ ] useListBox
 - [ ] useOverlay
 - [ ] usePopup
 - [ ] useModal
