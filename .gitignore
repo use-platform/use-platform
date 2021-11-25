@@ -131,3 +131,12 @@ storybook-static
 dist
 
 # End of https://www.gitignore.io/api/node,osx,windows,linux
+
+# Editors
+.*.swp
+.idea
+.vscode
+.vs
+*.iml
+*.sublime-project
+*.sublime-workspace
