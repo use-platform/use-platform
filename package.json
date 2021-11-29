@@ -20,7 +20,7 @@
     "prepare": "husky install",
     "publish": "./tools/bump-version.js && npm run build && npm publish ./dist",
     "start": "start-storybook -p 8100 --ci",
-    "storybook:build": "build-storybook",
+    "storybook:build": "build-storybook --quiet",
     "unit": "jest"
   },
   "peerDependencies": {
