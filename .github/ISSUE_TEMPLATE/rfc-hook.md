@@ -1,6 +1,6 @@
 ---
 name: 'RFC Hook'
-about: You want to propose a change to web-platform.
+about: You want add a hook to web-platform.
 labels: RFC Hook
 ---
 
