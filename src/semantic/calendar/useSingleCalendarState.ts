@@ -15,6 +15,7 @@ import {
 import {
   clampDate,
   closestViewDate,
+  createRange,
   durationInViews,
   getViewDate,
   getViews,
@@ -165,7 +166,7 @@ export function useSingleCalendarState(
   }
 
   function selectDate(date: Date) {
-    if (readOnly || disabled || !isInRange(activeView, date, min, max)) {
+    if (readOnly || disabled || !isInRange(activeView, date, createRange(min, max))) {
       return
     }
 
@@ -186,7 +187,7 @@ export function useSingleCalendarState(
     const today = new Date()
 
     const sameView = isSameView(activeView, cellValue, viewDate)
-    const isDisabled = disabled || !isInRange(activeView, cellValue, min, max)
+    const isDisabled = disabled || !isInRange(activeView, cellValue, createRange(min, max))
     const isFocused = sameView && isSameCell(activeView, cellValue, focusedDate)
     const isSelected = value ? isSameCell(activeView, cellValue, value) : false
     const isToday = isSameCell(activeView, cellValue, today)
@@ -216,7 +217,7 @@ export function useSingleCalendarState(
       ),
     )
 
-    return isInRange(activeView, date, minViewDate, maxViewDate)
+    return isInRange(activeView, date, createRange(minViewDate, maxViewDate))
   }
 
   const views = useMemo(() => {

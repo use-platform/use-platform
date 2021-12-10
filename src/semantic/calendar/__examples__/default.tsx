@@ -386,8 +386,8 @@ Multiple.argTypes = argTypes
 Multiple.args = args
 
 export const Range = (props: any) => {
-  const [value, setValue] = useState<RangeValue<Date>>()
-  const onChange = useCallback((event: DateInputChangeEvent<RangeValue<Date>>) => {
+  const [value, setValue] = useState<RangeValue<Date | null>>()
+  const onChange = useCallback((event: DateInputChangeEvent<RangeValue<Date | null>>) => {
     setValue(event.value)
   }, [])
 

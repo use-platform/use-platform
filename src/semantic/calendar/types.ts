@@ -115,7 +115,7 @@ export type SingleCalendarProps = DateInputValueProps<Date> & BaseCalendarProps
 
 export type MultipleCalendarProps = DateInputValueProps<Date[]> & BaseCalendarProps
 
-export type RangeCalendarProps = DateInputValueProps<RangeValue<Date>> & BaseCalendarProps
+export type RangeCalendarProps = DateInputValueProps<RangeValue<Date | null>> & BaseCalendarProps
 
 export interface BaseCalendarState {
   /**
@@ -219,7 +219,7 @@ export interface RangeCalendarState extends BaseCalendarState {
   /**
    * The current selected range value.
    */
-  value?: RangeValue<Date>
+  value?: RangeValue<Date | null>
 
   highlightDate: (date: Date) => void
 }

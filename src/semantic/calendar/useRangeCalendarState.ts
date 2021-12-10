@@ -21,14 +21,11 @@ export function useRangeCalendarState(
 
   const singleState = useSingleCalendarState({
     ...restProps,
-    value: value ? value.start : undefined,
+    value: value?.start ?? undefined,
     onChange: (event) => {
-      if (!highlightedDate) {
-        setHighlightedDate(event.value)
-      } else {
-        onChange?.({ value: createRange(highlightedDate, event.value) })
-        setHighlightedDate(null)
-      }
+      setHighlightedDate(highlightedDate ? null : event.value)
+
+      onChange?.({ value: createRange(highlightedDate, event.value) })
     },
   })
 
@@ -50,12 +47,12 @@ export function useRangeCalendarState(
     const baseCellState = getBaseCellState(cellValue, viewDate)
 
     const isHighlighted = highlightedRange
-      ? isInRange(activeView, cellValue, highlightedRange.start, highlightedRange.end)
+      ? isInRange(activeView, cellValue, highlightedRange)
       : false
-    const isHighlightedStart = highlightedRange
+    const isHighlightedStart = highlightedRange?.start
       ? isSameCell(activeView, cellValue, highlightedRange.start)
       : false
-    const isHighlightedEnd = highlightedRange
+    const isHighlightedEnd = highlightedRange?.end
       ? isSameCell(activeView, cellValue, highlightedRange.end)
       : false
     const hasHighlightDate = highlightedDate
