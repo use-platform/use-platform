@@ -4,6 +4,7 @@ import {
   CalendarState,
   CalendarView,
   DateInputChangeEvent,
+  DateRangeValue,
   RangeValue,
   UseCalendarCellProps,
   UseCalendarProps,
@@ -386,8 +387,8 @@ Multiple.argTypes = argTypes
 Multiple.args = args
 
 export const Range = (props: any) => {
-  const [value, setValue] = useState<RangeValue<Date | null>>()
-  const onChange = useCallback((event: DateInputChangeEvent<RangeValue<Date | null>>) => {
+  const [value, setValue] = useState<DateRangeValue>()
+  const onChange = useCallback((event: DateInputChangeEvent<DateRangeValue>) => {
     setValue(event.value)
   }, [])
 

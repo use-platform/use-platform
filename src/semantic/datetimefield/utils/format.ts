@@ -1,4 +1,4 @@
-import { DateLike } from '../../../shared/types'
+import { DateValue } from '../../../shared/types'
 
 export function getResolvedOptions(
   formatter: Intl.DateTimeFormat,
@@ -15,7 +15,7 @@ export function getResolvedOptions(
 
 export function formatToParts(
   formatter: Intl.DateTimeFormat,
-  value?: DateLike,
+  value?: DateValue,
 ): Intl.DateTimeFormatPart[] {
   const parts = formatter.formatToParts(value)
 

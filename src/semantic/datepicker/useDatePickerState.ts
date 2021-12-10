@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import type { DateInputChangeEvent, MaybeDateValue } from '../../shared/types'
+import type { DateInputChangeEvent } from '../../shared/types'
 import type { BaseDatePickerProps, UseDatePickerStateResult } from './types'
 import { getDateWithTime } from './utils'
 
 export function useDatePickerState(
   props: BaseDatePickerProps,
-): UseDatePickerStateResult<MaybeDateValue> {
-  const { onChange, value = null } = props
+): UseDatePickerStateResult<Date | null> {
+  const { onChange, value: propValue = null } = props
+  const value = useMemo(() => (propValue ? new Date(propValue) : null), [propValue])
   const [isOpen, setOpen] = useState(false)
 
-  function handleSetValue(event: DateInputChangeEvent<MaybeDateValue>) {
+  function handleSetValue(event: DateInputChangeEvent<Date | null>) {
     if (isOpen) {
       setOpen(false)
     }

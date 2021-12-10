@@ -1,5 +1,5 @@
 import { act, renderHook } from '../../libs/testing'
-import { DateInputChangeEvent, RangeValue } from '../../shared/types'
+import { DateInputChangeEvent, DateRangeValue } from '../../shared/types'
 import { useRangeCalendarState } from './useRangeCalendarState'
 
 describe('useRangeCalendarState', () => {
@@ -12,7 +12,7 @@ describe('useRangeCalendarState', () => {
   test('should trigger onChange when select date', () => {
     const start = new Date(2021, 11, 10)
     const end = new Date(2021, 11, 29)
-    const onChange = jest.fn<any, [DateInputChangeEvent<RangeValue<Date | null>>]>()
+    const onChange = jest.fn<any, [DateInputChangeEvent<DateRangeValue>]>()
     const { result } = renderHook(() => useRangeCalendarState({ onChange }))
 
     act(() => {
@@ -35,7 +35,7 @@ describe('useRangeCalendarState', () => {
   test('should return correct date range', () => {
     const start = new Date(2021, 11, 10)
     const end = new Date(2021, 10, 29)
-    const onChange = jest.fn<any, [DateInputChangeEvent<RangeValue<Date | null>>]>()
+    const onChange = jest.fn<any, [DateInputChangeEvent<DateRangeValue>]>()
     const { result } = renderHook(() => useRangeCalendarState({ onChange }))
 
     act(() => {

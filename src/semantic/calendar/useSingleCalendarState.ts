@@ -38,24 +38,27 @@ export function useSingleCalendarState(
   props: UseSingleCalendarStateProps,
 ): UseSingleCalendarStateResult {
   const {
-    value,
-    defaultFocusedDate = value,
+    value: propValue,
+    defaultFocusedDate = propValue,
     onChange,
     autoFocus = false,
     readOnly = false,
     disabled = false,
-    min = MIN_DATE,
-    max = MAX_DATE,
+    min: propMin = MIN_DATE,
+    max: propMax = MAX_DATE,
     viewsCount = 1,
     minCalendarView = 'day',
     defaultCalendarView = minCalendarView,
     maxCalendarView = 'year',
   } = props
+  const min = useMemo(() => new Date(propMin), [propMin])
+  const max = useMemo(() => new Date(propMax), [propMax])
+  const value = useMemo(() => (propValue ? new Date(propValue) : undefined), [propValue])
   const firstDayOfWeek = useFirstDayOfWeek()
   const [activeView, setActiveView] = useState(() => normalizeView(defaultCalendarView))
   const [isCalendarFocused, focusCalendar] = useState(autoFocus)
   const [focusedDate, setFocusedDate] = useState(() =>
-    normalizeFocusedDate(defaultFocusedDate ?? new Date()),
+    normalizeFocusedDate(defaultFocusedDate ? new Date(defaultFocusedDate) : new Date()),
   )
   const [baseDate, setBaseDate] = useState(() => normalizeBaseDate(activeView, focusedDate))
 

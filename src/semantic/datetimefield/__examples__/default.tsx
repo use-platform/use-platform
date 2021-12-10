@@ -1,6 +1,5 @@
 import {
   DateInputChangeEvent,
-  DateLike,
   DateTimeEditableSegment,
   UseDateTimeFieldStateResult,
   useDateTimeField,
@@ -62,11 +61,11 @@ const styles = `
 
 export const Default = (props: any) => {
   const { onChange } = props
-  const [value, setValue] = useState<DateLike | null>(null)
+  const [value, setValue] = useState<Date | null>(null)
   const ref = useRef<HTMLElement>(null)
 
   const handleChange = useCallback(
-    (event: DateInputChangeEvent<DateLike | null>) => {
+    (event: DateInputChangeEvent<Date | null>) => {
       setValue(event.value)
       onChange?.(event)
     },

@@ -10,7 +10,7 @@ import {
 } from '.'
 import { FocusManagerScope } from '../../libs/focus'
 import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
-import { DateInputChangeEvent, DateLike } from '../../shared/types'
+import { DateInputChangeEvent } from '../../shared/types'
 
 interface EditableSegmentProps extends HTMLAttributes<HTMLElement> {
   segment: DateTimeEditableSegment
@@ -59,11 +59,11 @@ const DateTimeField: FC<UseDateTimeFieldStateProps> = (props) => {
 
 const Fixture: FC<UseDateTimeFieldStateProps> = (props) => {
   const { value, onChange, ...other } = props
-  const [localValue, setLocalValue] = useState(value)
+  const [localValue, setLocalValue] = useState<Date | null>(() => (value ? new Date(value) : null))
   const ref = useRef<HTMLDivElement>(null)
 
   const handleChange = useCallback(
-    (event: DateInputChangeEvent<DateLike | null>) => {
+    (event: DateInputChangeEvent<Date | null>) => {
       setLocalValue(event.value)
       onChange?.(event)
     },
