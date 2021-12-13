@@ -11,7 +11,7 @@ export function useDateRangePickerState(
   const [isOpen, setOpen] = useState(false)
 
   function handleSetValue(event: DateInputChangeEvent<DateRangeValue>) {
-    if (isOpen) {
+    if (isOpen && event.value.start && event.value.end) {
       setOpen(false)
     }
 
