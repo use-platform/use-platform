@@ -1,5 +1,5 @@
 import { clamp } from '../../../libs/utils'
-import { DateLike } from '../../../shared/types'
+import { MaybeDateValue } from '../../../shared/types'
 import { DateTimeEditableSegmentTypes } from '../types'
 
 export enum DateComponent {
@@ -41,7 +41,7 @@ const MAX_VALUES: Record<DateComponentInternalType, number> = {
 }
 
 export class DateComponents {
-  static from(date: DateLike | null = null) {
+  static from(date: MaybeDateValue = null) {
     if (date === null) {
       return new DateComponents()
     }

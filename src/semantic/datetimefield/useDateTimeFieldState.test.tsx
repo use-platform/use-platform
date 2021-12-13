@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
 import { act, renderHook } from '../../libs/testing'
-import { DateInputChangeEvent, DateLike } from '../../shared/types'
+import { DateInputChangeEvent, MaybeDateValue } from '../../shared/types'
 import { DateTimeEditableSegment, DateTimeEditableSegmentTypes, DateTimeSegment } from './types'
 import { useDateTimeFieldState } from './useDateTimeFieldState'
 
@@ -23,13 +23,13 @@ function findSegment(segments: DateTimeSegment[], type: DateTimeEditableSegmentT
 }
 
 function useDateTimeValue(
-  initialValue?: DateLike | null,
-  onChange?: (event: DateInputChangeEvent<DateLike | null>) => void,
+  initialValue?: MaybeDateValue,
+  onChange?: (event: DateInputChangeEvent<Date | null>) => void,
 ) {
-  const [value, setValue] = useState<DateLike | null>(initialValue ?? null)
+  const [value, setValue] = useState<Date | null>(initialValue ? new Date(initialValue) : null)
 
   const handleChange = useCallback(
-    (event: DateInputChangeEvent<DateLike | null>) => {
+    (event: DateInputChangeEvent<Date | null>) => {
       setValue(event.value)
       onChange?.(event)
     },
@@ -340,7 +340,7 @@ describe('useDateTimeFieldState', () => {
       },
       {
         initialProps: {
-          value: null as DateLike | null,
+          value: null as MaybeDateValue,
         },
       },
     )
@@ -774,7 +774,7 @@ describe('useDateTimeFieldState', () => {
       },
       {
         initialProps: {
-          value: null as DateLike | null,
+          value: null as MaybeDateValue,
         },
       },
     )
@@ -791,7 +791,7 @@ describe('useDateTimeFieldState', () => {
       },
       {
         initialProps: {
-          value: new Date(1990, 0) as DateLike | null,
+          value: new Date(1990, 0) as MaybeDateValue,
         },
       },
     )

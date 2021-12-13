@@ -15,7 +15,7 @@ import {
 } from '../../../libs/date'
 import { DayOfWeek } from '../../../libs/i18n'
 import { clamp } from '../../../libs/utils'
-import { RangeValue } from '../../../shared/types'
+import { DateRangeValue, RangeValue } from '../../../shared/types'
 import { CalendarNavigationAction, CalendarView, CalendarViewData } from '../types'
 import { durationInDayViews, getDayViewData, moveInDayView } from './day-view'
 import { durationInMonthViews, getMonthViewData, moveInMonthView } from './month-view'
@@ -31,7 +31,16 @@ import {
 
 export { isEqual as isEqualDate } from '../../../libs/date'
 
-export function createRange(start: Date, end: Date): RangeValue<Date> {
+export function createRange(start: Date, end: Date): RangeValue<Date>
+export function createRange(start: Date | null, end: Date | null): DateRangeValue
+export function createRange(
+  start: Date | null,
+  end: Date | null,
+): RangeValue<Date> | DateRangeValue {
+  if (!start || !end) {
+    return { start: start ?? end, end: null }
+  }
+
   if (end < start) {
     return { start: end, end: start }
   }
@@ -117,10 +126,14 @@ export function isSameView(view: CalendarView, leftDate: Date, rightDate: Date) 
   return durationInViews(view, leftDate, rightDate) === 0
 }
 
-export function isInRange(view: CalendarView, candidate: Date, min: Date, max: Date) {
+export function isInRange(view: CalendarView, candidate: Date, range: DateRangeValue) {
+  if (!range.start || !range.end) {
+    return false
+  }
+
   const value = startOfCell(view, candidate)
 
-  return value >= startOfCell(view, min) && value <= startOfCell(view, max)
+  return value >= startOfCell(view, range.start) && value <= startOfCell(view, range.end)
 }
 
 export function isSameCell(view: CalendarView, leftDate: Date, rightDate: Date) {

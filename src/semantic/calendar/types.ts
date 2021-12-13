@@ -1,4 +1,4 @@
-import { DateInputValueProps, RangeValue } from '../../shared/types'
+import { DateInputValueProps, DateRangeValue, DateValue, RangeValue } from '../../shared/types'
 
 export type CalendarView = 'day' | 'month' | 'year'
 
@@ -51,7 +51,7 @@ export interface BaseCalendarProps {
   /**
    * The date that will be displayed on mount.
    */
-  defaultFocusedDate?: Date
+  defaultFocusedDate?: DateValue
 
   /**
    * The default calendar view.
@@ -101,21 +101,21 @@ export interface BaseCalendarProps {
    *
    * @default "0001-01-01T00:00Z"
    */
-  min?: Date
+  min?: DateValue
 
   /**
    * The maximum date for select value.
    *
    * @default "275760-09-13T00:00Z"
    */
-  max?: Date
+  max?: DateValue
 }
 
-export type SingleCalendarProps = DateInputValueProps<Date> & BaseCalendarProps
+export type SingleCalendarProps = DateInputValueProps<DateValue, Date> & BaseCalendarProps
 
 export type MultipleCalendarProps = DateInputValueProps<Date[]> & BaseCalendarProps
 
-export type RangeCalendarProps = DateInputValueProps<RangeValue<Date>> & BaseCalendarProps
+export type RangeCalendarProps = DateInputValueProps<DateRangeValue> & BaseCalendarProps
 
 export interface BaseCalendarState {
   /**
@@ -219,7 +219,7 @@ export interface RangeCalendarState extends BaseCalendarState {
   /**
    * The current selected range value.
    */
-  value?: RangeValue<Date>
+  value?: DateRangeValue
 
   highlightDate: (date: Date) => void
 }

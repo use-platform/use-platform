@@ -23,8 +23,8 @@ export interface DateInputChangeEvent<T> {
   value: T
 }
 
-export interface DateInputValueProps<T> {
+export interface DateInputValueProps<T, V = T> {
   defaultValue?: T
-  onChange?: (event: DateInputChangeEvent<T>) => void
+  onChange?: (event: DateInputChangeEvent<V>) => void
   value?: T
 }

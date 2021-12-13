@@ -1,9 +1,9 @@
-import { DateLike } from '../../shared/types'
+import { DateValue } from '../../shared/types'
 
 /**
  * Uses time from second date for first (if first hasn't time).
  */
-export function getDateWithTime(date: DateLike, time: DateLike): Date {
+export function getDateWithTime(date: DateValue, time: DateValue): Date {
   const nextDate = new Date(date)
 
   const hasTime = Boolean(

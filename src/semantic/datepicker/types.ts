@@ -13,7 +13,8 @@ export interface SharedDatePickerProps extends InputBaseProps, FocusableDOMProps
   max?: DateValue
 }
 
-export type BaseDatePickerProps = SharedDatePickerProps & DateInputValueProps<MaybeDateValue>
+export type BaseDatePickerProps = SharedDatePickerProps &
+  DateInputValueProps<MaybeDateValue, Date | null>
 export type BaseDateRangePickerProps = SharedDatePickerProps & DateInputValueProps<DateRangeValue>
 
 export interface UseDatePickerStateResult<T> {
