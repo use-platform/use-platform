@@ -76,4 +76,25 @@ describe('useDateRangePickerState', () => {
     expect(start.getTime()).toEqual(expectedStartDate.getTime())
     expect(end.getTime()).toEqual(expectedEndDate.getTime())
   })
+
+  test('should update isOpen to false if set start and end', () => {
+    const { result } = renderHook(() => useDateRangePickerState({}))
+
+    act(() => result.current.setOpen(true))
+    act(() =>
+      result.current.setValue({
+        value: { start: new Date(2020, 10, 20, 10, 20), end: null },
+      }),
+    )
+
+    expect(result.current.isOpen).toBeTruthy()
+
+    act(() =>
+      result.current.setValue({
+        value: { start: new Date(2020, 10, 20, 10, 20), end: new Date(2020, 10, 21, 10, 30) },
+      }),
+    )
+
+    expect(result.current.isOpen).toBeFalsy()
+  })
 })
