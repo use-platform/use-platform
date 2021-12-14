@@ -207,4 +207,19 @@ describe('useDateTimeField', () => {
 
     expect(onKeyDown).toBeCalledTimes(1)
   })
+
+  test('should prevent keydown event with enter key', () => {
+    const onKeyDown = jest.fn()
+    render(
+      <div onKeyDown={onKeyDown}>
+        <Fixture />
+      </div>,
+    )
+
+    const segment = screen.getByTestId('segment-year')
+
+    fireEvent.keyDown(segment, { key: 'Enter' })
+
+    expect(onKeyDown).toBeCalledWith(expect.objectContaining({ defaultPrevented: true }))
+  })
 })
