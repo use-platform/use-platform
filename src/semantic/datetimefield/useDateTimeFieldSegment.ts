@@ -72,11 +72,7 @@ export function useDateTimeFieldSegment(
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
       // TODO: check the use of special keys for entering digits in different locales (ex. ar-AE)
-      if (
-        ['Tab', 'Shift', 'Alt', 'Meta', 'Enter'].includes(event.key) ||
-        event.ctrlKey ||
-        event.metaKey
-      ) {
+      if (['Tab', 'Shift', 'Alt', 'Meta'].includes(event.key) || event.ctrlKey || event.metaKey) {
         return
       }
 
@@ -107,27 +103,19 @@ export function useDateTimeFieldSegment(
           break
         }
 
-        // FIXME: Remove this, and check valid user input in default case.
-        case ' ':
-          break
-
         default:
-          event.stopPropagation()
-          // TODO: check readOnly
-          if (isDisabled) {
-            return
-          }
-
-          const maxLen = max.toString().length
           const newValue = enteredKeys + event.key
           const numberValue = parseSegmentValue(type, newValue)
 
-          if (numberValue === null) {
+          // TODO: check readOnly
+          if (isDisabled || numberValue === null) {
             return
           }
 
+          event.stopPropagation()
           setValue(numberValue)
 
+          const maxLen = max.toString().length
           // if the number with next digit capacity is greater than the maximum,
           // move the focus to the next segment
           if (newValue.length >= maxLen || numberValue * 10 >= max) {
