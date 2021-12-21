@@ -5,6 +5,7 @@ export function useForkRef(refA?: AnyRef, refB?: AnyRef): CallbackRef | null {
     if (!refA && !refB) {
       return null
     }
+
     return (refValue: HTMLElementOrNull) => {
       if (refA) setRef(refA, refValue)
       if (refB) setRef(refB, refValue)

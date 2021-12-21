@@ -16,6 +16,7 @@ function supportsPreventScroll() {
       element.focus({
         get preventScroll() {
           supportsPreventScrollCached = true
+
           return true
         },
       })

@@ -3,6 +3,7 @@ export function getTouchFromEvent(event: TouchEvent): Touch | null {
   if (targetTouches.length > 0) {
     return targetTouches[0]
   }
+
   return null
 }
 
@@ -14,5 +15,6 @@ export function getTouchById(event: TouchEvent, pointerId: number | null): Touch
       return touch
     }
   }
+
   return null
 }
