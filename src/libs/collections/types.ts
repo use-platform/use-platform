@@ -28,3 +28,5 @@ export type CollectionElement<P = {}> = ReactElement<P, CollectionComponent<P>>
 export interface CollectionProps {
   children: CollectionElement | CollectionElement[]
 }
+
+export type CollectionFactory<T> = (nodes: Iterable<CollectionNode>) => T

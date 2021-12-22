@@ -1,3 +1,4 @@
+export * from './libs/collections'
 export * from './libs/focus-trap'
 export * from './libs/fork-ref'
 export * from './libs/i18n'
