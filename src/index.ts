@@ -5,6 +5,7 @@ export * from './libs/i18n'
 export * from './libs/merge-props'
 export * from './libs/ssr'
 export * from './libs/uniq-id'
+export * from './libs/virtual-scroll'
 
 export * from './interactions/focus'
 export * from './interactions/focusable'
