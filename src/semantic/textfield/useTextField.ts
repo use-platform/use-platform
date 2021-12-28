@@ -10,15 +10,17 @@ import { useFocusable } from '../../interactions/focusable'
 import { setCursorToEnd } from '../../libs/dom-utils'
 import type { CommonTextFieldProps } from './types'
 
-export interface UseTextFieldResult {
+export interface UseTextFieldResult<T> {
   ElementType: ElementType
-  inputProps: InputHTMLAttributes<HTMLInputElement> | TextareaHTMLAttributes<HTMLTextAreaElement>
+  inputProps: T
 }
 
-export function useTextField(
+export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
   props: CommonTextFieldProps,
-  inputRef: RefObject<HTMLInputElement | HTMLTextAreaElement>,
-): UseTextFieldResult {
+  inputRef: RefObject<T>,
+): T extends HTMLTextAreaElement
+  ? UseTextFieldResult<TextareaHTMLAttributes<T>>
+  : UseTextFieldResult<InputHTMLAttributes<T>> {
   const { as: elementType = 'input', type = 'text', autoComplete = 'off', ...restProps } = props
   const { focusableProps } = useFocusable(props, inputRef)
 
@@ -43,5 +45,5 @@ export function useTextField(
       ...focusableProps,
       ...additionalProps,
     },
-  }
+  } as any
 }

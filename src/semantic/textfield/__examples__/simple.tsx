@@ -30,12 +30,12 @@ Simple.args = {
 
 const TextField: FC<any> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { ElementType, inputProps } = useTextField(props, inputRef)
+  const { inputProps } = useTextField(props, inputRef)
   const { isActive, buttonProps } = useClearButton(props, inputRef)
 
   return (
     <div style={{ display: 'flex' }}>
-      <ElementType {...inputProps} ref={inputRef} />
+      <input {...inputProps} ref={inputRef} />
       {isActive && <Button {...buttonProps}>clear</Button>}
     </div>
   )
@@ -44,12 +44,12 @@ const TextField: FC<any> = (props) => {
 const Button: FC<any> = (props) => {
   const { children } = props
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const { ElementType, buttonProps, pressed } = useButton(props, buttonRef)
+  const { ElementType, buttonProps, isPressed } = useButton(props, buttonRef)
 
   return (
     <ElementType {...buttonProps} ref={buttonRef}>
       {children}
-      {pressed ? 'pressed' : ''}
+      {isPressed ? 'pressed' : ''}
     </ElementType>
   )
 }

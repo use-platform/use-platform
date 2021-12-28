@@ -12,12 +12,12 @@ export const Password = (args: any) => {
 
 const PasswordTextField: FC<any> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const { ElementType, inputProps } = useTextField(props, inputRef)
-  const { isShown, inputProps: passwordInputProps, buttonProps } = usePasswordField(props)
+  const { inputProps } = useTextField(props, inputRef)
+  const { isShown, inputProps: passwordInputProps, buttonProps } = usePasswordField(props, inputRef)
 
   return (
     <div style={{ display: 'flex' }}>
-      <ElementType {...inputProps} {...passwordInputProps} ref={inputRef} />
+      <input {...inputProps} {...passwordInputProps} ref={inputRef} />
       <Button {...buttonProps}>{isShown ? 'hide' : 'show'}</Button>
     </div>
   )
