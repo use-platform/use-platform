@@ -1,4 +1,4 @@
-import { RefObject } from 'react'
+import { RefObject, useCallback } from 'react'
 
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import type { ButtonBaseProps } from '../button'
@@ -17,7 +17,7 @@ export function useClearButton(
   const isInteractive = !(readOnly || disabled)
   const isActive = isInteractive && Boolean(value)
 
-  const onPress = () => {
+  const onPress = useCallback(() => {
     if (inputRef.current) {
       focusWithoutScrolling(inputRef.current)
 
@@ -28,7 +28,7 @@ export function useClearButton(
 
       onChange?.(syntheticEvent)
     }
-  }
+  }, [inputRef, onChange])
 
   return {
     isActive,
