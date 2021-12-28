@@ -27,6 +27,11 @@ export function useButton<T extends HTMLElement = HTMLElement>(
     rel,
     type = 'button',
     tabIndex,
+    onPress: _onPress,
+    onPressEnd: _onPressEnd,
+    onPressStart: _onPressStart,
+    onPressUp: _onPressUp,
+    preventFocusOnPress: _preventFocusOnPress,
     ...restProps
   } = props
 
