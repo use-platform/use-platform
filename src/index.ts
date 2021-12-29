@@ -6,6 +6,7 @@ export * from './libs/merge-props'
 export * from './libs/ssr'
 export * from './libs/uniq-id'
 export * from './libs/virtual-scroll'
+export * from './libs/forward-ref'
 
 export * from './interactions/focus'
 export * from './interactions/focusable'
