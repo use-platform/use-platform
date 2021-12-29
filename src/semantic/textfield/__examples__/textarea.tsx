@@ -20,12 +20,12 @@ Textarea.args = {
 const TextField: FC<any> = (props) => {
   const { autoResize, ...restProps } = props
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const { ElementType, inputProps } = useTextField({ as: 'textarea', ...restProps }, inputRef)
+  const { inputProps } = useTextField({ as: 'textarea', ...restProps }, inputRef)
   useAutoResize({ enabled: autoResize, ...restProps }, inputRef)
 
   return (
     <div style={{ display: 'flex' }}>
-      <ElementType {...inputProps} ref={inputRef} />
+      <textarea {...inputProps} ref={inputRef} />
     </div>
   )
 }
