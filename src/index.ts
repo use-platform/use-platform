@@ -23,5 +23,6 @@ export * from './semantic/switch'
 export * from './semantic/datepicker'
 export * from './semantic/radio'
 export * from './semantic/label'
+export * from './semantic/overlay'
 
 export * from './shared/types'
