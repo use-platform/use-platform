@@ -1,6 +1,6 @@
-type State = 'default' | 'disabled' | 'restoring'
+type State = 'idle' | 'disabled' | 'restoring'
 
-let state: State = 'default'
+let state: State = 'idle'
 let prevSelect = ''
 
 function getUserSelect() {
@@ -15,7 +15,7 @@ function setUserSelect(value: string) {
 }
 
 export function disableTextSelection() {
-  if (state === 'default') {
+  if (state === 'idle') {
     prevSelect = getUserSelect()
     setUserSelect('none')
   }
@@ -42,7 +42,7 @@ export function restoreTextSelection() {
         }
 
         prevSelect = ''
-        state = 'default'
+        state = 'idle'
       }
     })
   }, 300)
