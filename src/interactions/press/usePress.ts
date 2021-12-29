@@ -19,7 +19,7 @@ type PressCache<T> = {
   currentPointerId: number | null
   currentPointerTarget: T
   isPressed: boolean
-  pressStarted: boolean
+  isPressStarted: boolean
 }
 
 export function usePress<T extends HTMLElement = HTMLElement>(
@@ -33,7 +33,7 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     // Expect that the currentTarget is always exists
     currentPointerTarget: null as unknown as T,
     isPressed: false,
-    pressStarted: false,
+    isPressStarted: false,
   })
   const propsRef = useRef<PressProps<T>>({})
   // Use ref as cache for reuse props inside memo hook.
@@ -77,13 +77,13 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     const triggerPressStart = (event: BasePressEvent<T>) => {
       const { disabled, onPressStart } = propsRef.current
 
-      if (disabled || cache.pressStarted) {
+      if (disabled || cache.isPressStarted) {
         return
       }
 
       setPressed(true)
-      cache.pressStarted = true
-      // event.source
+      cache.isPressStarted = true
+
       onPressStart?.({ ...event, type: 'pressstart' })
     }
 
@@ -100,12 +100,12 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     const triggerPressEnd = (event: BasePressEvent<T>, triggerOnPress = true) => {
       const { onPress, onPressEnd } = propsRef.current
 
-      if (!cache.pressStarted) {
+      if (!cache.isPressStarted) {
         return
       }
 
       setPressed(false)
-      cache.pressStarted = false
+      cache.isPressStarted = false
 
       onPressEnd?.({ ...event, type: 'pressend' })
 
