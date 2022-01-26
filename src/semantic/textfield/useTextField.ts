@@ -1,13 +1,8 @@
-import {
-  ElementType,
-  InputHTMLAttributes,
-  RefObject,
-  TextareaHTMLAttributes,
-  useLayoutEffect,
-} from 'react'
+import { ElementType, InputHTMLAttributes, RefObject, TextareaHTMLAttributes } from 'react'
 
 import { useFocusable } from '../../interactions/focusable'
 import { setCursorToEnd } from '../../libs/dom-utils'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../libs/isomorphic-layout-effect'
 import type { CommonTextFieldProps } from './types'
 
 export interface UseTextFieldResult<T> {
