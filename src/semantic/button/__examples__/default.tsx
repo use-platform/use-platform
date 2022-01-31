@@ -1,4 +1,4 @@
-import { useButton, useHover } from '@yandex/web-platform'
+import { ButtonBaseProps, ElementTypeProps, useButton, useHover } from '@yandex/web-platform'
 import { FC, useRef } from 'react'
 
 export const Default = (args: any) => {
@@ -20,9 +20,12 @@ Default.args = {
   disabled: false,
 }
 
-const Button: FC<any> = (props) => {
+type ButtonProps = ButtonBaseProps & ElementTypeProps
+
+const Button: FC<ButtonProps> = (props) => {
   const ref = useRef(null)
-  const { ElementType, isPressed, buttonProps } = useButton(props, ref)
+  const { as: ElementType = 'button' } = props
+  const { isPressed, buttonProps } = useButton(props, ref)
   const { isHovered, hoverProps } = useHover(props)
 
   return (

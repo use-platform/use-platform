@@ -44,12 +44,12 @@ const TextField: FC<any> = (props) => {
 const Button: FC<any> = (props) => {
   const { children } = props
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const { ElementType, buttonProps, isPressed } = useButton(props, buttonRef)
+  const { buttonProps, isPressed } = useButton(props, buttonRef)
 
   return (
-    <ElementType {...buttonProps} ref={buttonRef}>
+    <button {...buttonProps} ref={buttonRef}>
       {children}
       {isPressed ? 'pressed' : ''}
-    </ElementType>
+    </button>
   )
 }

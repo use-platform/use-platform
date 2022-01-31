@@ -1,4 +1,4 @@
-import { AllHTMLAttributes, ElementType, HTMLAttributes, RefObject } from 'react'
+import { AllHTMLAttributes, HTMLAttributes, RefObject } from 'react'
 
 import { useFocusable } from '../../interactions/focusable'
 import { usePress } from '../../interactions/press'
@@ -12,7 +12,6 @@ export interface UseButtonProps<T extends HTMLElement = HTMLElement> extends Sha
 export interface UseButtonResult<T> {
   isPressed: boolean
   buttonProps: HTMLAttributes<T>
-  ElementType: ElementType
 }
 
 export function useButton<T extends HTMLElement = HTMLElement>(
@@ -62,7 +61,6 @@ export function useButton<T extends HTMLElement = HTMLElement>(
 
   return {
     buttonProps: mergeProps(restProps, additionalProps, focusableProps, pressProps),
-    ElementType: elementType,
     isPressed,
   }
 }
