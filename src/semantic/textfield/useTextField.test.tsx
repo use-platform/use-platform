@@ -1,13 +1,19 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
 import { createClientRender, fireEvent, screen } from '../../libs/testing'
+import { ElementTypeProps } from '../../shared/types'
+import type { TextFieldBaseProps } from './types'
 import { useTextField } from './useTextField'
 
-const TextField: FC<any> = (props) => {
+type TextFieldProps = TextFieldBaseProps & ElementTypeProps
+
+const TextField: FC<TextFieldProps> = (props) => {
+  const { as: ElementType = 'input' } = props
   // Use mapping for onChange for easy testing.
-  const onChange = (event: ChangeEvent) => props.onChange((event.target as HTMLInputElement).value)
+  const onChange = (event: ChangeEvent) =>
+    props.onChange?.((event.target as HTMLInputElement).value as any)
   const inputRef = useRef<HTMLInputElement>(null)
-  const { ElementType, inputProps } = useTextField({ ...props, onChange }, inputRef)
+  const { inputProps } = useTextField({ ...props, onChange }, inputRef)
 
   return <ElementType {...inputProps} ref={inputRef} data-testid="textfield" />
 }
