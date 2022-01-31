@@ -102,11 +102,11 @@ const SpinButton: FC<any> = (props) => {
 
 const StepButton = (props: UseButtonProps<HTMLButtonElement>) => {
   const ref = useRef<HTMLButtonElement>(null)
-  const { ElementType, buttonProps } = useButton(props, ref)
+  const { buttonProps } = useButton(props, ref)
 
   return (
-    <ElementType {...buttonProps} tabIndex={-1}>
+    <button {...buttonProps} tabIndex={-1}>
       {props.children}
-    </ElementType>
+    </button>
   )
 }
