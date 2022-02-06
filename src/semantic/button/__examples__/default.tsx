@@ -1,4 +1,4 @@
-import { ButtonBaseProps, ElementTypeProps, useButton, useHover } from '@yandex/web-platform'
+import { ButtonBaseProps, ElementTypeProps, useButton, useHover } from '@use-platform/react'
 import { FC, useRef } from 'react'
 
 export const Default = (args: any) => {

@@ -1,4 +1,4 @@
-import { useButton, usePasswordField, useTextField } from '@yandex/web-platform'
+import { useButton, usePasswordField, useTextField } from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 export const Password = (args: any) => {

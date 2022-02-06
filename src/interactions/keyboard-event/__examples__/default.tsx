@@ -1,5 +1,5 @@
 import { useCallback, useState } from '@storybook/addons'
-import { useKeyBinding } from '@yandex/web-platform'
+import { useKeyBinding } from '@use-platform/react'
 
 interface DefaultArgs {
   bind: string

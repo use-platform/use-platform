@@ -1,4 +1,4 @@
-import { CloseStrategy, useOverlay } from '@yandex/web-platform'
+import { CloseStrategy, useOverlay } from '@use-platform/react'
 import { forwardRef, useRef, useState } from 'react'
 
 interface DeafultArgs {

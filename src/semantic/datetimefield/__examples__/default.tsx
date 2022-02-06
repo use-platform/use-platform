@@ -5,8 +5,8 @@ import {
   useDateTimeField,
   useDateTimeFieldSegment,
   useDateTimeFieldState,
-} from '@yandex/web-platform'
-import { FocusManagerScope } from '@yandex/web-platform/libs/focus'
+} from '@use-platform/react'
+import { FocusManagerScope } from '@use-platform/react/libs/focus'
 import { FC, HTMLAttributes, forwardRef, useCallback, useRef, useState } from 'react'
 
 const styles = `

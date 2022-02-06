@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react'
-import { useHover } from '@yandex/web-platform'
+import { useHover } from '@use-platform/react'
 import { CSSProperties } from 'react'
 
 const style: CSSProperties = {

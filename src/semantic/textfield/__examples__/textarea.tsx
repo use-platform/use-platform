@@ -1,4 +1,4 @@
-import { useAutoResize, useTextField } from '@yandex/web-platform'
+import { useAutoResize, useTextField } from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 export const Textarea = (args: any) => {

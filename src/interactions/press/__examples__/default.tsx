@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react'
-import { usePress } from '@yandex/web-platform'
+import { usePress } from '@use-platform/react'
 import { CSSProperties } from 'react'
 
 const style: CSSProperties = {

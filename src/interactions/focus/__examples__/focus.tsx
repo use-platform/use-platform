@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react'
-import { UseFocusProps, useFocus } from '@yandex/web-platform'
+import { UseFocusProps, useFocus } from '@use-platform/react'
 import { CSSProperties, useState } from 'react'
 
 export const Focus: Story<UseFocusProps> = (props) => {

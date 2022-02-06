@@ -5,7 +5,7 @@ import {
   useRadio,
   useRadioGroup,
   useRadioGroupState,
-} from '@yandex/web-platform'
+} from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 interface GroupedRadioArgs {

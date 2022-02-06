@@ -1,4 +1,4 @@
-import { SharedCheckboxProps, useCheckbox, useHover } from '@yandex/web-platform'
+import { SharedCheckboxProps, useCheckbox, useHover } from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 export const Default = (args: any) => {

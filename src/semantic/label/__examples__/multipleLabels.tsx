@@ -1,4 +1,4 @@
-import { mergeProps, useLabel } from '@yandex/web-platform'
+import { mergeProps, useLabel } from '@use-platform/react'
 import { VFC } from 'react'
 
 const MultipleLabelledComponent: VFC = () => {

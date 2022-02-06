@@ -1,4 +1,4 @@
-import { BaseRadioProps, mergeProps, useRadio } from '@yandex/web-platform'
+import { BaseRadioProps, mergeProps, useRadio } from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 const Radio: FC<BaseRadioProps> = (props) => {

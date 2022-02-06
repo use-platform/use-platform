@@ -17,7 +17,7 @@ import {
   useMultipleCalendarState,
   useRangeCalendarState,
   useSingleCalendarState,
-} from '@yandex/web-platform'
+} from '@use-platform/react'
 import { FC, useCallback, useMemo, useRef, useState } from 'react'
 
 const styles = `

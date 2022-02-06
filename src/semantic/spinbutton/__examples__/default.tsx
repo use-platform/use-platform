@@ -1,6 +1,6 @@
-import { UseButtonProps, mergeProps, useButton, useSpinButton } from '@yandex/web-platform'
-import { focusElement } from '@yandex/web-platform/libs/dom-utils'
-import { clamp } from '@yandex/web-platform/libs/utils'
+import { UseButtonProps, mergeProps, useButton, useSpinButton } from '@use-platform/react'
+import { focusElement } from '@use-platform/react/libs/dom-utils'
+import { clamp } from '@use-platform/react/libs/utils'
 import { FC, useCallback, useRef, useState } from 'react'
 
 export const Default = (args: any) => {
