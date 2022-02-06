@@ -12,11 +12,6 @@ export type RangeValue<T> = {
 
 export type DateValue = Date | number
 
-/**
- * @deprecated Use `DateValue` instead.
- */
-export type DateLike = DateValue
-
 export type MaybeDateValue = DateValue | null
 
 export type DateRangeValue = RangeValue<Date | null>
