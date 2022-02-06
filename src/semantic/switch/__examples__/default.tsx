@@ -1,4 +1,4 @@
-import { SwitchBaseProps, useSwitch } from '@yandex/web-platform'
+import { SwitchBaseProps, useSwitch } from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
 export const Default = (args: SwitchBaseProps) => {

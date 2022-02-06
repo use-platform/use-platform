@@ -86,7 +86,7 @@ Each example should haven't external dependencies (for possible open in codesand
 
 ```tsx
 import { FC, useRef } from 'react'
-import { useButton, useHover } from '@yandex/web-platform'
+import { useButton, useHover } from '@use-platform/react'
 
 // Example (should be exported)
 export const Default = () => {

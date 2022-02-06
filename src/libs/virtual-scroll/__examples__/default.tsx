@@ -1,5 +1,5 @@
 import { useCallback } from '@storybook/addons'
-import { RenderElementProps, useVirtualized } from '@yandex/web-platform'
+import { RenderElementProps, useVirtualized } from '@use-platform/react'
 import { useMemo } from 'react'
 
 interface DummyItem {

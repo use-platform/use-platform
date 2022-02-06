@@ -1,5 +1,5 @@
 import { Story } from '@storybook/react'
-import { useFocus, useFocusWithin } from '@yandex/web-platform'
+import { useFocus, useFocusWithin } from '@use-platform/react'
 import { ButtonHTMLAttributes, FC, InputHTMLAttributes, useState } from 'react'
 
 const randomKey = Math.random().toString(36).substr(2, 5)

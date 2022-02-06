@@ -1,4 +1,4 @@
-import { useLabel } from '@yandex/web-platform'
+import { useLabel } from '@use-platform/react'
 import { ElementType, FC } from 'react'
 
 interface DefaultArgs {

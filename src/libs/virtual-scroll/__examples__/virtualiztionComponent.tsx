@@ -1,4 +1,4 @@
-import { VirtualCollection } from '@yandex/web-platform'
+import { VirtualCollection } from '@use-platform/react'
 import { useMemo } from 'react'
 
 interface Args {

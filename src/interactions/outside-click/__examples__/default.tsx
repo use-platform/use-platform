@@ -1,4 +1,4 @@
-import { UseOutsideClickTriggerStrategy, useOutsideClick } from '@yandex/web-platform'
+import { UseOutsideClickTriggerStrategy, useOutsideClick } from '@use-platform/react'
 import { useRef, useState } from 'react'
 
 interface DefaultArgs {
