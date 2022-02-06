@@ -1,16 +1,16 @@
 import { useButton, usePasswordField, useTextField } from '@use-platform/react'
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react'
 
-export const Password = (args: any) => {
+export const Password = () => {
   const [value, setValue] = useState('')
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)
   }, [])
 
-  return <PasswordTextField {...args} value={value} onChange={onChange} />
+  return <PasswordField value={value} onChange={onChange} />
 }
 
-const PasswordTextField: FC<any> = (props) => {
+const PasswordField: FC<any> = (props) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const { inputProps } = useTextField(props, inputRef)
   const { isShown, inputProps: passwordInputProps, buttonProps } = usePasswordField(props, inputRef)
