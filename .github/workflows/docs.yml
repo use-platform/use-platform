@@ -16,14 +16,14 @@ env:
 jobs:
   deploy:
     env:
-      PREVIEW_URL: https://${{ github.repository_owner }}.github.io/web-platform/pr-${{ github.event.pull_request.number }}/
+      PREVIEW_URL: https://${{ github.repository_owner }}.github.io/use-platform/pr-${{ github.event.pull_request.number }}/
 
     name: Deploy Job
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
-  
+
     steps:
       - uses: actions/checkout@v2
 
@@ -136,7 +136,7 @@ jobs:
       - run: |
           git config user.name ${{ github.event.pull_request.user.login }}
           git config user.email ${{ github.event.pull_request.user.login }}@users.noreply.github.com
-  
+
       - name: Remove PR preview dir
         run: |
           [ -L "docs/${{ env.PR_NAME }}" ] && unlink "docs/${{ env.PR_NAME }}"
