@@ -3,7 +3,7 @@
   "version": "0.0.1-alpha.25",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bem/web-platform.git"
+    "url": "git+https://github.com/use-platform/use-platform"
   },
   "author": {
     "name": "Lego Team",
@@ -11,9 +11,9 @@
   },
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/bem/web-platform/issues"
+    "url": "https://github.com/use-platform/use-platform/issues"
   },
-  "homepage": "https://github.com/bem/web-platform#readme",
+  "homepage": "https://github.com/use-platform/use-platform#readme",
   "scripts": {
     "build": "pack build",
     "lint:js": "eslint --ext .ts,.tsx,.js .",
