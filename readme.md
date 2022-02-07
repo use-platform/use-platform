@@ -1,6 +1,6 @@
 ![](https://user-images.githubusercontent.com/7934638/126305621-6a520c6c-8779-42ad-a3c9-74a8be93574f.png)
 
-[![storybook](https://img.shields.io/badge/storybook-000?style=flat-square)][storybook] [![npm](https://img.shields.io/npm/v/web-platform-alpha.svg?style=flat-square&labelColor=111)][npm]
+[![storybook](https://img.shields.io/badge/storybook-000?style=flat-square)][storybook] [![npm](https://img.shields.io/npm/v/@use-platform/react.svg?style=flat-square&labelColor=111)][npm]
 
 ⚠️⚠️ At the moment, the project is under active development and has been subjected to major changes. ⚠️⚠️
 
@@ -10,10 +10,8 @@ Develop interfaces quickly with accessibility and the same work in all environme
 
 ## Installation
 
-Currently package has development name `web-platform-alpha` and will change in the future.
-
 ```sh
-npm i -PE web-platform-alpha
+npm i -PE @use-platform/react
 ```
 
 ## Usage
@@ -21,14 +19,13 @@ npm i -PE web-platform-alpha
 All hooks available from root public API. More examples you can find in [storybook][storybook].
 
 ```tsx
+import { useButton } from '@use-platform/react'
 import { useRef } from 'react'
-import { useButton } from 'web-platform-alpha'
 
 export const Button = (props) => {
   const { children } = props
   const buttonRef = useRef(null)
   const { buttonProps } = useButton(props, buttonRef)
-
   return (
     <button {...buttonProps} ref={buttonRef}>
       {children}
@@ -93,8 +90,8 @@ Approximate work plan (may be adjusted) Q3-Q4:
 - [ ] useModal
 - [ ] usePortal
 
-[npm]: https://www.npmjs.com/package/web-platform-alpha
-[storybook]: https://web-platform.netlify.app
+[npm]: https://www.npmjs.com/package/@use-platform/react
+[storybook]: https://use-platform.github.io/use-platform
 
 ## License
 

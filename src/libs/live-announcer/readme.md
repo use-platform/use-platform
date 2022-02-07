@@ -3,8 +3,7 @@
 ## Usage
 
 ```tsx
-import { announce } from 'web-platform-alpha/libs/live-announcer'
-
+import { announce } from '@use-platform/react/libs/live-announcer'
 const Example = () => {
   return (
     <>
