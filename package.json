@@ -9,7 +9,7 @@
     "name": "Lego Team",
     "email": "lego@yandex-team.ru"
   },
-  "license": "MPL-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/use-platform/use-platform/issues"
   },
