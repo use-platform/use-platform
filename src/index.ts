@@ -12,7 +12,7 @@ export * from './interactions/focus'
 export * from './interactions/focusable'
 export * from './interactions/hover'
 export * from './interactions/press'
-export * from './interactions/keyboard-event'
+export * from './interactions/key-binding'
 export * from './interactions/outside-click'
 
 export * from './semantic/button'
