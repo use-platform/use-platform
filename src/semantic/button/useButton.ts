@@ -1,4 +1,4 @@
-import { AllHTMLAttributes, HTMLAttributes, RefObject } from 'react'
+import { AllHTMLAttributes, ElementType, HTMLAttributes, RefObject } from 'react'
 
 import { useFocusable } from '../../interactions/focusable'
 import { usePress } from '../../interactions/press'
@@ -7,7 +7,9 @@ import { isFirefox } from '../../libs/platform'
 import type { SharedButtonProps } from '../../shared/types'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface UseButtonProps<T extends HTMLElement = HTMLElement> extends SharedButtonProps<T> {}
+export interface UseButtonProps<T extends HTMLElement = HTMLElement> extends SharedButtonProps<T> {
+  elementType?: Extract<ElementType, string>
+}
 
 export interface UseButtonResult<T> {
   isPressed: boolean
@@ -19,7 +21,7 @@ export function useButton<T extends HTMLElement = HTMLElement>(
   ref: RefObject<T>,
 ): UseButtonResult<T> {
   const {
-    as: elementType = 'button',
+    elementType = 'button',
     disabled,
     href,
     target,
@@ -31,7 +33,6 @@ export function useButton<T extends HTMLElement = HTMLElement>(
     onPressStart: _onPressStart,
     onPressUp: _onPressUp,
     preventFocusOnPress: _preventFocusOnPress,
-    ...restProps
   } = props
 
   let additionalProps: AllHTMLAttributes<T>
@@ -45,14 +46,15 @@ export function useButton<T extends HTMLElement = HTMLElement>(
     }
   } else {
     additionalProps = {
+      'aria-disabled': disabled ? disabled : undefined,
       role: 'button',
-      tabIndex: disabled ? undefined : 0,
-      href: elementType === 'a' && disabled ? undefined : href,
-      target: elementType === 'a' ? target : undefined,
-      type: elementType === 'input' ? type : undefined,
-      disabled: elementType === 'input' ? disabled : undefined,
-      'aria-disabled': !disabled || elementType === 'input' ? undefined : disabled,
-      rel: elementType === 'a' ? rel : undefined,
+      tabIndex: tabIndex || 0,
+    }
+
+    if (elementType === 'a') {
+      additionalProps.href = disabled ? undefined : href
+      additionalProps.rel = rel
+      additionalProps.target = target
     }
   }
 
@@ -60,7 +62,7 @@ export function useButton<T extends HTMLElement = HTMLElement>(
   const { isPressed, pressProps } = usePress(props)
 
   return {
-    buttonProps: mergeProps(restProps, additionalProps, focusableProps, pressProps),
+    buttonProps: mergeProps(additionalProps, focusableProps, pressProps),
     isPressed,
   }
 }
