@@ -2,7 +2,8 @@ import { RefObject, useLayoutEffect } from 'react'
 
 import type { InputValueProps } from '../../shared/types/input'
 
-export interface UseAutoResizeProps extends InputValueProps<string | number> {
+export interface UseAutoResizeProps
+  extends InputValueProps<string | ReadonlyArray<string> | number> {
   /**
    * Enable auto resize.
    */

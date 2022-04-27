@@ -11,7 +11,7 @@ import type {
 
 export interface TextFieldBaseProps
   extends InputBaseProps,
-    InputValueProps<string | number>,
+    InputValueProps<string | ReadonlyArray<string> | number>,
     DOMProps,
     FocusableDOMProps,
     KeyboardEventProps,
