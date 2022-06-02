@@ -134,7 +134,7 @@ export function useDateTimeFieldSegment(
     // 'aria-labelledby': '',
     // TODO: may be move to useDateTimeField?
     'aria-invalid': !isValid,
-    tabIndex: 0,
+    tabIndex: isDisabled ? undefined : 0,
     onKeyDown,
     onFocus: useCallback(() => {
       setEnteredKeys('')

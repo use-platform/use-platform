@@ -12,6 +12,7 @@ export interface DateTimeFieldAdapterOptions {
   min?: DateValue
   max?: DateValue
   placeholder?: DateValue
+  disabled?: boolean
 }
 
 export class DateTimeFieldAdapter {
@@ -41,8 +42,10 @@ export class DateTimeFieldAdapter {
 
   private baseDate: Date
 
+  private disabled: boolean
+
   constructor(options: DateTimeFieldAdapterOptions) {
-    const { formatter, min, max, placeholder } = options
+    const { formatter, min, max, placeholder, disabled } = options
     const baseDate = startOfYear(new Date())
 
     // public
@@ -63,6 +66,7 @@ export class DateTimeFieldAdapter {
     this.placeholderParts = formatToParts(this.formatter, this.placeholder)
     this.requiredSegments = this.getSegmentsMaskFromFormatParts(this.placeholderParts)
     this.baseDate = baseDate
+    this.disabled = disabled ?? false
   }
 
   getSegments(dateComponents: DateComponents) {
@@ -79,7 +83,7 @@ export class DateTimeFieldAdapter {
       const { min, max } = this.getLimits(dateComponents, part.type)
       const isPlaceholder = value === null
       const isValid = value === null || isInRange(value, min, max)
-      const isDisabled = !isPlaceholder && isValid && min === max
+      const isDisabled = (!isPlaceholder && isValid && min === max) || this.disabled
 
       return {
         type: part.type,
