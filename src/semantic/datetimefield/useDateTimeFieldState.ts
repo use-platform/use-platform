@@ -50,8 +50,9 @@ export function useDateTimeFieldState(
       min: propMin,
       max: propMax,
       placeholder: propPlaceholder,
+      disabled,
     })
-  }, [formatter, propMax, propMin, propPlaceholder])
+  }, [formatter, propMax, propMin, propPlaceholder, disabled])
 
   const [localValue, setLocalValue] = useState(() => {
     return adapter.normalizeDateComponents(DateComponents.from(propValue))
