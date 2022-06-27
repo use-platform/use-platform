@@ -1,38 +1,36 @@
+import { Story } from '@storybook/react'
 import { useLabel } from '@use-platform/react'
 import { ElementType, FC } from 'react'
 
 interface DefaultArgs {
   id?: string
-  behavior: ElementType
+  as: ElementType
 }
 
 const LabelledInput: FC<DefaultArgs> = (props) => {
-  const { labelProps, fieldProps } = useLabel({
-    ...props,
-    behavior: props.behavior === 'label' ? 'label' : undefined,
-  })
-  const { behavior: ElementTag } = props
+  const { as: ElementType } = props
+  const { labelProps, fieldProps } = useLabel(props)
 
   return (
     <div>
-      <ElementTag style={{ marginRight: '1em' }} {...labelProps}>
+      <ElementType style={{ marginRight: '1em' }} {...labelProps}>
         Label
-      </ElementTag>
+      </ElementType>
       <input type="text" name="input" {...fieldProps} />
     </div>
   )
 }
 
-export const Default = (args: DefaultArgs) => <LabelledInput {...args} />
+export const Default: Story<DefaultArgs> = (args) => <LabelledInput {...args} />
 
 Default.args = {
-  behavior: 'span',
   id: '',
 }
 
 Default.argTypes = {
-  behavior: {
+  as: {
     options: ['label', 'span'],
     control: { type: 'select' },
+    defaultValue: 'label',
   },
 }

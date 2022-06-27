@@ -9,13 +9,15 @@ export interface UseLabelResult {
 }
 
 export function useLabel(props: BaseLabelProps): UseLabelResult {
+  const { id } = props
+
   const labelId = useUniqId()
-  const fieldId = useUniqId(props.id)
+  const fieldId = useUniqId(id)
 
   return {
     labelProps: {
       id: labelId,
-      htmlFor: props.behavior === 'label' ? fieldId : undefined,
+      htmlFor: fieldId,
     },
     fieldProps: {
       'aria-labelledby': labelId,
