@@ -15,17 +15,14 @@ interface FixtureProps extends DOMProps {
 }
 
 const Fixture: FC<FixtureProps> = (props) => {
-  const { labelProps, fieldProps: inputProps } = useLabel({
-    ...props,
-    behavior: props.useLabelElem ? 'label' : undefined,
-  })
+  const { labelProps, fieldProps } = useLabel(props)
 
   return (
     <div>
       <label {...labelProps} data-testid="label">
         Label
       </label>
-      <input type="text" name="input" data-testid="input" {...inputProps} />
+      <input type="text" name="input" data-testid="input" {...fieldProps} />
     </div>
   )
 }
@@ -55,12 +52,6 @@ describe('useLabel', () => {
     render(<Fixture />)
 
     expect(screen.getByTestId('input')).toHaveAttribute('aria-labelledby', 'fakeRandomId')
-  })
-
-  test('should not set for attribute', () => {
-    render(<Fixture />)
-
-    expect(screen.getByTestId('label')).not.toHaveAttribute('for')
   })
 
   test('should set for attribute', () => {
