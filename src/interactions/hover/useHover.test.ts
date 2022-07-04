@@ -42,5 +42,17 @@ describe('useHover', () => {
       fireEvent.hover(node)
       expect(node).toHaveAttribute('data-hovered', 'false')
     })
+
+    test('should not set isHovered when on touch device', () => {
+      render(createElement(Fixture))
+
+      const node = screen.getByTestId('hoverable')
+
+      expect(node).toHaveAttribute('data-hovered', 'false')
+      fireEvent.touchStart(node)
+      expect(node).toHaveAttribute('data-hovered', 'false')
+      fireEvent.touchEnd(node)
+      expect(node).toHaveAttribute('data-hovered', 'false')
+    })
   })
 })

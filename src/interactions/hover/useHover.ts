@@ -18,10 +18,10 @@ export function useHover(props: UseHoverProps): UseHoverResult {
   const hoverProps = useMemo(() => {
     const props: HTMLAttributes<HTMLElement> = {}
 
-    props.onPointerEnter = () => {
+    props.onPointerEnter = (event) => {
       const { disabled } = propsRef.current
 
-      if (disabled) {
+      if (disabled || event.pointerType !== 'mouse') {
         return
       }
 
