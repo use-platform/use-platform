@@ -8,7 +8,7 @@ export interface UseLabelResult {
   fieldProps: HTMLAttributes<HTMLElement>
 }
 
-export function useLabel(props: BaseLabelProps): UseLabelResult {
+export function useLabel(props: BaseLabelProps = {}): UseLabelResult {
   const { id } = props
 
   const labelId = useUniqId()
