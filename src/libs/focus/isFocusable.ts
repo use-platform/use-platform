@@ -1,4 +1,5 @@
-import { isHidden, isHiddenInput, matches } from './utils'
+import { isHidden } from '../dom-utils'
+import { isHiddenInput, matches } from './utils'
 
 const FOCUSABLE_SELECTORS = [
   '[contenteditable]:not([contenteditable="false"])',

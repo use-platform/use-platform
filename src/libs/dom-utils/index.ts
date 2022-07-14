@@ -1,3 +1,4 @@
+export * from './canUseDom'
 export * from './focus'
 export * from './input-cursor'
-export * from './canUseDom'
+export * from './is-hidden'

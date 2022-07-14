@@ -30,20 +30,3 @@ export function isHiddenInput(node: HTMLElement): node is HTMLInputElement {
 export function isRadioInput(node: HTMLElement): node is HTMLInputElement {
   return isInput(node) && node.type === 'radio'
 }
-
-export function isHidden(node: Element) {
-  if (window.getComputedStyle(node).visibility === 'hidden') {
-    return true
-  }
-
-  let parent: Element | null = node
-  while (parent) {
-    if (window.getComputedStyle(parent).display === 'none') {
-      return true
-    }
-
-    parent = parent.parentElement
-  }
-
-  return false
-}

@@ -1,5 +1,6 @@
 import { HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react'
 
+import { isHidden } from '../../libs/dom-utils'
 import { focusWithoutScrolling } from '../../libs/dom-utils'
 import { useListeners } from '../../libs/useListeners'
 import type { BasePressEvent, PressSource } from '../../shared/types'
@@ -155,13 +156,21 @@ export function usePress<T extends HTMLElement = HTMLElement>(
             triggerPressUp(createPressEvent(event, cache.currentPointerTarget, pointerType))
             triggerPressEnd(createPressEvent(event, cache.currentPointerTarget, pointerType))
 
-            if (event.target) {
-              // Preventing extraneous click on the wrong element when tapping on overlay elements
-              event.target.addEventListener('touchend', (e) => e.preventDefault(), {
+            // Preventing extraneous click on the wrong element when tapping on overlay elements
+            event.target?.addEventListener(
+              'touchend',
+              (e) => {
+                const target = e.target as HTMLElement
+
+                if (!document.body.contains(target) || isHidden(target)) {
+                  e.preventDefault()
+                }
+              },
+              {
                 once: true,
                 passive: false,
-              })
-            }
+              },
+            )
           }
         }
       }
