@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`useFocusTrap should match snapshot 1`] = `
+exports[`VisuallyHidden should match snapshot 1`] = `
 <button
   data-testid="test"
 >
