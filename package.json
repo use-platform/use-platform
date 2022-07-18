@@ -1,6 +1,10 @@
 {
   "name": "@use-platform/react",
   "version": "1.0.0-rc.dc945ca.2",
+  "main": "index.js",
+  "module": "esm/index.js",
+  "typings": "index.d.ts",
+  "sideEffects": false,
   "publishConfig": {
     "access": "public"
   },
