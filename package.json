@@ -1,6 +1,10 @@
 {
   "name": "web-platform-alpha",
   "version": "0.0.1-alpha.25",
+  "sideEffects": false,
+  "main": "index.js",
+  "module": "esm/index.js",
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bem/web-platform.git"
@@ -24,7 +28,7 @@
     "unit": "jest"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "dependencies": {
     "date-fns": "^2.22.1",
