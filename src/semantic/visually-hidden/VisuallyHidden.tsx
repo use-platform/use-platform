@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, HTMLAttributes, PropsWithChildren, forwardRef } from 'react'
 
 const VisuallyHiddenStyles: CSSProperties = {
   border: 0,
@@ -13,10 +13,16 @@ const VisuallyHiddenStyles: CSSProperties = {
   whiteSpace: 'nowrap',
 }
 
-export interface VisuallyHiddenProps {
-  children?: React.ReactNode
-}
+export type VisuallyHiddenProps = HTMLAttributes<HTMLSpanElement>
 
-export function VisuallyHidden({ children }: VisuallyHiddenProps) {
-  return <span style={VisuallyHiddenStyles}>{children}</span>
-}
+export const VisuallyHidden = forwardRef<HTMLSpanElement, PropsWithChildren<VisuallyHiddenProps>>(
+  (props, ref) => {
+    const { children, ...otherProps } = props
+
+    return (
+      <span ref={ref} style={VisuallyHiddenStyles} {...otherProps}>
+        {children}
+      </span>
+    )
+  },
+)
