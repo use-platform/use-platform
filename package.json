@@ -1,6 +1,6 @@
 {
   "name": "@use-platform/react",
-  "version": "1.0.0-rc.dc945ca.2",
+  "version": "1.0.0-rc.dc945ca.3",
   "main": "index.js",
   "module": "esm/index.js",
   "typings": "index.d.ts",
@@ -25,7 +25,7 @@
     "build": "pack build",
     "lint:js": "eslint --ext .ts,.tsx,.js .",
     "prepare": "husky install",
-    "publish": "./tools/bump-version.js && npm run build && npm publish ./dist",
+    "publish": "./tools/bump-version.js && npm run build && npm publish ./dist --tag rc",
     "start": "start-storybook -p 8100 --ci",
     "storybook:build": "build-storybook --quiet",
     "unit": "jest"
