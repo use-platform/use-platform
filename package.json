@@ -17,7 +17,7 @@
   "scripts": {
     "build": "pack build",
     "lint:js": "eslint --ext .ts,.tsx,.js .",
-    "prepare": "husky install",
+    "prepare": "husky install && npm run build",
     "publish": "./tools/bump-version.js && npm run build && npm publish ./dist",
     "start": "start-storybook -p 8100 --ci",
     "storybook:build": "build-storybook --quiet",
