@@ -25,6 +25,7 @@ export function useRadio(
     onChange,
     readOnly: propReadOnly,
     state,
+    value,
   } = props
   const { focusableProps } = useFocusable(props, inputRef)
   const { isPressed, pressProps } = usePress(props)
@@ -74,6 +75,7 @@ export function useRadio(
       checked,
       name: radioGroupContext?.name ?? name,
       disabled: radioGroupContext?.isDisabled || disabled,
+      value,
     }),
   }
 }
