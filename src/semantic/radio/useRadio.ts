@@ -25,7 +25,7 @@ export function useRadio(
     onChange,
     readOnly: propReadOnly,
     state,
-    ...restProps
+    value,
   } = props
   const { focusableProps } = useFocusable(props, inputRef)
   const { isPressed, pressProps } = usePress(props)
@@ -62,7 +62,7 @@ export function useRadio(
   return {
     isPressed,
     rootProps: pressProps,
-    inputProps: mergeProps(restProps, focusableProps, {
+    inputProps: mergeProps(focusableProps, {
       type: 'radio',
       onChange: readOnly ? undefined : handleOnChange,
       'aria-invalid': state === 'invalid' || undefined,
@@ -75,6 +75,7 @@ export function useRadio(
       checked,
       name: radioGroupContext?.name ?? name,
       disabled: radioGroupContext?.isDisabled || disabled,
+      value,
     }),
   }
 }

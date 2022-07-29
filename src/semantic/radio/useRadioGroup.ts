@@ -7,11 +7,10 @@ export interface UseRadioGroupResult {
 }
 
 export function useRadioGroup(props: UseRadioGroupProps): UseRadioGroupResult {
-  const { onChange, disabled, readOnly, ...restProps } = props
+  const { disabled, readOnly } = props
 
   return {
     rootProps: {
-      ...restProps,
       role: 'radiogroup',
       'aria-disabled': disabled,
       'aria-readonly': readOnly,
