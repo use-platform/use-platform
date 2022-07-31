@@ -1,6 +1,5 @@
 import type {
   DOMProps,
-  ElementTypeProps,
   FocusEventProps,
   FocusableDOMProps,
   InputBaseProps,
@@ -27,10 +26,7 @@ export interface TextFieldBaseProps
   max?: number | string
 }
 
-export interface CommonTextFieldProps
-  extends TextFieldBaseProps,
-    ValidationProps,
-    ElementTypeProps {
+export interface CommonTextFieldProps extends TextFieldBaseProps, ValidationProps {
   'aria-activedescendant'?: string
   'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both'
   'aria-haspopup'?: boolean | 'false' | 'true' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'
