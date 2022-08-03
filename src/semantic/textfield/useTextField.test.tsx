@@ -1,14 +1,10 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
-import { createClientRender, fireEvent, screen } from '../../libs/testing'
-import { ElementTypeProps } from '../../shared/types'
-import type { TextFieldBaseProps } from './types'
-import { useTextField } from './useTextField'
-
-type TextFieldProps = TextFieldBaseProps & ElementTypeProps
+import { createClientRender, screen } from '../../libs/testing'
+import { TextFieldProps, useTextField } from './useTextField'
 
 const TextField: FC<TextFieldProps> = (props) => {
-  const { as: ElementType = 'input' } = props
+  const { elementType: ElementType = 'input' } = props
   // Use mapping for onChange for easy testing.
   const onChange = (event: ChangeEvent) =>
     props.onChange?.((event.target as HTMLInputElement).value as any)
@@ -29,16 +25,9 @@ describe('useTextField', () => {
   })
 
   test('should render as textarea element', () => {
-    render(<TextField as="textarea" />)
+    render(<TextField elementType="textarea" />)
     const textField = screen.getByTestId('textfield')
     expect(textField instanceof HTMLTextAreaElement).toBeTruthy()
     expect(textField).not.toHaveAttribute('type')
-  })
-
-  test('should trigger onChange after type', () => {
-    const onChange = jest.fn()
-    render(<TextField onChange={onChange} />)
-    fireEvent.type(screen.getByTestId('textfield'), 'test')
-    expect(onChange).toBeCalledWith('test')
   })
 })
