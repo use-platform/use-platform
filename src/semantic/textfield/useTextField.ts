@@ -6,7 +6,7 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../libs/isomorp
 import type { CommonTextFieldProps } from './types'
 
 export interface TextFieldProps extends CommonTextFieldProps {
-  elementType?: Extract<ElementType, string>
+  elementType?: ElementType
 }
 
 export interface UseTextFieldResult<T> {
