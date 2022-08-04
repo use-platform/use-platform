@@ -1,21 +1,25 @@
-import { InputHTMLAttributes, RefObject, TextareaHTMLAttributes } from 'react'
+import { ElementType, InputHTMLAttributes, RefObject, TextareaHTMLAttributes } from 'react'
 
 import { useFocusable } from '../../interactions/focusable'
 import { setCursorToEnd } from '../../libs/dom-utils'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../libs/isomorphic-layout-effect'
 import type { CommonTextFieldProps } from './types'
 
+export interface TextFieldProps extends CommonTextFieldProps {
+  elementType?: ElementType
+}
+
 export interface UseTextFieldResult<T> {
   inputProps: T
 }
 
 export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
-  props: CommonTextFieldProps,
+  props: TextFieldProps,
   inputRef: RefObject<T>,
 ): T extends HTMLTextAreaElement
   ? UseTextFieldResult<TextareaHTMLAttributes<T>>
   : UseTextFieldResult<InputHTMLAttributes<T>> {
-  const { as: elementType = 'input', type = 'text', autoComplete = 'off', ...restProps } = props
+  const { elementType = 'input', type = 'text', autoComplete = 'off' } = props
   const { focusableProps } = useFocusable(props, inputRef)
 
   let additionalProps: InputHTMLAttributes<HTMLInputElement> = {}
@@ -34,7 +38,6 @@ export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
   return {
     inputProps: {
       autoComplete,
-      ...restProps,
       ...focusableProps,
       ...additionalProps,
     },

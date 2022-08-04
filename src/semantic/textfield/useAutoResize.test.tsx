@@ -12,7 +12,7 @@ interface TextFieldProps extends TextFieldBaseProps {
 const TextField: FC<TextFieldProps> = (props) => {
   const { autoResize = false, ...restProps } = props
   const inputRef = useRef<HTMLTextAreaElement>(null)
-  const { inputProps } = useTextField({ ...restProps, as: 'textarea' }, inputRef)
+  const { inputProps } = useTextField({ ...restProps, elementType: 'textarea' }, inputRef)
   useAutoResize({ enabled: autoResize }, inputRef)
 
   return <textarea {...inputProps} ref={inputRef} data-testid="textfield" />
