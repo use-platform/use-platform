@@ -1,5 +1,6 @@
-import { RefObject, useLayoutEffect } from 'react'
+import { RefObject } from 'react'
 
+import { useIsomorphicLayoutEffect } from '../../libs/isomorphic-layout-effect'
 import type { InputValueProps } from '../../shared/types/input'
 
 export interface UseAutoResizeProps
@@ -22,7 +23,7 @@ export function useAutoResize(
 ): void {
   const { value, enabled } = props
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (inputRef.current && enabled) {
       const input = inputRef.current
       input.style.height = 'auto'
