@@ -26,7 +26,7 @@ export function useDateTimeField(props: UseDateTimeFieldProps): UseDateTimeField
       const { currentTarget, target, source } = event
       const { activeElement } = document
 
-      if (source !== 'mouse') {
+      if (source === 'keyboard') {
         return
       }
 
