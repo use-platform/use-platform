@@ -50,6 +50,9 @@ export function usePress<T extends HTMLElement = HTMLElement>(
     const cache = cacheRef.current
     const props: HTMLAttributes<T> = {
       onKeyDown: (event) => {
+        if (event.key === 'Tab' && cache.isPressStarted) {
+          event.preventDefault()
+        }
         if (isValidKeyboardEvent(event.nativeEvent)) {
           // Use preventDefault for all elements except checkbox and radiobox inputs,
           // because input should trigger onChange after keydown.
