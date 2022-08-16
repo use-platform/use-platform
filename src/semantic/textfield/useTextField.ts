@@ -1,4 +1,4 @@
-import { ElementType, InputHTMLAttributes, RefObject, TextareaHTMLAttributes } from 'react'
+import { ElementType, InputHTMLAttributes, RefObject, TextareaHTMLAttributes, useRef } from 'react'
 
 import { useFocusable } from '../../interactions/focusable'
 import { setCursorToEnd } from '../../libs/dom-utils'
@@ -21,7 +21,11 @@ export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
   : UseTextFieldResult<InputHTMLAttributes<T>> {
   const { elementType = 'input', type = 'text', autoComplete = 'off' } = props
   const { focusableProps } = useFocusable(props, inputRef)
-
+  const propsRef = useRef({
+    elementType,
+    autoFocus: props.autoFocus,
+    inputRef,
+  })
   let additionalProps: InputHTMLAttributes<HTMLInputElement> = {}
 
   if (elementType === 'input') {
@@ -30,10 +34,10 @@ export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
 
   useLayoutEffect(() => {
     // By default autofocus set cursor at start position when element type is textarea.
-    if (elementType === 'textarea') {
-      setCursorToEnd(inputRef.current)
+    if (propsRef.current.elementType === 'textarea' && propsRef.current.autoFocus) {
+      setCursorToEnd(propsRef.current.inputRef.current)
     }
-  }, [elementType, inputRef, props.autoFocus])
+  }, [])
 
   return {
     inputProps: {
