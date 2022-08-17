@@ -1,7 +1,7 @@
 import { PropsWithChildren, forwardRef } from 'react'
 
 import { PressProps, usePress } from '.'
-import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
+import { createClientRender, fireEvent, installPointerEvent, screen } from '../../internal/testing'
 
 const Pressable = forwardRef<HTMLButtonElement, PropsWithChildren<PressProps<HTMLButtonElement>>>(
   (props, ref) => {

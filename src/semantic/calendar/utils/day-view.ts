@@ -12,7 +12,7 @@ import {
   subMonths,
   subWeeks,
   subYears,
-} from '../../../libs/date'
+} from '../../../internal/date'
 import { DayOfWeek } from '../../../libs/i18n'
 import { CalendarNavigationAction } from '../types'
 

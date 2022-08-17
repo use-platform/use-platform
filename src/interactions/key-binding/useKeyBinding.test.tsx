@@ -1,4 +1,4 @@
-import { fireEvent, renderHook } from '../../libs/testing'
+import { fireEvent, renderHook } from '../../internal/testing'
 import { UseKeyBindingProps } from './types'
 import { useKeyBinding } from './useKeyBinding'
 

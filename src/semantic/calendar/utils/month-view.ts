@@ -1,4 +1,4 @@
-import { addMonths, addYears, setMonth, subMonths, subYears } from '../../../libs/date'
+import { addMonths, addYears, setMonth, subMonths, subYears } from '../../../internal/date'
 import { CalendarNavigationAction } from '../types'
 
 const MONTH_VIEW_ROW_COUNT = 4

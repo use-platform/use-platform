@@ -1,4 +1,4 @@
-import { act, renderHook } from '../../libs/testing'
+import { act, renderHook } from '../../internal/testing'
 import { DateInputChangeEvent, DateRangeValue } from '../../shared/types'
 import { useRangeCalendarState } from './useRangeCalendarState'
 

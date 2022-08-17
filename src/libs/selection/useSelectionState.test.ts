@@ -1,4 +1,4 @@
-import { act, renderHook } from '../testing'
+import { act, renderHook } from '../../internal/testing'
 import { useSelectionState } from './useSelectionState'
 
 describe('useSelectionState', () => {

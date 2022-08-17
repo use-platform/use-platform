@@ -1,6 +1,6 @@
 import { RefObject } from 'react'
 
-import { renderHook } from '../../libs/testing'
+import { renderHook } from '../../internal/testing'
 import { OverlayManager } from './OverlayManager'
 import { UseOverlayOptions } from './types'
 import { useOverlay } from './useOverlay'

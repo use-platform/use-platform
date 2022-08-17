@@ -1,6 +1,6 @@
 import { PropsWithChildren, createRef, forwardRef, useImperativeHandle, useRef } from 'react'
 
-import { createClientRender, renderHook, screen } from '../../testing'
+import { createClientRender, renderHook, screen } from '../../../internal/testing'
 import { FocusManagerScope, useFocusManager } from '../FocusManagerScope'
 import { FocusManager } from '../createFocusManager'
 

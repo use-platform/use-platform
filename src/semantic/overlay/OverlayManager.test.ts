@@ -1,4 +1,4 @@
-import { fireEvent } from '../../libs/testing'
+import { fireEvent } from '../../internal/testing'
 import { OverlayManager } from './OverlayManager'
 import { OverlayOptions } from './types'
 

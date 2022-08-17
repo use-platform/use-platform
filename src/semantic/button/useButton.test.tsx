@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react'
 
-import { createClientRender } from '../../libs/testing'
+import { createClientRender } from '../../internal/testing'
 import { ButtonBaseProps, useButton } from './index'
 
 const Button: FC<ButtonBaseProps> = (props) => {

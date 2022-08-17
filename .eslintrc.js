@@ -258,7 +258,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['src/libs/testing/**/*.ts', 'src/libs/testing/**/*.tsx'],
+      files: ['src/internal/testing/**/*.ts', 'src/internal/testing/**/*.tsx'],
       env: {
         jest: true,
       },
