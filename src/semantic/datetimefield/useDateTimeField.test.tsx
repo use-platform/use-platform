@@ -222,4 +222,23 @@ describe('useDateTimeField', () => {
 
     expect(onKeyDown).toBeCalledWith(expect.objectContaining({ defaultPrevented: true }))
   })
+
+  test.each`
+    pointerType
+    ${'mouse'}
+    ${'touch'}
+    ${'pen'}
+  `(
+    'should focus in first segment when pointer of $pointerType is down on field',
+    ({ pointerType }) => {
+      render(<Fixture />)
+
+      const field = screen.getByTestId('field')
+      const segments = screen.getAllByRole('spinbutton')
+
+      fireEvent.pointerDown(field, { pointerType })
+
+      expect(segments[0]).toHaveFocus()
+    },
+  )
 })
