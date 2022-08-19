@@ -1,8 +1,8 @@
 import { HTMLAttributes, useEffect, useMemo, useRef, useState } from 'react'
 
+import { useListeners } from '../../internal/useListeners'
 import { isHidden } from '../../libs/dom-utils'
 import { focusWithoutScrolling } from '../../libs/dom-utils'
-import { useListeners } from '../../libs/useListeners'
 import type { BasePressEvent, PressSource } from '../../shared/types'
 import { PressProps } from './types'
 import { createPressEvent } from './utils/create-press-event'

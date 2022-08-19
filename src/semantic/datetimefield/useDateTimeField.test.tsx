@@ -8,8 +8,8 @@ import {
   useDateTimeFieldSegment,
   useDateTimeFieldState,
 } from '.'
+import { createClientRender, fireEvent, installPointerEvent, screen } from '../../internal/testing'
 import { FocusManagerScope } from '../../libs/focus'
-import { createClientRender, fireEvent, installPointerEvent, screen } from '../../libs/testing'
 import { DateInputChangeEvent } from '../../shared/types'
 
 interface EditableSegmentProps extends HTMLAttributes<HTMLElement> {

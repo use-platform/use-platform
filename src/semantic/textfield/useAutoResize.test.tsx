@@ -1,6 +1,6 @@
 import { FC, useRef } from 'react'
 
-import { createClientRender, screen } from '../../libs/testing'
+import { createClientRender, screen } from '../../internal/testing'
 import type { TextFieldBaseProps } from './types'
 import { useAutoResize } from './useAutoResize'
 import { useTextField } from './useTextField'

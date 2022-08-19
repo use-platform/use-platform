@@ -1,4 +1,4 @@
-import { fireEvent, renderHook } from '../../libs/testing'
+import { fireEvent, renderHook } from '../../internal/testing'
 import { UseOutsideClickProps } from './types'
 import { useOutsideClick } from './useOutsideClick'
 

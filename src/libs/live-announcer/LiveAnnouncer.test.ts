@@ -1,4 +1,4 @@
-import { screen } from '../testing'
+import { screen } from '../../internal/testing'
 import { announce, disposeLiveAnnouncer } from './LiveAnnouncer'
 
 describe('LiveAnnouncer', () => {

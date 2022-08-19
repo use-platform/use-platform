@@ -1,6 +1,6 @@
 import { MutableRefObject, createRef, forwardRef, useRef } from 'react'
 
-import { createClientRender, screen } from '../testing'
+import { createClientRender, screen } from '../../internal/testing'
 import { useForwardedRef } from './useForwardedRef'
 
 const Fixture = forwardRef<HTMLDivElement>((_, forwardedRef) => {

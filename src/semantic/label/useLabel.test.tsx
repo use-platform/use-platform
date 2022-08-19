@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { createClientRender, screen } from '../../libs/testing'
+import { createClientRender, screen } from '../../internal/testing'
 import { useUniqId } from '../../libs/uniq-id'
 import { DOMProps } from '../../shared/types/dom'
 import { useLabel } from './useLabel'

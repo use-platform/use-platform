@@ -3,7 +3,7 @@
  */
 import { useRef } from 'react'
 
-import { createServerRender } from '../../libs/testing'
+import { createServerRender } from '../../internal/testing'
 import { useTextField } from './useTextField'
 
 function Fixture() {

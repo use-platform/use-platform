@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 
-import { isWeekend } from '../../libs/date'
+import { isWeekend } from '../../internal/date'
 import { useFirstDayOfWeek } from '../../libs/i18n'
 import { clamp } from '../../libs/utils'
 import { MAX_DATE, MIN_DATE } from './constants'

@@ -1,4 +1,4 @@
-import { setYear } from '../../libs/date'
+import { setYear } from '../../internal/date'
 import { DateTimeEditableSegmentTypes } from './types'
 
 export const EXTRA_STEP: Partial<Record<DateTimeEditableSegmentTypes, number>> = {

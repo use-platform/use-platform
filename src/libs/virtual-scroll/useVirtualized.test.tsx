@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useVirtual } from 'react-virtual'
 
-import { createClientRender, screen } from '../../libs/testing'
+import { createClientRender, screen } from '../../internal/testing'
 import { RenderElementProps, UseVirtualizedProps } from './types'
 import { useVirtualized } from './useVirtualized'
 

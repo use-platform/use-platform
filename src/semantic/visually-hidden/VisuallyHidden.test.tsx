@@ -1,4 +1,4 @@
-import { createClientRender, screen } from '../../libs/testing'
+import { createClientRender, screen } from '../../internal/testing'
 import { VisuallyHidden } from './VisuallyHidden'
 
 const hiddenText = 'Hidden text'

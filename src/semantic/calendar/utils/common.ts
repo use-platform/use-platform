@@ -12,7 +12,7 @@ import {
   startOfYear,
   subMonths,
   subYears,
-} from '../../../libs/date'
+} from '../../../internal/date'
 import { DayOfWeek } from '../../../libs/i18n'
 import { clamp } from '../../../libs/utils'
 import { DateRangeValue, RangeValue } from '../../../shared/types'
@@ -29,7 +29,7 @@ import {
   subYearViews,
 } from './year-view'
 
-export { isEqual as isEqualDate } from '../../../libs/date'
+export { isEqual as isEqualDate } from '../../../internal/date'
 
 export function createRange(start: Date, end: Date): RangeValue<Date>
 export function createRange(start: Date | null, end: Date | null): DateRangeValue

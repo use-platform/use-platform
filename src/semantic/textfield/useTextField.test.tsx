@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
-import { createClientRender, screen } from '../../libs/testing'
+import { createClientRender, screen } from '../../internal/testing'
 import { TextFieldProps, useTextField } from './useTextField'
 
 const TextField: FC<TextFieldProps> = (props) => {

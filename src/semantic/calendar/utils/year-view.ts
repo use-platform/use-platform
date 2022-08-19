@@ -1,4 +1,4 @@
-import { addYears, endOfYear, setYear, startOfYear, subYears } from '../../../libs/date'
+import { addYears, endOfYear, setYear, startOfYear, subYears } from '../../../internal/date'
 import { CalendarNavigationAction } from '../types'
 
 const YEAR_VIEW_ROW_COUNT = 6

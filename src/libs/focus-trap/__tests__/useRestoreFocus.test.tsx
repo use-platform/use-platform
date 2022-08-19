@@ -1,4 +1,4 @@
-import { renderHook } from '../../testing'
+import { renderHook } from '../../../internal/testing'
 import { UseRestoreFocusProps, useRestoreFocus } from '../useRestoreFocus'
 
 let elements: HTMLElement[] = []

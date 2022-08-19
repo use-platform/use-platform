@@ -1,6 +1,6 @@
 import { Ref, createRef } from 'react'
 
-import { renderHook } from '../testing'
+import { renderHook } from '../../internal/testing'
 import { useForkRef } from './useForkRef'
 
 function renderForkRefHook(refA: Ref<any>, refB: Ref<any>) {

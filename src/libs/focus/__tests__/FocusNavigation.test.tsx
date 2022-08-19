@@ -1,4 +1,4 @@
-import { createClientRender, screen } from '../../testing'
+import { createClientRender, screen } from '../../../internal/testing'
 import { FocusNavigation } from '../FocusNavigation'
 
 describe('FocusNavigation', () => {

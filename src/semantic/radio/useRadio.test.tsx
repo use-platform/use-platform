@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useRef } from 'react'
 
 import { usePress } from '../../interactions/press'
+import { createClientRender, fireEvent, screen } from '../../internal/testing'
 import { isFirefox } from '../../libs/platform'
-import { createClientRender, fireEvent, screen } from '../../libs/testing'
 import { RadioGroupContext } from './RadioGroupContext'
 import { useRadio } from './useRadio'
 

@@ -1,6 +1,6 @@
 import React, { FC, MutableRefObject, createRef } from 'react'
 
-import { createClientRender, screen } from '../../libs/testing'
+import { createClientRender, screen } from '../../internal/testing'
 import { VirtualCollection } from './VirtualCollection'
 import { VirtualCollectionProps } from './types'
 import { useVirtualized } from './useVirtualized'

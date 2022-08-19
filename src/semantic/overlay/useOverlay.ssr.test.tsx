@@ -3,7 +3,7 @@
  */
 import React, { FC } from 'react'
 
-import { createServerRender } from '../../libs/testing'
+import { createServerRender } from '../../internal/testing'
 import { UseOverlayOptions } from './types'
 import { useOverlay } from './useOverlay'
 
