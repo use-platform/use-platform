@@ -9,15 +9,17 @@ export function useKeyBinding(props: UseKeyBindingProps): void {
   partialPropsRef.current.onAction = onAction
 
   useEffect(() => {
+    if (disabled) {
+      return
+    }
+
     const listener = (event: KeyboardEvent) => {
       if (bind === event.code) {
         partialPropsRef.current.onAction(event)
       }
     }
 
-    if (!disabled) {
-      document.addEventListener('keyup', listener)
-    }
+    document.addEventListener('keyup', listener)
 
     return () => {
       document.removeEventListener('keyup', listener)
