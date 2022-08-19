@@ -105,5 +105,31 @@ describe('usePress', () => {
       expect(onPressUp).toBeCalledTimes(2)
       expect(onPressUp).toBeCalledWith(expected)
     })
+
+    test('should prevent default on Tab key while pressed', () => {
+      const preventDefault = jest.spyOn(KeyboardEvent.prototype, 'preventDefault')
+      const onPressStart = jest.fn()
+
+      render(<Pressable onPressStart={onPressStart}>Button</Pressable>)
+
+      const pressable = screen.getByTestId('pressable')
+
+      fireEvent.keyDown(pressable, { key: 'Enter' })
+
+      expect(onPressStart).toBeCalledTimes(1)
+      expect(preventDefault).toBeCalledTimes(1)
+
+      fireEvent.keyDown(pressable, { key: 'Shift' })
+
+      expect(onPressStart).toBeCalledTimes(1)
+      expect(preventDefault).toBeCalledTimes(1)
+
+      fireEvent.keyDown(pressable, { key: 'Tab' })
+
+      expect(onPressStart).toBeCalledTimes(1)
+      expect(preventDefault).toBeCalledTimes(2)
+
+      preventDefault.mockRestore()
+    })
   })
 })
