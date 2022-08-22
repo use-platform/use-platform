@@ -19,7 +19,28 @@ export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
 ): T extends HTMLTextAreaElement
   ? UseTextFieldResult<TextareaHTMLAttributes<T>>
   : UseTextFieldResult<InputHTMLAttributes<T>> {
-  const { elementType = 'input', type = 'text', autoComplete = 'off' } = props
+  const {
+    elementType = 'input',
+    type = 'text',
+    autoComplete = 'off',
+    onChange,
+    onBlur,
+    disabled,
+    value,
+    defaultValue,
+    min,
+    minLength,
+    maxLength,
+    max,
+    readOnly,
+    name,
+    onFocus,
+    placeholder,
+    required,
+    pattern,
+    inputMode,
+    id,
+  } = props
   const { focusableProps } = useFocusable(props, inputRef)
   const propsRef = useRef({
     elementType,
@@ -41,6 +62,30 @@ export function useTextField<T extends HTMLInputElement | HTMLTextAreaElement>(
 
   return {
     inputProps: {
+      disabled,
+      value,
+      defaultValue,
+      min,
+      minLength,
+      maxLength,
+      max,
+      readOnly,
+      name,
+      placeholder,
+      required,
+      id,
+      inputMode,
+      pattern,
+      'aria-activedescendant': props['aria-activedescendant'],
+      'aria-autocomplete': props['aria-autocomplete'],
+      'aria-haspopup': props['aria-haspopup'],
+      'aria-multiline': props['aria-multiline'],
+      'aria-placeholder': props['aria-placeholder'],
+      'aria-readonly': props['aria-readonly'],
+      'aria-required': required || undefined,
+      onFocus,
+      onChange,
+      onBlur,
       autoComplete,
       ...focusableProps,
       ...additionalProps,
