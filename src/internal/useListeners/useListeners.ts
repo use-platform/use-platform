@@ -33,15 +33,35 @@ interface UseListenersResult {
 export function useListeners(): UseListenersResult {
   const globalListeners = useRef(new Map())
 
-  const addListener = useCallback((eventTarget, type, listener, options) => {
-    globalListeners.current.set(listener, { type, eventTarget, options })
-    eventTarget.addEventListener(type, listener, options)
-  }, [])
+  /* eslint-disable no-undef */
+  const addListener = useCallback(
+    (
+      eventTarget: EventTarget,
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions,
+    ) => {
+      /* eslint-enable no-undef */
+      globalListeners.current.set(listener, { type, eventTarget, options })
+      eventTarget.addEventListener(type, listener, options)
+    },
+    [],
+  )
 
-  const removeListener = useCallback((eventTarget, type, listener, options) => {
-    eventTarget.removeEventListener(type, listener, options)
-    globalListeners.current.delete(listener)
-  }, [])
+  /* eslint-disable no-undef */
+  const removeListener = useCallback(
+    (
+      eventTarget: EventTarget,
+      type: string,
+      listener: EventListenerOrEventListenerObject,
+      options?: boolean | AddEventListenerOptions,
+    ) => {
+      /* eslint-enable no-undef */
+      eventTarget.removeEventListener(type, listener, options)
+      globalListeners.current.delete(listener)
+    },
+    [],
+  )
 
   const removeAllListeners = useCallback(() => {
     globalListeners.current.forEach((value, key) => {

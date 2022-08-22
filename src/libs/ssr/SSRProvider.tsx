@@ -28,7 +28,7 @@ export const SSRContext = createContext(initialContextValue)
  *   </SSRProvider>
  * )
  */
-export const SSRProvider: FC = ({ children }) => {
+export const SSRProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
   const context = useContext(SSRContext)
 
   const value = useMemo(() => {

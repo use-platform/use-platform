@@ -7,6 +7,7 @@ const FocusManagerContext = createContext<FocusManager | null>(null)
 export interface FocusManagerScopeProps {
   scopeRef: RefObject<HTMLElement>
   autoFocus?: boolean
+  children?: React.ReactNode
 }
 
 export const FocusManagerScope: FC<FocusManagerScopeProps> = (props) => {
