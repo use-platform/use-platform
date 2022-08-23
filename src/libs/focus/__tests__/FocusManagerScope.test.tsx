@@ -42,7 +42,7 @@ describe('FocusManagerScope', () => {
     const scopeRef = createRef<HTMLElement>()
     const { result } = renderHook<FocusManagerScopeProps, FocusManager>(() => useFocusManager(), {
       initialProps: { scopeRef },
-      wrapper: ({ children }) => (
+      wrapper: ({ children }: FocusManagerScopeProps) => (
         <FocusManagerScope scopeRef={scopeRef}>{children}</FocusManagerScope>
       ),
     })
