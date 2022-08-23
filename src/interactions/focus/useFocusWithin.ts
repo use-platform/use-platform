@@ -1,10 +1,11 @@
-import { FocusEvent, HTMLAttributes, useCallback, useRef } from 'react'
+import { FocusEvent, HTMLAttributes, ReactNode, useCallback, useRef } from 'react'
 
 export interface UseFocusWithinProps<T = HTMLElement> {
   disabled?: boolean
   onFocusWithin?: (event: FocusEvent<T>) => void
   onBlurWithin?: (event: FocusEvent<T>) => void
   onFocusWithinChange?: (isFocusWithin: boolean) => void
+  children?: ReactNode
 }
 
 export interface UseFocusWithinResult<T> {

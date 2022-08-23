@@ -1,4 +1,4 @@
-import React, { FC, RefObject, createContext, useContext, useEffect, useMemo } from 'react'
+import { FC, ReactNode, RefObject, createContext, useContext, useEffect, useMemo } from 'react'
 
 import { FocusManager, createFocusManager } from './createFocusManager'
 
@@ -7,7 +7,7 @@ const FocusManagerContext = createContext<FocusManager | null>(null)
 export interface FocusManagerScopeProps {
   scopeRef: RefObject<HTMLElement>
   autoFocus?: boolean
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const FocusManagerScope: FC<FocusManagerScopeProps> = (props) => {

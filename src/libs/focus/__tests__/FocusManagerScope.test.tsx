@@ -1,7 +1,7 @@
 import { PropsWithChildren, createRef, forwardRef, useImperativeHandle, useRef } from 'react'
 
 import { createClientRender, renderHook, screen } from '../../../internal/testing'
-import { FocusManagerScope, useFocusManager } from '../FocusManagerScope'
+import { FocusManagerScope, FocusManagerScopeProps, useFocusManager } from '../FocusManagerScope'
 import { FocusManager } from '../createFocusManager'
 
 const UseFocusManager = forwardRef<FocusManager, {}>((_props, ref) => {
@@ -42,7 +42,7 @@ describe('FocusManagerScope', () => {
     const scopeRef = createRef<HTMLElement>()
     const { result } = renderHook(() => useFocusManager(), {
       initialProps: { scopeRef },
-      wrapper: ({ children }) => (
+      wrapper: ({ children }: FocusManagerScopeProps) => (
         <FocusManagerScope scopeRef={scopeRef}>{children}</FocusManagerScope>
       ),
     })
