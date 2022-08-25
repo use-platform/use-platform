@@ -13,19 +13,20 @@ export const Textarea = (args: any) => {
 Textarea.args = {
   autoFocus: true,
   autoResize: false,
-  cols: 0,
-  rows: 0,
+  minRows: 1,
+  maxRows: 10,
 }
 
 const TextField: FC<any> = (props) => {
-  const { autoResize, value, ...restProps } = props
+  const { autoResize, value, onChange, minRows, maxRows, ...restProps } = props
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const { inputProps } = useTextField({ elementType: 'textarea', ...restProps }, inputRef)
-  useAutoResize({ enabled: autoResize, ...restProps }, inputRef)
+
+  useAutoResize({ enabled: autoResize, minRows: minRows, maxRows: maxRows, value: value }, inputRef)
 
   return (
     <div style={{ display: 'flex' }}>
-      <textarea {...inputProps} value={value} ref={inputRef} />
+      <textarea {...inputProps} value={value} ref={inputRef} onChange={onChange} />
     </div>
   )
 }

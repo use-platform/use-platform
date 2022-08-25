@@ -1,6 +1,7 @@
 import { RefObject } from 'react'
 
 import { useIsomorphicLayoutEffect } from '../../libs/isomorphic-layout-effect'
+import { clamp } from '../../libs/utils'
 import type { InputValueProps } from '../../shared/types/input'
 
 export interface UseAutoResizeProps
@@ -9,6 +10,14 @@ export interface UseAutoResizeProps
    * Enable auto resize.
    */
   enabled: boolean
+  /**
+   * @default 1
+   */
+  minRows?: number
+  /**
+   * @default Infinity
+   */
+  maxRows?: number
 }
 
 /**
@@ -23,11 +32,26 @@ export function useAutoResize(
 ): void {
   const { value, enabled } = props
 
+  const minRows = Math.max(props.minRows || 1, 1)
+  const maxRows = clamp(props.maxRows || Infinity, minRows, Infinity)
+
   useIsomorphicLayoutEffect(() => {
-    if (inputRef.current && enabled) {
-      const input = inputRef.current
-      input.style.height = 'auto'
-      input.style.height = `${input.scrollHeight}px`
+    const input = inputRef.current
+
+    if (input) {
+      input.rows = minRows
+
+      if (!enabled) {
+        return
+      }
+
+      for (let rows = minRows + 1; rows <= maxRows; rows++) {
+        if (input.scrollHeight <= input.clientHeight) {
+          break
+        }
+
+        input.rows = rows
+      }
     }
   }, [inputRef, value, enabled])
 }
