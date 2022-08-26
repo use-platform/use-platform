@@ -7,3 +7,10 @@ function testUserAgent(re: RegExp) {
 export function isFirefox() {
   return testUserAgent(/Firefox/)
 }
+
+export function isIOS() {
+  return (
+    testUserAgent(/iphone|ipod|ipad/i) ||
+    (testUserAgent(/macintosh/i) && navigator.maxTouchPoints > 1)
+  )
+}
