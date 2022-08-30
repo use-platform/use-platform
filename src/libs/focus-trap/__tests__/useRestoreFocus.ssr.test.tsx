@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @jest-environment jsdom
  */
 import { createServerRender } from '../../../internal/testing'
 import { UseRestoreFocusProps, useRestoreFocus } from '../useRestoreFocus'

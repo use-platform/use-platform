@@ -1,8 +1,9 @@
 /**
- * @jest-environment node
+ * @jest-environment jsdom
  */
 import { useRef } from 'react'
 
+//
 import { createServerRender } from '../../../internal/testing'
 import { UseFocusTrapProps, useFocusTrap } from '../useFocusTrap'
 
