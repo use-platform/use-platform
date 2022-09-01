@@ -22,7 +22,7 @@ export function useDateTimeField(props: UseDateTimeFieldProps): UseDateTimeField
 
   const id = useUniqId(props.id)
   const { pressProps } = usePress({
-    onPressStart: (event) => {
+    onPress: (event) => {
       const { currentTarget, target, source } = event
       const { activeElement } = document
 
