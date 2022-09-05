@@ -8,7 +8,7 @@ export * from './createClientRender'
 export * from './createServerRender'
 export * from './events'
 
-export const fireEvent = { ...fireEventBase, ...userEvent }
+export const fireEvent = { ...fireEventBase, ...userEvent.setup() }
 
 export function createContainer(html: string): HTMLDivElement {
   const container = document.createElement('div')

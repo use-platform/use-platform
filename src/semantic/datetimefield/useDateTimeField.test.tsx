@@ -112,13 +112,15 @@ describe('useDateTimeField', () => {
     const literals = screen.getAllByTestId('literal')
     const segments = screen.getAllByRole('spinbutton')
 
-    fireEvent.click(field)
+    fireEvent.pointerDown(field)
+    fireEvent.pointerUp(field)
 
     for (let i = 0; i < segments.length; i++) {
       expect(segments[i]).toHaveFocus()
 
       if (literals[i]) {
-        fireEvent.click(literals[i])
+        fireEvent.pointerDown(literals[i])
+        fireEvent.pointerUp(literals[i])
       }
     }
   })
