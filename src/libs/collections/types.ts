@@ -19,7 +19,7 @@ export interface CollectionNode {
   children: Iterable<CollectionNode>
 }
 
-export interface CollectionComponent<T = {}> extends FC<T> {
+export interface CollectionComponent<T = {}> extends FC<PropsWithChildren<T>> {
   getCollectionNode(props: PropsWithChildren<T>): Iterable<PartialCollectionNode>
 }
 
