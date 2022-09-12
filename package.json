@@ -1,6 +1,6 @@
 {
   "name": "@use-platform/react",
-  "version": "1.0.0-rc.dc945ca.5",
+  "version": "1.0.0-rc.dc945ca.6",
   "main": "index.js",
   "module": "esm/index.js",
   "typings": "index.d.ts",
