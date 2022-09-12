@@ -185,6 +185,11 @@ export function usePress<T extends HTMLElement = HTMLElement>(
         detach()
       }
 
+      // fixes iOS VoiceOver bug when unexpected mouseDown event is fired and propagated to body (https://github.com/use-platform/use-platform/issues/205)
+      props.onMouseDown = (event) => {
+        event.stopPropagation()
+      }
+
       props.onPointerDown = (event) => {
         const { disabled } = propsRef.current
 
