@@ -34,15 +34,21 @@ describe('FocusManagerScope', () => {
   test('should throw an error if there is no <FocusManagerScope />', () => {
     let { result } = renderHook(() => useFocusManager())
 
-    expect(result.error).toBeInstanceOf(Error)
-    expect(result.error?.message).toMatch(/Could not find focus manager context value/)
+    try {
+      renderHook(() => useFocusManager())
+    } catch (error: any) {
+      focusError = error
+    }
+
+    expect(focusError).toBeInstanceOf(Error)
+    expect(focusError.message).toMatch(/Could not find focus manager context value/)
   })
 
   test('should provide a safe method call of focus manager', () => {
     const scopeRef = createRef<HTMLElement>()
     const { result } = renderHook<FocusManagerScopeProps, FocusManager>(() => useFocusManager(), {
       initialProps: { scopeRef },
-      wrapper: ({ children }: FocusManagerScopeProps) => (
+      wrapper: ({ children }) => (
         <FocusManagerScope scopeRef={scopeRef}>{children}</FocusManagerScope>
       ),
     })
