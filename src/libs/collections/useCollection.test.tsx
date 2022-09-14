@@ -1,6 +1,5 @@
-import { renderHook } from '@testing-library/react-hooks'
-
-import { CollectionComponent, CollectionFactory, CollectionNode } from './types'
+import { renderHook } from '../../internal/testing'
+import { CollectionComponent, CollectionFactory, CollectionNode, CollectionProps } from './types'
 import { useCollection } from './useCollection'
 
 const Item: CollectionComponent = () => null
@@ -16,16 +15,17 @@ Item.getCollectionNode = function* (props) {
 describe('useCollection', () => {
   test('should return memoized result', () => {
     const factory = jest.fn(((nodes) => nodes) as CollectionFactory<Iterable<CollectionNode>>)
+    const initProps = { children: <Item>foo</Item> }
 
-    const { result, rerender } = renderHook(
-      ({ children }) => useCollection({ children }, factory),
+    const { result, rerender } = renderHook<Iterable<CollectionNode>, CollectionProps>(
+      (props) => useCollection(props, factory),
       {
-        initialProps: { children: <Item>foo</Item> },
+        initialProps: initProps,
       },
     )
 
     const a = result.current
-    rerender()
+    rerender(initProps)
 
     expect(a).toBe(result.current)
     expect(factory).toHaveBeenCalledTimes(1)

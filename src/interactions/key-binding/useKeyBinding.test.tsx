@@ -21,7 +21,7 @@ describe('useKeyboardEvent', () => {
     const keyUpHandler = jest.fn()
 
     const defaultProps = { bind: 'Space', onAction: keyUpHandler }
-    const { rerender } = renderHook<UseKeyBindingProps, unknown>(
+    const { rerender } = renderHook<unknown, UseKeyBindingProps>(
       (options) => useKeyBinding({ ...options, ...defaultProps }),
       { initialProps: defaultProps },
     )
@@ -42,7 +42,7 @@ describe('useKeyboardEvent', () => {
     const anotherKeyUpHandler = jest.fn()
     const defaultProps = { bind: 'Space', onAction: keyUpHandler }
 
-    const { rerender } = renderHook<UseKeyBindingProps, unknown>(
+    const { rerender } = renderHook<unknown, UseKeyBindingProps>(
       (options) => useKeyBinding({ ...defaultProps, ...options }),
       { initialProps: defaultProps },
     )

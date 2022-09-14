@@ -141,17 +141,17 @@ describe('useDateTimeField', () => {
     expect(segment).not.toHaveAttribute('aria-valuenow')
   })
 
-  test('should set segment value from keyboard typed key', () => {
+  test('should set segment value from keyboard typed key', async () => {
     render(<Fixture formatOptions={{ year: '2-digit' }} value={new Date(1990, 0)} />)
 
     const segment = screen.getByTestId('segment-year')
 
-    fireEvent.type(segment, '1997')
+    await fireEvent.type(segment, '1997')
 
     expect(segment).toHaveAttribute('aria-valuenow', '1997')
   })
 
-  test('should focus next segment after typed key if next value greater or equal maximum', () => {
+  test('should focus next segment after typed key if next value greater or equal maximum', async () => {
     render(
       <Fixture
         formatOptions={{ hour: '2-digit', minute: '2-digit', hour12: false }}
@@ -161,7 +161,7 @@ describe('useDateTimeField', () => {
 
     const segments = screen.getAllByRole('spinbutton')
 
-    fireEvent.type(segments[0], '09')
+    await fireEvent.type(segments[0], '09')
     expect(segments[1]).toHaveFocus()
   })
 

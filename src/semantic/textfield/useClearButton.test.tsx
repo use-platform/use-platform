@@ -32,10 +32,10 @@ describe('useClearButton', () => {
     expect(clear).toHaveAttribute('data-active', 'true')
   })
 
-  test('should call onChange with empty value after clear-button click', () => {
+  test('should call onChange with empty value after clear-button click', async () => {
     const onChange = jest.fn()
     render(<TextField onChange={onChange} />)
-    fireEvent.click(screen.getByTestId('clear'))
+    await fireEvent.click(screen.getByTestId('clear'))
     expect(onChange).toBeCalledWith('')
   })
 

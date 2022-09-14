@@ -81,7 +81,7 @@ describe('useSpinButton', () => {
     expect(el).toHaveAttribute('aria-readonly', 'true')
   })
 
-  test('should trigger onIncrement and onDecrement on press button', () => {
+  test('should trigger onIncrement and onDecrement on press button', async () => {
     const onIncrement = jest.fn()
     const onDecrement = jest.fn()
 
@@ -90,8 +90,8 @@ describe('useSpinButton', () => {
     const increment = screen.getByTestId('increment')
     const decrement = screen.getByTestId('decrement')
 
-    fireEvent.click(increment)
-    fireEvent.click(decrement)
+    await fireEvent.click(increment)
+    await fireEvent.click(decrement)
 
     expect(onIncrement).toBeCalledTimes(1)
     expect(onDecrement).toBeCalledTimes(1)

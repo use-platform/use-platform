@@ -22,19 +22,19 @@ describe('usePasswordField', () => {
 
   const render = createClientRender()
 
-  test('should toggle input type after button click', () => {
+  test('should toggle input type after button click', async () => {
     render(<PasswordField />)
     const textField = screen.getByTestId('textfield')
     expect(textField).toHaveAttribute('type', 'password')
-    fireEvent.click(screen.getByTestId('button'))
+    await fireEvent.click(screen.getByTestId('button'))
     expect(textField).toHaveAttribute('type', 'text')
   })
 
-  test('should toggle shown flag after button click', () => {
+  test('should toggle shown flag after button click', async () => {
     render(<PasswordField />)
     const button = screen.getByTestId('button')
     expect(button).toHaveAttribute('data-shown', 'false')
-    fireEvent.click(button)
+    await fireEvent.click(button)
     expect(button).toHaveAttribute('data-shown', 'true')
   })
 
@@ -43,12 +43,12 @@ describe('usePasswordField', () => {
     expect(screen.getByTestId('button')).toHaveAttribute('tabindex', '-1')
   })
 
-  test('should set focus for input after clear-button click', () => {
+  test('should set focus for input after clear-button click', async () => {
     render(<PasswordField />)
     const textField = screen.getByTestId('textfield')
     expect(document.activeElement).toBe(document.body)
     textField.focus()
-    fireEvent.click(screen.getByTestId('button'))
+    await fireEvent.click(screen.getByTestId('button'))
     expect(document.activeElement).toBe(textField)
   })
 

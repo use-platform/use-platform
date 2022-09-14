@@ -20,15 +20,15 @@ describe('useHover', () => {
   describe('pointer events', () => {
     installPointerEvent()
 
-    test('should set isHovered after pointer enter and leave', () => {
+    test('should set isHovered after pointer enter and leave', async () => {
       render(createElement(Fixture))
 
       const node = screen.getByTestId('hoverable')
 
       expect(node).toHaveAttribute('data-hovered', 'false')
-      fireEvent.hover(node)
+      await fireEvent.hover(node)
       expect(node).toHaveAttribute('data-hovered', 'true')
-      fireEvent.unhover(node)
+      await fireEvent.unhover(node)
       expect(node).toHaveAttribute('data-hovered', 'false')
     })
 
