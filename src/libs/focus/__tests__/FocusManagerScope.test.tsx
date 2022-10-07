@@ -32,7 +32,7 @@ describe('FocusManagerScope', () => {
   const render = createClientRender()
 
   test('should throw an error if there is no <FocusManagerScope />', () => {
-    let focusError = undefined
+    let focusError
 
     try {
       renderHook(() => useFocusManager())
