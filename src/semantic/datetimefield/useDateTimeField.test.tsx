@@ -105,22 +105,20 @@ describe('useDateTimeField', () => {
     }
   })
 
-  test('should focus the next segment on click on a field or literal segment', () => {
+  test('should focus the next segment on click on a field or literal segment', async () => {
     render(<Fixture formatOptions={{ day: '2-digit', month: '2-digit', year: '2-digit' }} />)
 
     const field = screen.getByTestId('field')
     const literals = screen.getAllByTestId('literal')
     const segments = screen.getAllByRole('spinbutton')
 
-    fireEvent.pointerDown(field)
-    fireEvent.pointerUp(field)
+    await fireEvent.click(field)
 
     for (let i = 0; i < segments.length; i++) {
       expect(segments[i]).toHaveFocus()
 
       if (literals[i]) {
-        fireEvent.pointerDown(literals[i])
-        fireEvent.pointerUp(literals[i])
+        await fireEvent.click(literals[i])
       }
     }
   })
