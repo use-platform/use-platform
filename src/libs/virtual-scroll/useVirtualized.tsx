@@ -25,7 +25,7 @@ export function useVirtualized<T, U extends HTMLElement = HTMLDivElement>(
     if (focusedIndex !== null) {
       virtualizer.scrollToIndex(focusedIndex, { align: 'auto' })
     }
-  }, [focusedIndex, items.length, estimate])
+  }, [focusedIndex, virtualizer, items.length, estimate])
 
   return {
     innerProps: {
