@@ -118,7 +118,7 @@ describe('useDateTimeField', () => {
       expect(segments[i]).toHaveFocus()
 
       if (literals[i]) {
-        fireEvent.click(literals[i])
+        await fireEvent.click(literals[i])
       }
     }
   })
