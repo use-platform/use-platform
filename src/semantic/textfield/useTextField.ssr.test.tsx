@@ -1,9 +1,9 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment node
  */
 import { useRef } from 'react'
 
-import { createServerRender } from '../../internal/testing'
+import { createServerRender } from '../../internal/testing/createServerRender'
 import { useTextField } from './useTextField'
 
 function Fixture() {
