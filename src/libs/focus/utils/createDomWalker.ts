@@ -17,7 +17,7 @@ export function createDomWalker(root: Node, predicate: (node: Node) => boolean) 
     NodeFilter.SHOW_ELEMENT,
     safeFilter,
     // IE11 require last argument
-    /* @ts-ignore */
+    /* @ts-expect-error */
     false,
   )
 
