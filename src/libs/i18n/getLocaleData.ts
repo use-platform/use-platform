@@ -10,15 +10,13 @@ export function getLocaleData(locale: string): LocaleData {
   // @ts-ignore
   if (Intl.Locale) {
     // @ts-ignore
-    const locate = new Intl.Locale(locale).maximize()
-    const { script, language } = locate
-    const region = locate.region || ''
+    const { region, script, language } = new Intl.Locale(locale).maximize()
     const direction = RTL_SCRIPTS.has(script || '') ? 'rtl' : 'ltr'
 
     return {
       locale,
       language,
-      region,
+      region: region || '',
       direction,
       isRTL: direction === 'rtl',
     }
