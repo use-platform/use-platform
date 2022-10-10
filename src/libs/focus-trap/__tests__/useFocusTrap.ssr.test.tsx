@@ -3,7 +3,6 @@
  */
 import { useRef } from 'react'
 
-//
 import { createServerRender } from '../../../internal/testing/createServerRender'
 import { UseFocusTrapProps, useFocusTrap } from '../useFocusTrap'
 
