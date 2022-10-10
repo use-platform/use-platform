@@ -1,4 +1,12 @@
-import { FC, ReactNode, RefObject, createContext, useContext, useEffect, useMemo } from 'react'
+import React, {
+  FC,
+  ReactNode,
+  RefObject,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+} from 'react'
 
 import { FocusManager, createFocusManager } from './createFocusManager'
 
