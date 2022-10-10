@@ -1,4 +1,4 @@
-import React, { FC, createContext, useContext, useMemo } from 'react'
+import React, { FC, PropsWithChildren, createContext, useContext, useMemo } from 'react'
 
 export interface SSRContextValue {
   /**
@@ -28,7 +28,7 @@ export const SSRContext = createContext(initialContextValue)
  *   </SSRProvider>
  * )
  */
-export const SSRProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SSRProvider: FC<PropsWithChildren> = ({ children }) => {
   const context = useContext(SSRContext)
 
   const value = useMemo(() => {
