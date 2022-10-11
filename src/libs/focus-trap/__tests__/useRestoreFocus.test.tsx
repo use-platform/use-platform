@@ -26,7 +26,7 @@ describe('useRestoreFocus', () => {
     const b = createFocusableElement('b')
     a.focus()
 
-    const { rerender } = renderHook<void, UseRestoreFocusProps>((props) => useRestoreFocus(props), {
+    const { rerender } = renderHook<UseRestoreFocusProps, void>((props) => useRestoreFocus(props), {
       initialProps: { enabled: true },
     })
 
@@ -42,7 +42,7 @@ describe('useRestoreFocus', () => {
     const restoreFocusRef = { current: b }
     a.focus()
 
-    const { rerender } = renderHook<void, UseRestoreFocusProps>((props) => useRestoreFocus(props), {
+    const { rerender } = renderHook<UseRestoreFocusProps, void>((props) => useRestoreFocus(props), {
       initialProps: { enabled: true, restoreFocusRef },
     })
 

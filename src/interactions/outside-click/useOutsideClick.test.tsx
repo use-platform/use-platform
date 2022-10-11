@@ -54,7 +54,7 @@ describe('useClickOutside', () => {
       onAction: firstHandler,
       triggerStrategy: 'pressdown',
     }
-    const { rerender } = renderHook<unknown, Partial<UseOutsideClickProps>>(
+    const { rerender } = renderHook<Partial<UseOutsideClickProps>, unknown>(
       (props) => useOutsideClick({ ...defaultProps, ...props }),
       {
         initialProps: {},
@@ -84,7 +84,7 @@ describe('useClickOutside', () => {
     document.body.appendChild(current1)
     document.body.appendChild(current2)
 
-    const { rerender } = renderHook<unknown, Partial<UseOutsideClickProps>>(
+    const { rerender } = renderHook<Partial<UseOutsideClickProps>, unknown>(
       (props) => useOutsideClick({ ...defaultProps, ...props }),
       {
         initialProps: {},

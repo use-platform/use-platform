@@ -8,7 +8,7 @@ import { useOverlay } from './useOverlay'
 describe('useOverlay', () => {
   test('should add layer if `visible` flag is set', () => {
     const essentialRefs: RefObject<HTMLElement>[] = []
-    const { rerender } = renderHook<void, UseOverlayOptions>((options) => useOverlay(options), {
+    const { rerender } = renderHook<UseOverlayOptions, void>((options) => useOverlay(options), {
       initialProps: {
         visible: false,
         essentialRefs,
@@ -30,7 +30,7 @@ describe('useOverlay', () => {
     const onClose1 = jest.fn()
     const onClose2 = jest.fn()
     const essentialRefs: RefObject<HTMLElement>[] = []
-    const { rerender } = renderHook<void, UseOverlayOptions>((options) => useOverlay(options), {
+    const { rerender } = renderHook<UseOverlayOptions, void>((options) => useOverlay(options), {
       initialProps: {
         visible: true,
         essentialRefs,
@@ -49,7 +49,7 @@ describe('useOverlay', () => {
     const essentialRefs1: RefObject<HTMLElement>[] = []
     const essentialRefs2: RefObject<HTMLElement>[] = []
 
-    const { rerender } = renderHook<void, UseOverlayOptions>((options) => useOverlay(options), {
+    const { rerender } = renderHook<UseOverlayOptions, void>((options) => useOverlay(options), {
       initialProps: {
         visible: true,
         essentialRefs: essentialRefs1,

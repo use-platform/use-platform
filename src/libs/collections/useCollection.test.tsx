@@ -17,7 +17,7 @@ describe('useCollection', () => {
     const factory = jest.fn(((nodes) => nodes) as CollectionFactory<Iterable<CollectionNode>>)
     const initProps = { children: <Item>foo</Item> }
 
-    const { result, rerender } = renderHook<Iterable<CollectionNode>, CollectionProps>(
+    const { result, rerender } = renderHook<CollectionProps, Iterable<CollectionNode>>(
       (props) => useCollection(props, factory),
       {
         initialProps: initProps,
