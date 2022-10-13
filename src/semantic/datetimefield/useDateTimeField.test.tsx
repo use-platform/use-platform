@@ -237,6 +237,7 @@ describe('useDateTimeField', () => {
       const segments = screen.getAllByRole('spinbutton')
 
       fireEvent.pointerDown(field, { pointerType })
+      fireEvent.pointerUp(field, { pointerType })
 
       expect(segments[0]).toHaveFocus()
     },
