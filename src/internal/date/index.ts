@@ -1,28 +1,26 @@
-export {
-  set,
-  addDays,
-  addWeeks,
-  addMonths,
-  addYears,
-  setMonth,
-  setYear,
-  subDays,
-  subWeeks,
-  subMonths,
-  subYears,
-  getDaysInMonth,
-  getTime,
-  startOfDay,
-  startOfWeek,
-  endOfWeek,
-  startOfMonth,
-  endOfMonth,
-  lastDayOfMonth,
-  startOfYear,
-  endOfYear,
-  isSameDay,
-  isSameMonth,
-  isSameYear,
-  isWeekend,
-  isEqual,
-} from 'date-fns'
+export { default as set } from 'date-fns/set'
+export { default as addDays } from 'date-fns/addDays'
+export { default as addWeeks } from 'date-fns/addWeeks'
+export { default as addMonths } from 'date-fns/addMonths'
+export { default as addYears } from 'date-fns/addYears'
+export { default as setMonth } from 'date-fns/setMonth'
+export { default as setYear } from 'date-fns/setYear'
+export { default as subDays } from 'date-fns/subDays'
+export { default as subWeeks } from 'date-fns/subWeeks'
+export { default as subMonths } from 'date-fns/subMonths'
+export { default as subYears } from 'date-fns/subYears'
+export { default as getDaysInMonth } from 'date-fns/getDaysInMonth'
+export { default as getTime } from 'date-fns/getTime'
+export { default as startOfDay } from 'date-fns/startOfDay'
+export { default as startOfWeek } from 'date-fns/startOfWeek'
+export { default as endOfWeek } from 'date-fns/endOfWeek'
+export { default as startOfMonth } from 'date-fns/startOfMonth'
+export { default as endOfMonth } from 'date-fns/endOfMonth'
+export { default as lastDayOfMonth } from 'date-fns/lastDayOfMonth'
+export { default as startOfYear } from 'date-fns/startOfYear'
+export { default as endOfYear } from 'date-fns/endOfYear'
+export { default as isSameDay } from 'date-fns/isSameDay'
+export { default as isSameMonth } from 'date-fns/isSameMonth'
+export { default as isSameYear } from 'date-fns/isSameYear'
+export { default as isWeekend } from 'date-fns/isWeekend'
+export { default as isEqual } from 'date-fns/isEqual'
