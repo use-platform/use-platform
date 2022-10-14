@@ -1,4 +1,4 @@
-![](https://user-images.githubusercontent.com/7934638/126305621-6a520c6c-8779-42ad-a3c9-74a8be93574f.png)
+![](https://user-images.githubusercontent.com/2104054/195824317-386bfa03-986b-4290-a091-dc003d9a30e2.png)
 
 [![storybook](https://img.shields.io/badge/storybook-000?style=flat-square)][storybook] [![npm](https://img.shields.io/npm/v/web-platform-alpha.svg?style=flat-square&labelColor=111)][npm]
 
@@ -6,11 +6,11 @@
 
 ## Motivation
 
-Develop interfaces quickly with accessibility and the same work in all environments.
+Quickly develop accessible interfaces with the same behaviour across all environments.
 
 ## Installation
 
-Currently package has development name `web-platform-alpha` and will change in the future.
+Currently package has development name `web-platform-alpha` and it will change in the future.
 
 ```sh
 npm i -PE web-platform-alpha
@@ -18,7 +18,7 @@ npm i -PE web-platform-alpha
 
 ## Usage
 
-All hooks available from root public API. More examples you can find in [storybook][storybook].
+All hooks are available from the root public API. You can find more examples in the [storybook][storybook].
 
 ```tsx
 import { useRef } from 'react'
@@ -41,15 +41,15 @@ export const Button = (props) => {
 
 ### Semantic
 
-Semantic hooks implements behavior of component and sets aria-attributes to ensure accessibility.
+Semantic hooks implement behavior of component and set aria-attributes to ensure accessibility.
 
 ### State
 
-State hooks contains the local state of the component and allow you to use component in different contexts (e.g. SingleCalendar, RangeCalendar).
+State hooks contain local state of components and allow you to use components in different contexts (e.g. SingleCalendar, RangeCalendar).
 
 ### Interactions
 
-Interactive hooks uses to ensure correct interaction with interface in any environment (e.g. web, touch, tv).
+Interactive hooks are used to ensure correct interaction with interface in any environment (e.g. web, touch, tv).
 
 ## Roadmap
 
@@ -98,4 +98,4 @@ Approximate work plan (may be adjusted) Q3-Q4:
 
 ## License
 
-This project develop under [MPL-2.0](./LICENSE) license.
+This project is developed under [MPL-2.0](./LICENSE) license.
