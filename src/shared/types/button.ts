@@ -10,4 +10,10 @@ export interface SharedButtonProps<T = HTMLElement> extends PressProps<T>, Focus
   rel?: string
   target?: string
   type?: 'button' | 'submit' | 'reset'
+  'aria-pressed'?: boolean | 'true' | 'false' | 'mixed'
+  'aria-haspopup'?: boolean | 'true' | 'false' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'
+  'aria-expanded'?: boolean | 'true' | 'false'
+  'aria-label'?: string
+  'aria-labelledby'?: string
+  'aria-controls'?: string
 }

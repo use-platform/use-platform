@@ -62,7 +62,14 @@ export function useButton<T extends HTMLElement = HTMLElement>(
   const { isPressed, pressProps } = usePress(props)
 
   return {
-    buttonProps: mergeProps(additionalProps, focusableProps, pressProps),
+    buttonProps: mergeProps(additionalProps, focusableProps, pressProps, {
+      'aria-pressed': props['aria-pressed'],
+      'aria-haspopup': props['aria-haspopup'],
+      'aria-controls': props['aria-controls'],
+      'aria-expanded': props['aria-expanded'],
+      'aria-label': props['aria-label'],
+      'aria-labelledby': props['aria-labelledby'],
+    }),
     isPressed,
   }
 }

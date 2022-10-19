@@ -4,7 +4,6 @@ import type {
   FocusableDOMProps,
   InputBaseProps,
   InputValueProps,
-  KeyboardEventProps,
   ValidationProps,
 } from '../../shared/types'
 
@@ -13,7 +12,6 @@ export interface TextFieldBaseProps
     InputValueProps<string | ReadonlyArray<string> | number>,
     DOMProps,
     FocusableDOMProps,
-    KeyboardEventProps,
     FocusEventProps {
   autoComplete?: string
   maxLength?: number
@@ -30,4 +28,8 @@ export interface CommonTextFieldProps extends TextFieldBaseProps, ValidationProp
   'aria-activedescendant'?: string
   'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both'
   'aria-haspopup'?: boolean | 'false' | 'true' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog'
+  'aria-multiline'?: boolean | 'true' | 'false'
+  'aria-placeholder'?: string
+  'aria-readonly'?: boolean | 'true' | 'false'
+  'aria-required'?: boolean | 'true' | 'false'
 }
