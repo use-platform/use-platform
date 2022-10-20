@@ -1,12 +1,12 @@
 import { Story } from '@storybook/react'
-import React, { FC } from 'react'
+import React, { FC, PropsWithChildren } from 'react'
 
 import { createSlot, useSlots } from '..'
 
 const HeaderSlot = createSlot('header')
 const FooterSlot = createSlot('footer')
 
-const Example: FC = (props) => {
+const Example: FC<PropsWithChildren> = (props) => {
   const slots = useSlots(props)
 
   const header = slots.get(HeaderSlot)

@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, ReactNode } from 'react'
 
-export interface SlotComponent<T = {}> extends FC<T> {
+export interface SlotComponent<T = {}> extends FC<PropsWithChildren<T>> {
   /**
    * @internal
    */
