@@ -105,20 +105,20 @@ describe('useDateTimeField', () => {
     }
   })
 
-  test('should focus the next segment on click on a field or literal segment', () => {
+  test('should focus the next segment on click on a field or literal segment', async () => {
     render(<Fixture formatOptions={{ day: '2-digit', month: '2-digit', year: '2-digit' }} />)
 
     const field = screen.getByTestId('field')
     const literals = screen.getAllByTestId('literal')
     const segments = screen.getAllByRole('spinbutton')
 
-    fireEvent.click(field)
+    await fireEvent.click(field)
 
     for (let i = 0; i < segments.length; i++) {
       expect(segments[i]).toHaveFocus()
 
       if (literals[i]) {
-        fireEvent.click(literals[i])
+        await fireEvent.click(literals[i])
       }
     }
   })
@@ -139,17 +139,17 @@ describe('useDateTimeField', () => {
     expect(segment).not.toHaveAttribute('aria-valuenow')
   })
 
-  test('should set segment value from keyboard typed key', () => {
+  test('should set segment value from keyboard typed key', async () => {
     render(<Fixture formatOptions={{ year: '2-digit' }} value={new Date(1990, 0)} />)
 
     const segment = screen.getByTestId('segment-year')
 
-    fireEvent.type(segment, '1997')
+    await fireEvent.type(segment, '1997')
 
     expect(segment).toHaveAttribute('aria-valuenow', '1997')
   })
 
-  test('should focus next segment after typed key if next value greater or equal maximum', () => {
+  test('should focus next segment after typed key if next value greater or equal maximum', async () => {
     render(
       <Fixture
         formatOptions={{ hour: '2-digit', minute: '2-digit', hour12: false }}
@@ -159,7 +159,7 @@ describe('useDateTimeField', () => {
 
     const segments = screen.getAllByRole('spinbutton')
 
-    fireEvent.type(segments[0], '09')
+    await fireEvent.type(segments[0], '09')
     expect(segments[1]).toHaveFocus()
   })
 

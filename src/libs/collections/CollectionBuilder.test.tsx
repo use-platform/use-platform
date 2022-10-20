@@ -7,6 +7,7 @@ interface CollectionItemProps {
   type?: string
   content?: ReactNode
   childType?: string
+  children?: ReactNode
 }
 
 const CollectionItem: CollectionComponent<CollectionItemProps> = () => null

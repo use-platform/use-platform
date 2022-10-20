@@ -7,16 +7,14 @@ const RTL_SCRIPTS = new Set(['Arab', 'Syrc', 'Samr', 'Mand', 'Thaa', 'Mend', 'Nk
 const RTL_LANGS = new Set(['ae', 'ar', 'arc', 'bcc', 'bqi', 'ckb', 'dv', 'fa', 'glk', 'he', 'ku', 'mzn', 'nqo', 'pnb', 'ps', 'sd', 'ug', 'ur', 'yi'])
 
 export function getLocaleData(locale: string): LocaleData {
-  // @ts-expect-error
   if (Intl.Locale) {
-    // @ts-expect-error
     const { region, script, language } = new Intl.Locale(locale).maximize()
-    const direction = RTL_SCRIPTS.has(script) ? 'rtl' : 'ltr'
+    const direction = RTL_SCRIPTS.has(script || '') ? 'rtl' : 'ltr'
 
     return {
       locale,
       language,
-      region,
+      region: region || '',
       direction,
       isRTL: direction === 'rtl',
     }

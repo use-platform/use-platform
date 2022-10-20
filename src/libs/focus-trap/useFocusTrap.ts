@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useMemo, useRef } from 'react'
+import { ReactNode, RefObject, useEffect, useMemo, useRef } from 'react'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../isomorphic-layout-effect'
 import { createFocusTrap } from './FocusTrap'
@@ -30,6 +30,12 @@ export interface UseFocusTrapProps {
    * @default true
    */
   autoFocus?: boolean
+  /**
+   * Children content
+   *
+   * @default undefined
+   */
+  children?: ReactNode
 }
 
 /**

@@ -1,8 +1,8 @@
-import { FC } from 'react'
+import { FC, PropsWithChildren } from 'react'
 
 import type { SlotComponent } from './types'
 
-export function createSlot<T = {}>(name = 'unknown'): FC<T> {
+export function createSlot<T = {}>(name = 'unknown'): FC<PropsWithChildren<T>> {
   const Slot: SlotComponent<T> = () => null
 
   Slot.displayName = `Slot(${name})`

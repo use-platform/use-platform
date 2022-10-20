@@ -17,7 +17,12 @@ const Radio: FC<any> = (props) => {
 
   return (
     <label data-testid="label" {...rootProps}>
-      <input {...inputProps} data-testid="radio" className={isPressed ? 'is-pressed' : ''} />
+      <input
+        {...inputProps}
+        data-testid="radio"
+        className={isPressed ? 'is-pressed' : ''}
+        readOnly
+      />
     </label>
   )
 }
@@ -69,10 +74,10 @@ describe('useRadio', () => {
     expect(screen.getByTestId('radio')).toHaveAttribute('autocomplete', 'off')
   })
 
-  test('should call onChange callback if value was changed', () => {
+  test('should call onChange callback if value was changed', async () => {
     const handler = jest.fn(() => null)
     render(<Radio value="foo" onChange={handler} />)
-    fireEvent.click(screen.getByTestId('radio'))
+    await fireEvent.click(screen.getByTestId('radio'))
     expect(handler).toBeCalled()
   })
 
@@ -102,14 +107,14 @@ describe('useRadio', () => {
     expect(screen.getByTestId('radio')).toHaveAttribute('checked')
   })
 
-  test('should call setValue function when user checks radiobutton', () => {
+  test('should call setValue function when user checks radiobutton', async () => {
     const setValue = jest.fn()
     render(
       <RadioGroupContext.Provider value={{ name: 'foo', setSelectedValue: setValue }}>
         <Radio value="foo" />
       </RadioGroupContext.Provider>,
     )
-    fireEvent.click(screen.getByTestId('radio'))
+    await fireEvent.click(screen.getByTestId('radio'))
     const eventArg = setValue.mock.calls[0][0]
     expect((eventArg as ChangeEvent<HTMLInputElement>)?.target?.value).toBe('foo')
   })

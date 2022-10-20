@@ -1,7 +1,7 @@
 import { PropsWithChildren, createRef, forwardRef, useImperativeHandle, useRef } from 'react'
 
 import { createClientRender, renderHook, screen } from '../../../internal/testing'
-import { FocusManagerScope, useFocusManager } from '../FocusManagerScope'
+import { FocusManagerScope, FocusManagerScopeProps, useFocusManager } from '../FocusManagerScope'
 import { FocusManager } from '../createFocusManager'
 
 const UseFocusManager = forwardRef<FocusManager, {}>((_props, ref) => {
@@ -32,7 +32,7 @@ describe('FocusManagerScope', () => {
   const render = createClientRender()
 
   test('should throw an error if there is no <FocusManagerScope />', () => {
-    const { result } = renderHook(() => useFocusManager())
+    let { result } = renderHook(() => useFocusManager())
 
     expect(result.error).toBeInstanceOf(Error)
     expect(result.error?.message).toMatch(/Could not find focus manager context value/)
@@ -40,7 +40,7 @@ describe('FocusManagerScope', () => {
 
   test('should provide a safe method call of focus manager', () => {
     const scopeRef = createRef<HTMLElement>()
-    const { result } = renderHook(() => useFocusManager(), {
+    const { result } = renderHook<FocusManagerScopeProps, FocusManager>(() => useFocusManager(), {
       initialProps: { scopeRef },
       wrapper: ({ children }) => (
         <FocusManagerScope scopeRef={scopeRef}>{children}</FocusManagerScope>

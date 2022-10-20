@@ -1,10 +1,11 @@
-import { FocusEvent, HTMLAttributes, useCallback, useRef } from 'react'
+import { FocusEvent, HTMLAttributes, ReactNode, useCallback, useRef } from 'react'
 
 export interface UseFocusProps<T = HTMLElement> {
   disabled?: boolean
   onFocus?: (event: FocusEvent<T>) => void
   onBlur?: (event: FocusEvent<T>) => void
   onFocusChange?: (isFocused: boolean) => void
+  children?: ReactNode
 }
 
 export interface UseFocusResult<T> {
